@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Typography, Link, Checkbox } from '@mui/material';
-import { CenterFocusStrongOutlined } from '@mui/icons-material';
+
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -44,11 +44,24 @@ function LoginForm() {
     }
 
     try {
+      // Send the form data to the backend
       const response = await axios.post(
         "https://7190-102-210-244-74.ngrok-free.app/api/login",
         formData
       );
-      console.log(response.data);
+
+      // Check if the login was successful
+      if (response.data.success) {
+        // Clear form data and errors
+        setFormData({ email: "", password: "", rememberMe: false });
+        setFormErrors({ email: "", password: "" });
+        
+        // Perform any further actions (e.g., redirect to dashboard)
+        console.log("Login successful!");
+      } else {
+        // Handle login failure (e.g., display error message)
+        console.log("Login failed:", response.data.message);
+      }
     } catch (error) {
       console.error("Error:", error);
     }
