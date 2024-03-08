@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
-import RegisterForm from "../components/Register/RegisterForm";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import VerifyOTPPage from "../pages/VerifyOTPPage";
 import DashboardPage from "../pages/DashboardPage";
