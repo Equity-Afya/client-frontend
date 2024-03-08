@@ -1,9 +1,22 @@
-// src/components/register/RegisterForm.jsx
-import axios from 'axios';
-import  { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+
+
+const formBoxStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center', // Center the form horizontally
+  justifyContent: 'center', // Center the form vertically
+  gap: 1,
+  maxWidth: '400px', // Set a maximum width for the form
+  borderRadius: '16px',
+  margin: 'auto',
+  marginTop: '50px'
+ }; //
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -21,6 +34,9 @@ function RegisterForm() {
     idNumber: "",
     password: "",
   });
+
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [userAlreadyRegistered, setUserAlreadyRegistered] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,15 +66,45 @@ function RegisterForm() {
         "https://7190-102-210-244-74.ngrok-free.app/api/register",
         formData
       );
-      console.log(response.data);
+
+      // Check if registration is successful
+      if (response.data.success) {
+        setRegistrationSuccess(true);
+
+        // Simulate sending OTP (You can replace this with actual logic to send OTP)
+        setTimeout(() => {
+          // Redirect to the verify OTP page
+          // Replace '/verify-otp' with your actual route for the verify OTP page
+          window.location.href = "/verify-otp";
+        }, 2000);
+      } else if (response.data.message === "User already registered") {
+        setUserAlreadyRegistered(true);
+      } else {
+        setRegistrationSuccess(false);
+      }
     } catch (error) {
       console.error("Error:", error);
+      setRegistrationSuccess(false);
+      setUserAlreadyRegistered(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      
+      <Box sx={formBoxStyles}>
+        {registrationSuccess && (
+          <Alert severity="success">
+            Registration successful! OTP sent to your email.
+          </Alert>
+        )}
+
+        {userAlreadyRegistered && (
+          <Alert severity="warning">
+            User with this email/ID number is already registered.
+          </Alert>
+        )}
+
         <TextField
           label="Name"
           variant="outlined"
