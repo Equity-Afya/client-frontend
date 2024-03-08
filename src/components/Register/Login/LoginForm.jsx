@@ -73,9 +73,9 @@ function LoginForm() {
    <Box sx={{ display: "flex", flexDirection: "column", 
               alignItems: "center", width: '100%', 
               margin: "auto", backgroundColor: "#f0f0f0", 
-              height: 700 }}>
+              height: 900 }}>
     <Box sx={{ backgroundColor: '#FFFFFF', paddingTop: 5,
-               marginTop:2,paddingBottom:10,width:380,height:380,
+               marginTop:20,paddingBottom:10,width:500,height:450,
                borderRadius:3,paddingLeft:5,paddingRight:5,}} >
     <form onSubmit={handleSubmit}>
     <Typography variant="h4" color='brown'  gutterBottom sx={{ textAlign:'center',paddingBottom:2, fontWeight:"bold"}}>
@@ -119,12 +119,12 @@ function LoginForm() {
         
 
         {/* Forgot password link */}
-        <Typography variant="body1" sx={{ textAlign: 'right',marginLeft:10 }}>
+        <Typography variant="body1" sx={{ textAlign: 'right',marginLeft:20 }}>
           <Link href="#" underline="none">Forgot password?</Link>
         </Typography>
         </Box>
 
-        <Button type="submit" variant="contained" style={{ backgroundColor: 'brown', color: 'white',width:200,marginLeft:75 }}>
+        <Button type="submit" variant="contained" style={{ backgroundColor: 'brown', color: 'white',width:200,marginLeft:150, marginTop: 10 }}>
           Login
         </Button>
         
