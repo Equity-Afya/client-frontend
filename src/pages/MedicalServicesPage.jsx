@@ -1,37 +1,26 @@
 import React from 'react';
 import Sidebar from "../components/SideBar/SideBar";
 import SearchBar from "../components/SearchBar/SearchBar";
-import HealthServicesList from "../components/HealthServicesList/HealthServicesList";
 import { Box } from '@mui/material';
 
-const DashboardPage = () => {
+const MedicalServicesPage = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar on the left with margin-right */}
       <Sidebar sx={{ marginRight: '32px' }} /> {/* Increase margin-right to create a larger gap */}
 
-      {/* Search bar and Health services list */}
+      {/* Search bar and Medical services content */}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
         {/* Search bar */}
-        <SearchBar  />
+        <SearchBar />
 
-        {/* Health services list with margin-left */}
+        {/* Medical services content with margin-left */}
         <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
-          <HealthServicesList sx={{ paddingRight: '20px' }} />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: '16px',
-              background: 'linear-gradient(to right, transparent, #f0f0f0)', // Adjust the gradient color as needed
-            }}
-          />
+          {/* Medical services content goes here */}
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default DashboardPage;
+export default MedicalServicesPage;
