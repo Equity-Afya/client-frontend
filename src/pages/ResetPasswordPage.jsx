@@ -3,7 +3,7 @@
 const ResetPasswordPage = () => {
   return (
     <div>
-      
+    
     </div>
   )
 }
