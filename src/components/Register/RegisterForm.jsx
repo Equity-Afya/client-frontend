@@ -4,7 +4,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import makeStyles from "@mui/styles";
+import { makeStyles } from "@mui/styles";
+
 const useStyles = makeStyles((theme) => ({
   title: {
     backgroundColor: theme.palette.primary.main,
@@ -29,7 +30,7 @@ function RegisterForm() {
     phoneNumber: "",
     idNumber: "",
     password: "",
-    confirmPassword: "", // Added confirmPassword field
+    confirmPassword: "",
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -38,7 +39,7 @@ function RegisterForm() {
     phoneNumber: "",
     idNumber: "",
     password: "",
-    confirmPassword: "", // Added confirmPassword field
+    confirmPassword: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -197,7 +198,7 @@ function RegisterForm() {
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%" }}
-                disabled={loading} // Disable button while loading
+                disabled={loading}
               >
                 {loading ? "Loading..." : "Register"}
               </Button>
