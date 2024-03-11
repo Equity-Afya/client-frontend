@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, CssBaseline, Typography, Grid, Box } from '@mui/material';
+import { TextField, Button, Container, CssBaseline, Box, Paper } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 
 
@@ -19,15 +19,7 @@ const PasswordReset = () => {
   };
 
   return (
-    <Container 
-    component="main"
-    display="flex"
-    flex-direction="column"
-    align-items="center"
-    margin="auto"
-    margin-top="100px"
-    maxWidth="xs"
-    >
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         display="flex"
@@ -37,22 +29,19 @@ const PasswordReset = () => {
         height="100vh"
         className='wrapper'
       >
-        
-        <Box
-        display='flex'
-        justify-content='center'
-        align-items= 'center'
-        >
+        <Box>
+          <Paper elevation={3} style={{ padding: '10px', borderRadius: '51%', borderStyle: 'solid', borderColor: '#C00100'}}>
             <LockIcon alt='Reset Password' />
-
-            </Box>
-        
+          </Paper>
+        </Box>
         <form style={{ width: '100%' }}>
           <Box
-            display='Flex'
+            display='flex'
             gap='10px'
-            border-radius='10px'
-            align content='space-between'
+            borderRadius='10px'
+            align item='space-between'
+            MarginTop='20px'
+
           >
             <TextField
             variant="outlined"
@@ -65,22 +54,17 @@ const PasswordReset = () => {
             onChange={(e) => setVerificationCode(e.target.value)}
             required
           />
-        <Button
-           sx={{
-            height:'50px',
-             width: "50px",
-             margin: 'auto',
-    
-             borderRadius: '5px',
-             padding: '15px 15px 35px 15px',
-             cursor: 'pointer',
-             color: 'maroon',
-             border: '1px solid maroon'
-           }}
+          <Button
             
             variant="contained"
-            color="secondary"
+            color="primary"
             className='verifyButton'
+             style={{
+            backgroundColor: "#C00100",
+            color: "#fff",
+            marginTop: "16px",
+            marginBottom: "8px"
+          }}
             onClick={handleVerify}
           >
             Verify
@@ -110,23 +94,25 @@ const PasswordReset = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-          
           <Button
-            sx={{backgroundColor:"maroon"
-
-            }}
             type='submit'
             fullWidth
             variant="contained"
-            color='primary'
+            color="primary"
+            className='submit'
             onClick={handleReset}
+            style={{
+                backgroundColor: "#C00100",
+                color: "#fff",
+                marginTop: "16px",
+              }}
           >
             Reset
           </Button>
-         
         </form>
       </Box>
     </Container>
+    
   );
 };
 
