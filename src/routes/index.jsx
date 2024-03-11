@@ -13,6 +13,7 @@ import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
 import TeleclinicsPage from "../pages/TeleclinicsPage";
 import OtherServicesPage from "../pages/OtherServicesPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 function AppRoutes() {
   return (
@@ -32,6 +33,7 @@ function AppRoutes() {
         <Route path="/payments" element={<PaymentsPage />} />
         <Route path="/customer-care" element={< CustomerCarePage />} />
         <Route path="/other-services" element={< OtherServicesPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         
       </Routes>
     </Router>
