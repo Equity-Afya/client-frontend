@@ -4,24 +4,22 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    backgroundColor: theme.palette.primary.main,
-    color: "white",
-    width: 350,
-    textAlign: "center",
-    fontFamily: "Nunito, sans-serif",
-    fontSize: 20,
-    fontWeight: 100,
-    padding: "1px",
-    borderRadius: "0.5rem",
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginTop: "2px",
-  },
-}));
+const FormTitle = styled("div")({
+  backgroundColor: "#c00100",
+  color: "white",
+  width: 350,
+  textAlign: "center",
+  fontFamily: "Nunito, sans-serif",
+  fontSize: 20,
+  fontWeight: 100,
+  padding: "1px",
+  borderRadius: "0.5rem",
+  marginLeft: "auto",
+  marginRight: "auto",
+  marginTop: "2px",
+});
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -40,10 +38,10 @@ function RegisterForm() {
     idNumber: "",
     password: "",
     confirmPassword: "",
+    server: "", // Add a server error state
   });
 
   const [loading, setLoading] = useState(false);
-  const classes = useStyles();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,7 +52,7 @@ function RegisterForm() {
     e.preventDefault();
     setLoading(true);
 
-    // Password complexity validation
+    // Password complexity validation and form validation
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&-]{8,}$/;
     const errors = {};
@@ -90,6 +88,16 @@ function RegisterForm() {
 
       if (response.status === 200) {
         console.log("Registration successful:", response.data);
+        // Reset form data on successful registration
+        setFormData({
+          name: "",
+          email: "",
+          phoneNumber: "",
+          idNumber: "",
+          password: "",
+          confirmPassword: "",
+        });
+        setFormErrors({});
       } else {
         console.error("Registration failed. Status:", response.status);
       }
@@ -116,11 +124,18 @@ function RegisterForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <section>
-        <Box sx={{ width: "350px" }}>
-          <div className={classes.title}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center", // Align form center
+          alignItems: "center",
+          minHeight: "100vh", // Center vertically
+        }}
+      >
+        <Box sx={{ width: "350px", maxWidth: "100%" }}>
+          <FormTitle>
             <h1>Register</h1>
-          </div>
+          </FormTitle>
 
           <form onSubmit={handleSubmit}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -132,7 +147,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 error={Boolean(formErrors.name)}
                 helperText={formErrors.name}
-                style={{ width: "350px" }}
+                style={{ width: "100%" }}
               />
 
               <TextField
@@ -144,7 +159,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 error={Boolean(formErrors.email)}
                 helperText={formErrors.email}
-                style={{ width: "350px" }}
+                style={{ width: "100%" }}
               />
 
               <TextField
@@ -155,7 +170,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 error={Boolean(formErrors.phoneNumber)}
                 helperText={formErrors.phoneNumber}
-                style={{ width: "350px" }}
+                style={{ width: "100%" }}
               />
 
               <TextField
@@ -166,7 +181,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 error={Boolean(formErrors.idNumber)}
                 helperText={formErrors.idNumber}
-                style={{ width: "350px" }}
+                style={{ width: "100%" }}
               />
 
               <TextField
@@ -178,7 +193,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 error={Boolean(formErrors.password)}
                 helperText={formErrors.password}
-                style={{ width: "350px" }}
+                style={{ width: "100%" }}
               />
 
               <TextField
@@ -190,7 +205,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 error={Boolean(formErrors.confirmPassword)}
                 helperText={formErrors.confirmPassword}
-                style={{ width: "350px" }}
+                style={{ width: "100%" }}
               />
 
               <Button
@@ -206,7 +221,7 @@ function RegisterForm() {
             </Box>
           </form>
         </Box>
-      </section>
+      </Box>
     </ThemeProvider>
   );
 }
