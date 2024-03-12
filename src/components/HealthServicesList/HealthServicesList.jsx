@@ -1,64 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { List, Box, Typography, Button, IconButton, Avatar } from '@mui/material';
-import { ArrowForward, Notifications } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { List, Box, Typography, Button, IconButton, Avatar } from '@mui/material'; // Importing necessary components from Material-UI
+import { ArrowForward, Notifications } from '@mui/icons-material'; // Importing icons from Material-UI
+import { useNavigate } from 'react-router-dom'; // Importing useNavigate hook from React Router DOM
 
 // Notification component
-const Notification = ({ message }) => {
-  return <div>{message}</div>;
+const Notification = ({ message }) => { // Define a functional component called Notification, which receives a prop 'message'
+  return <div>{message}</div>; // Render the notification message inside a div
 };
 
-const HealthServicesList = () => {
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [avatarSrc, setAvatarSrc] = useState('');
-  const [notifications, setNotifications] = useState([]);
+const HealthServicesList = () => { // Define a functional component called HealthServicesList
+  const navigate = useNavigate(); // Initialize the useNavigate hook to navigate between routes
+  const [searchQuery, setSearchQuery] = useState(''); // Initialize state for search query
+  const [avatarSrc, setAvatarSrc] = useState(''); // Initialize state for avatar image source
+  const [notifications, setNotifications] = useState([]); // Initialize state for notifications
 
   const healthServices = [
-    { name: 'Medical services', photo: 'src/assets/medical_services_photo.jpg', route: '/medical-services' },
-    { name: 'Specialists', photo: 'src/assets/specialists_photo.jpg', route: '/specialists' },
-    { name: 'My health Records', photo: 'src/assets/health_records_photo.jpg', route: '/health-records' },
-    { name: 'My appoitments', photo: 'src/assets/appointments_photo.jpg', route: '/appointments' },
-    { name: 'Teleclinics', photo: 'src/assets/teleclinics_photo.jpg', route: '/teleclinics' },
-    { name: 'Payments', photo: 'src/assets/payments_photo.jpg', route: '/payments' },
-    { name: 'Customer care', photo: 'src/assets/customer_care_photo.jpg', route: '/customer-care' },
-    { name: 'Other services', photo: 'src/assets/other_services_photo.jpg', route: '/other-services' },
+    { name: 'Medical services', photo: 'src/assets/medical_services_photo.jpg', route: '/medical-services' }, // Medical services object
+    { name: 'Specialists', photo: 'src/assets/specialists_photo.jpg', route: '/specialists' }, // Specialists object
+    { name: 'My health Records', photo: 'src/assets/health_records_photo.jpg', route: '/health-records' }, // My health Records object
+    { name: 'My appoitments', photo: 'src/assets/appointments_photo.jpg', route: '/appointments' }, // My appoitments object
+    { name: 'Teleclinics', photo: 'src/assets/teleclinics_photo.jpg', route: '/teleclinics' }, // Teleclinics object
+    { name: 'Payments', photo: 'src/assets/payments_photo.jpg', route: '/payments' }, // Payments object
+    { name: 'Customer care', photo: 'src/assets/customer_care_photo.jpg', route: '/customer-care' }, // Customer care object
+    { name: 'Other services', photo: 'src/assets/other_services_photo.jpg', route: '/other-services' }, // Other services object
   ];
+  
 
   // Function to fetch notifications from the backend
-  const fetchNotifications = async () => {
+  const fetchNotifications = async () => { // Define an asynchronous function called fetchNotifications
     try {
-      const response = await fetch('/api/notifications');
-      const data = await response.json();
-      setNotifications(data);
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
+      const response = await fetch('/api/notifications'); // Fetch notifications from the backend API
+      const data = await response.json(); // Parse the response as JSON
+      setNotifications(data); // Set the fetched notifications in the state
+    } catch (error) { // Catch any errors that occur during the fetch operation
+      console.error('Error fetching notifications:', error); // Log the error to the console
     }
   };
 
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
+  useEffect(() => { // Use the useEffect hook to perform side effects (fetching notifications) when the component mounts
+    fetchNotifications(); // Call the fetchNotifications function
+  }, []); // The empty dependency array ensures that the effect runs only once when the component mounts
 
-  const handleClick = (route) => {
-    navigate(route);
+  const handleClick = (route) => { // Define a function called handleClick that takes a route parameter
+    navigate(route); // Navigate to the specified route using the navigate function
   };
 
   // Avatar functionality
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setAvatarSrc(reader.result);
+  const handleAvatarChange = (event) => { // Define a function called handleAvatarChange that takes an event parameter
+    const file = event.target.files[0]; // Get the selected file from the input element
+    const reader = new FileReader(); // Create a new instance of FileReader
+    reader.onloadend = () => { // Define an onloadend event handler for when file reading is completed
+      setAvatarSrc(reader.result); // Set the avatar source to the data URL of the selected file
     };
-    if (file) {
-      reader.readAsDataURL(file);
+    if (file) { // Check if a file was selected
+      reader.readAsDataURL(file); // Read the selected file as a data URL
     }
   };
 
   // Filter services based on search query
-  const filteredServices = healthServices.filter((service) =>
-    service.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredServices = healthServices.filter((service) => // Filter the health services array based on the search query
+    service.name.toLowerCase().includes(searchQuery.toLowerCase()) // Check if the service name includes the search query (case-insensitive)
   );
 
   return (
@@ -102,7 +103,7 @@ const HealthServicesList = () => {
 
       {/* List of services */}
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px' }}>
-        {filteredServices.map((service, index) => (
+        {filteredServices.map((service, index) => ( // Map over the filtered services array and render each service
           <Box
             key={index}
             sx={{
@@ -146,8 +147,8 @@ const HealthServicesList = () => {
       {/* Notification component */}
       <Box>
         <ul>
-          {notifications.map((notification, index) => (
-            <Notification key={index} message={notification.message} />
+          {notifications.map((notification, index) => ( // Map over the notifications array and render each notification
+            <Notification key={index} message={notification.message} /> // Render the Notification component with the notification message
           ))}
         </ul>
       </Box>
