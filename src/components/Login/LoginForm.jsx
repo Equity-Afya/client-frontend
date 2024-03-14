@@ -4,9 +4,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Typography, Link, Checkbox } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -58,6 +60,7 @@ function LoginForm() {
         
         // Perform any further actions (e.g., redirect to dashboard)
         console.log("Login successful!");
+        navigate('/dashboard')
       } else {
         // Handle login failure (e.g., display error message)
         console.log("Login failed:", response.data.message);
@@ -128,7 +131,7 @@ function LoginForm() {
         
         {/* Sign up link */}
         <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1 }}>
-          Don't have an account? <Link href="#" underline="none">Sign up</Link>
+          Don't have an account? <Link href="/register" underline="none">Sign up</Link>
         </Typography>
       </Box>
     </form>
