@@ -9,7 +9,7 @@ const ServiceCard = ({ title, onClick }) => {
           {title}
         </Typography>
         <Button variant="contained" onClick={onClick} style={{ marginTop: '10px', backgroundColor: '#c00100' }}>
-          Click Here
+          Click Here!
         </Button>
       </CardContent>
     </Card>

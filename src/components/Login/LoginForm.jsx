@@ -118,7 +118,7 @@ function LoginForm() {
 
         {/* Forgot password link */}
         <Typography variant="body1" sx={{ textAlign: 'right',marginLeft:20 }}>
-          <Link href="#" underline="none">Forgot password?</Link>
+          <Link href="/" underline="none">Forgot password?</Link>
         </Typography>
         </Box>
 
