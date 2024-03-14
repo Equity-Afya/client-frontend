@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from "../components/SideBar/SideBar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { Box } from '@mui/material';
+import ServiceContainer from '../components/MedicalServices/ServiceContainer';
 
 const MedicalServicesPage = () => {
   return (
@@ -16,7 +17,8 @@ const MedicalServicesPage = () => {
 
         {/* Medical services content with margin-left */}
         <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
-          {/* Medical services content goes here */}
+          {/* Medical Services /> */}
+          <ServiceContainer />
         </Box>
       </Box>
     </Box>
