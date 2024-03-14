@@ -1,26 +1,54 @@
-import  { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook from react-router-dom
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import axios from "axios";
 
 const OTPVerification = ({ email }) => {
   const [otp, setOTP] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // Initialize navigate function
 
   const handleOTPChange = (event) => {
     setOTP(event.target.value);
   };
 
-  const handleResendOTP = () => {
-    // Implement logic to resend OTP
-    console.log("Resending OTP...");
+  const handleResendOTP = async () => {
+    try {
+      const response = await axios.post("/api/resend-otp", { email });
+      if (response.status === 200) {
+        setMessage("OTP resent successfully");
+      }
+    } catch (error) {
+      if (error.response.status === 404) {
+        setMessage("User not found");
+      } else {
+        setMessage("Internal server error");
+      }
+    }
   };
 
-  const handleVerifyOTP = () => {
-    // Implement logic to verify OTP
-    console.log("Verifying OTP...", otp);
+  const handleVerifyOTP = async () => {
+    try {
+      const response = await axios.post("/api/verify-otp", { otp });
+      if (response.status === 200) {
+        setMessage("Account verified successfully");
+        // Redirect to login page
+        navigate("/login");
+      }
+    } catch (error) {
+      if (error.response.status === 404) {
+        setMessage("User with the provided OTP not found");
+      } else if (error.response.status === 400) {
+        setMessage("Invalid OTP");
+      } else {
+        setMessage("Internal server error");
+      }
+    }
   };
 
   return (
@@ -65,6 +93,15 @@ const OTPVerification = ({ email }) => {
         >
           Resend OTP
         </Button>
+        {message && (
+          <Typography
+            variant="body2"
+            align="center"
+            style={{ marginTop: "16px", color: "red" }}
+          >
+            {message}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );
