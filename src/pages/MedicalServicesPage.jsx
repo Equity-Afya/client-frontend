@@ -13,7 +13,7 @@ const MedicalServicesPage = () => {
       {/* Search bar and Medical services content */}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
         {/* Search bar */}
-        <SearchBar />
+        {/*<SearchBar />*/}
 
         {/* Medical services content with margin-left */}
         <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}

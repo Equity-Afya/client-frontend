@@ -6,14 +6,11 @@ import Box from "@mui/material/Box";
 import { Typography, Link, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
 function LoginForm() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false, // New state for "Remember me" checkbox
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
     email: "",
@@ -22,8 +19,19 @@ function LoginForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
-    setFormData({ ...formData, [name]: newValue });
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      case 'rememberMe':
+        setRememberMe(checked);
+        break;
+      default:
+        break;
+    }
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
@@ -32,13 +40,12 @@ function LoginForm() {
 
     // Validate form fields
     const errors = {};
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key !== 'rememberMe' && !value) {
-        errors[key] = `${
-          key.charAt(0).toUpperCase() + key.slice(1)
-        } is required`;
-      }
-    });
+    if (!email) {
+      errors.email = "Email is required";
+    }
+    if (!password) {
+      errors.password = "Password is required";
+    }
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -49,13 +56,15 @@ function LoginForm() {
       // Send the form data to the backend
       const response = await axios.post(
         "https://7190-102-210-244-74.ngrok-free.app/api/login",
-        formData
+        { email, password, rememberMe }
       );
 
       // Check if the login was successful
       if (response.data.success) {
         // Clear form data and errors
-        setFormData({ email: "", password: "", rememberMe: false });
+        setEmail("");
+        setPassword("");
+        setRememberMe(false);
         setFormErrors({ email: "", password: "" });
         
         // Perform any further actions (e.g., redirect to dashboard)
@@ -91,7 +100,7 @@ function LoginForm() {
           variant="outlined"
           type="email"
           name="email"
-          value={formData.email}
+          value={email}
           onChange={handleChange}
           error={Boolean(formErrors.email)}
           helperText={formErrors.email}
@@ -102,7 +111,7 @@ function LoginForm() {
           variant="outlined"
           type="password"
           name="password"
-          value={formData.password}
+          value={password}
           onChange={handleChange}
           error={Boolean(formErrors.password)}
           helperText={formErrors.password}
@@ -111,7 +120,7 @@ function LoginForm() {
         {/* Remember me checkbox */}
         <Box sx={{ display: 'flex', alignItems: 'center'}}>
           <Checkbox
-            checked={formData.rememberMe}
+            checked={rememberMe}
             onChange={handleChange}
             name="rememberMe"
           />
@@ -137,7 +146,6 @@ function LoginForm() {
     </form>
     </Box>
   </Box>
-  
   );
 }
 
