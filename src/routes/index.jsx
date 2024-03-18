@@ -37,9 +37,6 @@ function AppRoutes() {
         <Route path="/customer-care" element={< CustomerCarePage />} />
         <Route path="/other-services" element={< OtherServicesPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/forgot-password" element={ForgotPassword} />
-        <Route path="/reset-password" element={PasswordReset} />
-        
       </Routes>
     </Router>
   );

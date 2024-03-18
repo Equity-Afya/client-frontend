@@ -13,7 +13,7 @@ function ForgotPassword() {
 
     const handleGetCode = async () => {
         try {
-            const response = await axios.post('http://localhost:5500/api/patient/forgotpassword', {
+            const response = await axios.post('https://1d34-102-210-244-74.ngrok-free.app/api/patient/forgotpassword', {
                 email: selectedOption === 'email' ? email : null,
                 phoneNumber: selectedOption === 'phoneNumber' ? phoneNumber : null,
             });
@@ -33,13 +33,12 @@ function ForgotPassword() {
 
     const handleReset = async () => {
         try {
-            const response = await axios.post('http://localhost:5500/api/patient/resetpassword', {
+            const response = await axios.post('https://1d34-102-210-244-74.ngrok-free.app/api/patient/resetpassword', {
                 verificationCode,
                 newPassword: 'newPassword', // Change this to the actual new password input value
             });
-            console.log('Password reset successful');
             // Optionally, you can navigate to another page upon successful password reset
-            return <Navigate to="/reset-password-success" />;
+            return <Navigate to="/reset-password" />;
         } catch (error) {
             console.error('Error resetting password:', error);
         }
