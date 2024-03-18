@@ -37,51 +37,24 @@ function RegisterForm() {
     idNumber: "",
     password: "",
     confirmPassword: "",
-    server: "", // Add a server error state
   });
 
+  const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setFormErrors({ ...formErrors, [e.target.name]: "" });
+    setServerError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Password complexity validation and form validation
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&-]{8,}$/;
-    const errors = {};
-
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value) {
-        errors[key] = `${
-          key.charAt(0).toUpperCase() + key.slice(1)
-        } is required`;
-      }
-    });
-
-    if (!passwordRegex.test(formData.password)) {
-      errors.password =
-        "Password must contain at least one letter, one number, and one special character";
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
-    }
-
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      setLoading(false);
-      return;
-    }
-
     try {
       const response = await axios.post(
-        "https://cfc0-102-210-244-74.ngrok-free.app/api/patient/register",
+        "https://a080-102-210-244-74.ngrok-free.app/api/patient/register",
         formData
       );
 
@@ -102,10 +75,14 @@ function RegisterForm() {
       }
     } catch (error) {
       if (!error.response) {
-        setFormErrors({ ...formErrors, server: "No server response" });
-      } else if (error.response.status === 404) {
-        setFormErrors({ ...formErrors, name: "Name taken" });
+        setServerError("No server response");
+      } else if (error.response.status === 400) {
+        setFormErrors({
+          ...formErrors,
+          email: "User already exists, Log in instead",
+        });
       } else {
+        setServerError("Internal Server Error");
         console.error("Error submitting form data:", error.message);
       }
     } finally {
@@ -216,7 +193,7 @@ function RegisterForm() {
               >
                 {loading ? "Loading..." : "Register"}
               </Button>
-              {formErrors.server && <p>{formErrors.server}</p>}
+              {serverError && <p style={{ color: "red" }}>{serverError}</p>}
             </Box>
           </form>
         </Box>
