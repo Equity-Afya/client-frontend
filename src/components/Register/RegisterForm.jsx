@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/system";
-
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
   color: "white",
