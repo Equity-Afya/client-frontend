@@ -1,114 +1,143 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook from react-router-dom
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
 
-const OTPVerification = ({ email }) => {
-  const [otp, setOTP] = useState("");
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Initialize navigate function
+function VerifyOTP() {
+  const [otp, setOtp] = useState("");
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleOTPChange = (event) => {
-    setOTP(event.target.value);
+  const email = location.state?.email || "";
+
+  const handleInputChange = (e) => {
+    setOtp(e.target.value);
+  };
+
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setVerifyLoading(true);
+
+    try {
+      const response = await axios.post(
+        "https://8ed2-102-210-244-74.ngrok-free.app/patient/register/verifyotp",
+        { enteredOTP: otp }
+      );
+
+      if (response.status === 200) {
+        navigate("/login");
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      alert(
+        "An error occurred during OTP verification. Please try again later."
+      );
+    }
+
+    setVerifyLoading(false);
   };
 
   const handleResendOTP = async () => {
     try {
-      const response = await axios.post("/api/resend-otp", { email });
-      if (response.status === 200) {
-        setMessage("OTP resent successfully");
-      }
-    } catch (error) {
-      if (error.response.status === 404) {
-        setMessage("User not found");
-      } else {
-        setMessage("Internal server error");
-      }
-    }
-  };
+      setResendLoading(true);
+      const response = await axios.post(
+        "https://8ed2-102-210-244-74.ngrok-free.app/patient/resendotp",
+        { email }
+      );
 
-  const handleVerifyOTP = async () => {
-    try {
-      const response = await axios.post("/api/verify-otp", { otp });
       if (response.status === 200) {
-        setMessage("Account verified successfully");
-        // Redirect to login page
-        navigate("/login");
+        alert(response.data.message);
+      } else {
+        alert("Failed to resend OTP. Please try again later.");
       }
     } catch (error) {
-      if (error.response.status === 404) {
-        setMessage("User with the provided OTP not found");
-      } else if (error.response.status === 400) {
-        setMessage("Invalid OTP");
-      } else {
-        setMessage("Internal server error");
-      }
+      console.error("Error resending OTP:", error);
+      alert("An error occurred while resending OTP. Please try again later.");
     }
+
+    setResendLoading(false);
   };
 
   return (
-    <Card sx={{ maxWidth: 400, margin: "auto", marginTop: 4, padding: 2 }}>
-      <CardContent>
-        <Typography variant="h4" align="center" gutterBottom>
-          Teleafya
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "#DEE1E6",
+      }}
+    >
+      <Box
+        sx={{
+          width: 400,
+          p: 4,
+          borderRadius: 3,
+          bgcolor: "white",
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          variant="h3"
+          gutterBottom
+          sx={{ color: "#c00100", fontWeight: "bold" }}
+        >
+          TeleAfia
         </Typography>
-        <Typography variant="subtitle1" align="center" gutterBottom>
-          OTP Verification Page
+        <Typography
+          variant="h6"
+          gutterBottom
+          sx={{ fontWeight: "semi-bold", marginBottom: "20px" }}
+        >
+          OTP Verification
         </Typography>
-        <Typography variant="body2" align="center" paragraph>
-          A verification code has been sent to {email}. If the email address is
-          incorrect, you can go back and change it.
+        <Typography gutterBottom>
+          A verification code has been sent to{" "}
+          <span style={{ color: "#c00100" }}>{email}.</span>
         </Typography>
-        <TextField
-          label="Enter OTP"
-          variant="outlined"
-          fullWidth
-          value={otp}
-          onChange={handleOTPChange}
-          margin="normal"
-        />
+        <Typography gutterBottom>Enter OTP sent to your email</Typography>
+        <form onSubmit={handleVerifyOTP}>
+          <TextField
+            type="text"
+            value={otp}
+            onChange={handleInputChange}
+            placeholder="Enter OTP"
+            sx={{ width: "100%", textAlign: "center", mb: 2 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={verifyLoading}
+            sx={{ mt: 2, backgroundColor: "#c00100" }}
+          >
+            {verifyLoading ? "Verifying..." : "Verify OTP"}
+          </Button>
+        </form>
+
         <Button
-          variant="contained"
-          color="primary"
-          onClick={handleVerifyOTP}
-          fullWidth
-          style={{
-            backgroundColor: "#C00100",
-            color: "#fff",
-            marginTop: "16px",
+          onClick={handleResendOTP}
+          disabled={resendLoading}
+          sx={{
+            mt: 2,
+            color: "#c00100",
+            backgroundColor: "white",
+            border: "1px solid black",
           }}
         >
-          Verify OTP
+          {" "}
+          {resendLoading ? "Resending..." : "RESEND OTP"}
         </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleResendOTP}
-          style={{ width: "150px", marginTop: "8px" }}
-        >
-          Resend OTP
-        </Button>
-        {message && (
-          <Typography
-            variant="body2"
-            align="center"
-            style={{ marginTop: "16px", color: "red" }}
-          >
-            {message}
-          </Typography>
-        )}
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
-};
+}
 
-OTPVerification.propTypes = {
-  email: PropTypes.string.isRequired,
-};
-
-export default OTPVerification;
+export default VerifyOTP;
