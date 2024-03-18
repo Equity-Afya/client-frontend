@@ -8,9 +8,15 @@ const PasswordReset = () => {
   const [includeNumbers, setIncludeNumbers] = useState(false);
   const [includeSpecialChars, setIncludeSpecialChars] = useState(false);
   const [passwordLength, setPasswordLength] = useState(8); // Default length is 8 characters
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
 
   const handleReset = (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setPasswordMatchError(true);
+      return;
+    }
+    setPasswordMatchError(false);
     // Add password reset logic here
   };
 
@@ -65,6 +71,8 @@ const PasswordReset = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                error={passwordMatchError}
+                helperText={passwordMatchError ? "Passwords don't match" : ""}
                 mb={2}
               />
               <Typography id="password-length-slider" gutterBottom>
