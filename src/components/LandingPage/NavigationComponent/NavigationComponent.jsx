@@ -6,8 +6,8 @@ function NavigationComponent () {
     return(
        <div>
         <div className="line"></div>
-        <button className="medical"><a className="med" href="/Medical Services">Medical Services</a></button>
-        <button className="specialist"><a className="medi" href="/Specialist services">Specialist Services</a></button>
+        <button className="medical"><a className="med" href="/medical-services">Medical Services</a></button>
+        <button className="specialist"><a className="medi" href="/specialists">Specialist Services</a></button>
         <button className="specialist"><a className="medi" href="/Pharmaceutical services">Pharmaceutical services</a></button>
         <button className="specialist"><a className="medi" href="/Optometry">Optometry</a></button>
         <button className="specialist"><a className="medi" href="/Lab">Lab</a></button>
