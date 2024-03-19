@@ -37,7 +37,7 @@ const BookingForm = ({ onNext }) => {
         borderColor: "grey.300",
         borderRadius: 2,
         overflow: "hidden", // Set overflow to hidden
-        textAlign: "center", // Center align text
+        
       }}
     >
       <Typography variant="h5" gutterBottom>
@@ -116,7 +116,7 @@ const BookingForm = ({ onNext }) => {
           mb: 2,
           backgroundColor: "#C00010",
           "&:hover": { backgroundColor: "#800008" },
-        }} // Change color to #C00010
+        }} 
       >
         {loading ? <CircularProgress size={24} /> : "Next"}
       </Button>
