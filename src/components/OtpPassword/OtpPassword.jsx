@@ -22,8 +22,10 @@ function OtpPassword() {
         setLoadingVerify(true); // Set loading state to true while verifying OTP
         
         try {
+
             const response = await axios.post("https://062d-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
     
+
             if (response.status === 200) { 
                 alert('OTP verified');
                 navigate('/reset-password');
@@ -43,8 +45,10 @@ function OtpPassword() {
         setLoadingResend(true); // Set loading state to true while resending OTP
     
         try {
+
             const response = await axios.post("https://062d-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
     
+
             if (response.status === 200) {
                 alert(response.data.message);
             } else {

@@ -38,7 +38,9 @@ function PasswordReset() {
 
     try {
       setLoading(true);
+
       const response = await axios.put('https://062d-102-210-244-74.ngrok-free.app/api/patient/resetpassword', {
+
         email,
         newPassword,
       });
