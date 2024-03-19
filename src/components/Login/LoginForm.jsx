@@ -88,8 +88,8 @@ function LoginForm() {
                marginTop:20,paddingBottom:10,width:500,height:450,
                borderRadius:3,paddingLeft:5,paddingRight:5,}} >
     <form onSubmit={handleSubmit}>
-    <Typography variant="h4" color='brown'  gutterBottom sx={{ textAlign:'center',paddingBottom:2, fontWeight:"bold"}}>
-        Teleafia
+    <Typography variant="h4" color='#c00100'  gutterBottom sx={{ textAlign:'center',paddingBottom:2, fontWeight:"bold"}}>
+        Teleafya
       </Typography>
       <Typography variant="h6"  gutterBottom sx={{ textAlign:'center',paddingBottom:2,fontWeight:"bold", }}>
         ______User Login______
@@ -134,7 +134,7 @@ function LoginForm() {
         </Typography>
         </Box>
 
-        <Button type="submit" variant="contained" style={{ backgroundColor: 'brown', color: 'white',width:200,marginLeft:150, marginTop: 10 }}>
+        <Button type="submit" variant="contained" style={{ backgroundColor: '#c00100', color: 'white',width:200,marginLeft:150, marginTop: 10 }}>
           Login
         </Button>
         
