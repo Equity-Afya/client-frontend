@@ -30,9 +30,8 @@ function AppRoutes() {
         <Route path="/appointments" element={<MyAppointmentsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
-        <Route path="/customer-care" element={< CustomerCarePage />} />
-        <Route path="/other-services" element={< OtherServicesPage />} />
-        
+        <Route path="/customer-care" element={<CustomerCarePage />} />
+        <Route path="/other-services" element={<OtherServicesPage />} />
       </Routes>
     </Router>
   );
