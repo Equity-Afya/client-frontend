@@ -1,152 +1,115 @@
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import { Typography, Link, Checkbox } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import Checkbox from '@mui/material/Checkbox';
+import { Link, useNavigate } from 'react-router-dom';
 
-function LoginForm() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-
-  const [formErrors, setFormErrors] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    switch (name) {
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      case 'rememberMe':
-        setRememberMe(checked);
-        break;
-      default:
-        break;
-    }
-    setFormErrors({ ...formErrors, [name]: "" });
-  };
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form fields
-    const errors = {};
-    if (!email) {
-      errors.email = "Email is required";
-    }
-    if (!password) {
-      errors.password = "Password is required";
-    }
-
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      return;
-    }
-
     try {
-      // Send the form data to the backend
       const response = await axios.post(
-        "https://7190-102-210-244-74.ngrok-free.app/api/login",
-        { email, password, rememberMe }
+        "https://cf72-102-210-244-74.ngrok-free.app/api/patient/login",
+        {
+          email,
+          password,
+        }
       );
 
-      // Check if the login was successful
-      if (response.data.success) {
-        // Clear form data and errors
-        setEmail("");
-        setPassword("");
-        setRememberMe(false);
-        setFormErrors({ email: "", password: "" });
-        
-        // Perform any further actions (e.g., redirect to dashboard)
-        console.log("Login successful!");
-        navigate('/dashboard')
-      } else {
-        // Handle login failure (e.g., display error message)
-        console.log("Login failed:", response.data.message);
+      alert(response.data.message); // Display login status message
+
+      // Redirect to Home page on successful login
+      if (response.status === 200) {
+        navigate('/dashboard');
       }
     } catch (error) {
-      console.error("Error:", error);
+      if (error.response && error.response.status === 403) {
+        setErrorMessage('Email not verified. Please verify your email to login.');
+      } else {
+        setErrorMessage('Login failed. Please check your credentials.');
+      }
+      console.error('Login Error:', error);
     }
   };
 
   return (
-   <Box sx={{ display: "flex", flexDirection: "column", 
-              alignItems: "center", width: '100%', 
-              margin: "auto", backgroundColor: "#f0f0f0", 
-              height: 900 }}>
-    <Box sx={{ backgroundColor: '#FFFFFF', paddingTop: 5,
-               marginTop:20,paddingBottom:10,width:500,height:450,
-               borderRadius:3,paddingLeft:5,paddingRight:5,}} >
-    <form onSubmit={handleSubmit}>
-    <Typography variant="h4" color='brown'  gutterBottom sx={{ textAlign:'center',paddingBottom:2, fontWeight:"bold"}}>
-        Teleafia
-      </Typography>
-      <Typography variant="h6"  gutterBottom sx={{ textAlign:'center',paddingBottom:2,fontWeight:"bold", }}>
-        ______User Login______
-      </Typography>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2,backgroundColor:'#FFFFFF' }}>
-        <TextField
-          label="Email"
-          variant="outlined"
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-          error={Boolean(formErrors.email)}
-          helperText={formErrors.email}
-        />
-  
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-          error={Boolean(formErrors.password)}
-          helperText={formErrors.password}
-        />
-
-        {/* Remember me checkbox */}
-        <Box sx={{ display: 'flex', alignItems: 'center'}}>
-          <Checkbox
-            checked={rememberMe}
-            onChange={handleChange}
-            name="rememberMe"
-          />
-          
-          <Typography variant="body1">Remember me</Typography>
-        
-
-        {/* Forgot password link */}
-        <Typography variant="body1" sx={{ textAlign: 'right',marginLeft:20 }}>
-          <Link href="/forgot-password" underline="none">Forgot password?</Link>
-        </Typography>
-        </Box>
-
-        <Button type="submit" variant="contained" style={{ backgroundColor: 'brown', color: 'white',width:200,marginLeft:150, marginTop: 10 }}>
-          Login
-        </Button>
-        
-        {/* Sign up link */}
-        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1 }}>
-          Don't have an account? <Link href="/register" underline="none">Sign up</Link>
-        </Typography>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#DEE1E6',
+      }}
+    >
+      <Box
+        sx={{
+          width: 500,
+          p: 4,
+          borderRadius: 3,
+          bgcolor: 'white',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h3" gutterBottom sx={{ color: '#c00100', fontWeight: 'bold', marginBottom: 4 }}>TeleAfia</Typography>
+        <Typography variant="h5" gutterBottom sx={{ marginBottom: '35px', fontWeight: 'bold' }}>__________User Login_________</Typography>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <TextField
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              label="Email"
+              variant="outlined"
+              placeholder='Enter your email'
+              required // Marked as required
+              fullWidth
+            /><br /><br />
+          </div>
+          <div>
+            <TextField
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Password"
+              variant="outlined"
+              placeholder='Enter your password'
+              required // Marked as required
+              fullWidth
+            /><br /><br />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Checkbox
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+              inputProps={{ 'aria-label': 'Remember me' }}
+            />
+            <Typography>Remember me</Typography>
+            <Link to='/forgot-password' style={{ textDecoration: 'none', marginLeft: 'auto', color: '#c00100' }}>Forgot password?</Link>
+          </div>
+          <br />
+          <Button type='submit' variant="contained" sx={{ backgroundColor: '#c00100', width: '300px' }}>Login</Button>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+        </form><br />
+        <div>
+          <Typography variant='body1' sx={{ textAlign: 'center', marginTop: 1}}>  Don't have an account?
+          <Link to='/register' style={{ textDecoration: 'none', color: '#c00100' }}> Sign Up </Link>
+          </Typography>
+        </div>
       </Box>
-    </form>
     </Box>
-  </Box>
   );
 }
 
-export default LoginForm;
+export default Login;
+

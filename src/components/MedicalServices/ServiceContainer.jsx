@@ -34,10 +34,9 @@ const ServiceCard = ({ service }) => {
 };
 
 const DataAnalytics = ({ medicalServices }) => {
-  // Transform medicalServices data to display requests
   const data = medicalServices.map(service => ({
     name: service.name,
-    value: Math.floor(Math.random() * 100), // Random requests for demonstration
+    value: Math.floor(Math.random() * 100),
   }));
 
   return (
@@ -60,7 +59,7 @@ const ServiceContainer = () => {
   const [filteredServices, setFilteredServices] = React.useState([]);
 
   const medicalServices = [
-    { name: 'General consultation', image: 'src/assets/general_consultation.jpg', route: '/book-appointments' },
+    { name: 'General consultation', image: 'src/assets/general_consultation.jpg', route: '/book-appointment' },
     { name: 'Modern lab', image: 'src/assets/modern_lab.jpg', route: '/modern-lab' },
     { name: 'Pharmacy', image: 'src/assets/pharmacy_image.jpg', route: '/pharmacy' },
     { name: 'Specialist services', image: 'src/assets/specialist_services.jpg', route: '/specialist-services' }
@@ -75,15 +74,15 @@ const ServiceContainer = () => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div style={{ marginBottom: '20px', width: '70%', margin: '0 auto', display: 'flex', alignItems: 'center' }}>
+      <div style={{ marginBottom: '20px', width: '100%', maxWidth: '800px', margin: '0 auto', display: 'flex', alignItems: 'center' }}>
         <TextField
           label="Search Services"
           variant="outlined"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ flex: 1,}}
+          style={{ flex: 1 }}
         />
-        <Button variant="contained" onClick={handleSearch} style={{ marginLeft: '10px',height: '53px'}}>Search</Button>
+        <Button variant="contained" onClick={handleSearch} style={{ marginLeft: '10px' }}>Search</Button>
       </div>
       <DataAnalytics medicalServices={medicalServices} />
       <Paper elevation={3} style={{ padding: '20px', margin: '20px auto', maxWidth: '1200px', width: '90%' }}>
@@ -100,4 +99,3 @@ const ServiceContainer = () => {
 };
 
 export default ServiceContainer;
-
