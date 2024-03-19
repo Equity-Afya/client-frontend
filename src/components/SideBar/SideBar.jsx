@@ -1,4 +1,3 @@
-import { useState } from "react";
 import React, { useState } from "react";
 import {
   List,
@@ -62,13 +61,8 @@ function Sidebar() {
   };
 
   return (
-    <>
-      <CssBaseline />
-      <div style={{ height: "100vh", overflow: "hidden" }}>
-        <List
-          sx={{
-            width: 240,
-            height: "100%",
+    <Box style={{ height: "100vh", overflow: "hidden" }}>
+      
       <Box
         sx={{
           display: "flex",
@@ -197,9 +191,8 @@ function Sidebar() {
             <ListItemText primary="Logout" />
           </ListItem>
         </List>
-      </div>
       </Box>
-    </>
+    </Box>
   );
 }
 
