@@ -4,6 +4,8 @@ import Sidebar from '../components/SideBar/SideBar'
 import BookingForm from '../components/Booking/BookingForm';
 
 
+
+
 const BookAppointmentPage = () => {
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
