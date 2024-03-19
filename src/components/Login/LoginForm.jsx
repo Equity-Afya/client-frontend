@@ -24,7 +24,6 @@ function Login() {
       });
 
       alert(response.data.message); // Display login status message
-
       // Redirect to Home page on successful login
       if (response.status === 200) {
         navigate('/dashboard');

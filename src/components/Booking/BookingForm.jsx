@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -7,11 +8,14 @@ import {
   CircularProgress,
   LinearProgress,
   MenuItem,
+  Grid,
 } from "@mui/material";
 
 const services = ["Dentist", "General Checkup", "Other Service"];
 
-const BookingForm = ({ onNext }) => {
+const BookingForm = () => {
+  const navigate = useNavigate(); // useNavigate hook for navigation
+
   const [bookFor, setBookFor] = useState("");
   const [selectedService, setSelectedService] = useState("");
   const [date, setDate] = useState("");
@@ -24,7 +28,7 @@ const BookingForm = ({ onNext }) => {
     // Here you can save data or perform any action before moving to the next page
     setTimeout(() => {
       setLoading(false);
-      onNext();
+      navigate("/complete-booking"); // Navigate to complete booking page
     }, 1500); // Simulating saving data with a timeout
   };
 
@@ -37,10 +41,13 @@ const BookingForm = ({ onNext }) => {
         borderColor: "grey.300",
         borderRadius: 2,
         overflow: "hidden", // Set overflow to hidden
-        
       }}
     >
-      <Typography variant="h5" gutterBottom>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{ textAlign: "center", color: "#C00010", fontWeight: "bold" }}
+      >
         Book Appointment
       </Typography>
       <TextField
@@ -82,24 +89,44 @@ const BookingForm = ({ onNext }) => {
         <MenuItem value="physical">Physical</MenuItem>
         <MenuItem value="virtual">Virtual</MenuItem>
       </TextField>
-      <TextField
-        type="date"
-        label="Select date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ width: "calc(50% - 12px)", marginRight: 2, mb: 2 }}
-      />
-      <TextField
-        type="time"
-        label="Select time"
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ width: "calc(50% - 12px)", mb: 2 }}
-      />
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        <Grid item xs={6}>
+          <TextField
+            type="date"
+            label="Select date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            fullWidth
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              "& .MuiInputBase-input": {
+                backgroundColor: "#f7f7f7",
+                borderRadius: "4px",
+                padding: "10px",
+              },
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            type="time"
+            label="Select time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            fullWidth
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              "& .MuiInputBase-input": {
+                backgroundColor: "#f7f7f7",
+                borderRadius: "4px",
+                padding: "10px",
+              },
+            }}
+          />
+        </Grid>
+      </Grid>
       <Button
         variant="contained"
         color="primary"
@@ -116,7 +143,7 @@ const BookingForm = ({ onNext }) => {
           mb: 2,
           backgroundColor: "#C00010",
           "&:hover": { backgroundColor: "#800008" },
-        }} 
+        }}
       >
         {loading ? <CircularProgress size={24} /> : "Next"}
       </Button>
