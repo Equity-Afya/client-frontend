@@ -61,8 +61,9 @@ function Sidebar() {
   };
 
   return (
-    <Box style={{ height: "100vh", overflow: "hidden" }}>
-      
+    <Box style={{ minHeight: "100vh", overflow: "hidden" }}>
+
+      <CssBaseline />
       <Box
         sx={{
           display: "flex",
