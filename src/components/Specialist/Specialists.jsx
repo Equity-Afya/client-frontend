@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, Grid, TextField } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const servicesData = [
   { id: 1, name: 'Consultation', details: 'Details about Consultation service.', image:'src/assets/consultation.jpg' },
@@ -37,9 +38,9 @@ const SpecialistServices = () => {
           fullWidth
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ width: '70%', marginRight: '10px' }}
+          style={{ width: '70%', marginRight: '10px'}}
         />
-        <Button variant="contained" color="secondary" onClick={handleSearch} style={{ height: '55px' }}>
+        <Button variant="contained" sx={{backgroundColor:'#c00100'}} onClick={handleSearch} style={{ height: '55px' }}>
           Search
         </Button>
       </div>
@@ -54,6 +55,7 @@ const SpecialistServices = () => {
                 <Button
                   onClick={() => handleServiceClick(service.id)}
                   style={{ color: '#c00100', float: 'right' }}
+                  endIcon={<ArrowForwardIcon />}
                 >
                   View Details
                 </Button>
