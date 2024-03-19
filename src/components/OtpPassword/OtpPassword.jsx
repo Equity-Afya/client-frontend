@@ -21,11 +21,11 @@ function OtpPassword() {
         e.preventDefault();
         setLoadingVerify(true);
         try {
-            const response = await axios.post("https://cf72-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
+            const response = await axios.post("https://062d-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
 
             if (response.status === 200) { 
                 alert('OTP verified');
-                navigate('/Resetpassword');
+                navigate('/reset-password');
             } else {
                 alert(response.data.message);
             }
@@ -33,8 +33,10 @@ function OtpPassword() {
             console.error("Error verifying OTP:", error);
             alert("Wrong OTP.");
         }
-    
+       finally {
         setLoading(false);
+       }
+        
     };
 
 
@@ -42,7 +44,7 @@ function OtpPassword() {
         setLoadingResend(true);
         
         try {
-            const response = await axios.post("https://cf72-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
+            const response = await axios.post("https://062d-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
 
             if (response.status === 200) {
                 alert(response.data.message);
@@ -54,7 +56,10 @@ function OtpPassword() {
             alert("An error occurred while resending OTP. Please try again later.");
         }
 
+       finally{
         setLoading(false);
+       }
+        
     };
     return (
         <Box sx={{ backgroundColor: '#DEE1E6', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
