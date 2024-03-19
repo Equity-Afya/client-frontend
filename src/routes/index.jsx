@@ -16,8 +16,7 @@ import OtherServicesPage from "../pages/OtherServicesPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import ModernLabPage from "../pages/ModernLabPage";
-import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
-import PasswordReset from '../components/PasswordReset/passwordReset';
+import OtpPasswordPage from "../pages/OtpPasswordPage"
 
 function AppRoutes() {
   return (
@@ -40,10 +39,11 @@ function AppRoutes() {
         <Route path="/customer-care" element={< CustomerCarePage />} />
         <Route path="/other-services" element={< OtherServicesPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/modern-lab" element={<ModernLabPage />} />
+        <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/modern-lab" element={<ModernLabPage />} />
-        <Route path="/forgot-password" element={ForgotPassword} />
-        <Route path="/reset-password" element={PasswordReset} />
+        
       </Routes>
     </Router>
   );
