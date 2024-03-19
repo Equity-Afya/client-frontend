@@ -15,7 +15,7 @@ function HeaderComponent (){
             <a className="services" href="/Services">Services</a>
             <a className="contactus" href="/Contact Us">Contact Us</a>
             <button className="loginbutton"><a className="login" href="/Login">Login</a></button>
-            <button className="sign"><a className="signup" href="/Re">Sign Up</a></button>
+            <button className="sign"><a className="signup" href="/register">Sign Up</a></button>
              
             </nav>
 

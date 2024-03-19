@@ -26,7 +26,7 @@ function ModernLabForm() {
           style={{ marginLeft: '200px', marginTop: '40px', height: '70px', backgroundColor: '#FCF4F4', borderRadius: '10px' }}
         />
       </Box>
-      <h4 style={{ marginLeft: '70px' }}>Modern Laboratory</h4>
+      <h4 style={{ marginLeft: '70px', color:'#C00000' }}>Modern Laboratory</h4>
       <Box sx={{ marginLeft: '70px', border: '1px solid #000', borderRadius: '20px', textAlign: 'center', marginRight: '70px' }}>
        <br/><br/>
         Our laboratory is equipped with modern equipment
