@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
-
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
   color: "white",

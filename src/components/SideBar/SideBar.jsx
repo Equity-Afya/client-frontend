@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useNavigate } from "react";
 import {
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   CssBaseline,
-} from "@mui/material";
-import {
+  IconButton,
+  Box,
   Dashboard,
   EventNote,
   PeopleAlt,
@@ -17,19 +17,20 @@ import {
   Brightness4,
   Brightness7,
   Logout,
-} from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios library for making HTTP requests
+  Fullscreen,
+  FullscreenExit,
+} from "@mui/material";
+import axios from "axios";
 
 function Sidebar() {
   const navigate = useNavigate();
   const [brightnessMode, setBrightnessMode] = useState(false);
+  const [fullscreenMode, setFullscreenMode] = useState(false);
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3000/logout"); // Send POST request to logout endpoint
-      // After successful logout, redirect the user to the login page
-      navigate("/login"); // Redirect to login page
+      await axios.post("http://localhost:3000/logout");
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -37,26 +38,39 @@ function Sidebar() {
 
   const handleNavigation = (route) => {
     if (route === "/light-mode") {
-      setBrightnessMode(!brightnessMode); // Toggle brightness mode
+      setBrightnessMode(!brightnessMode);
     } else {
       navigate(route);
     }
   };
 
+  const toggleFullscreen = () => {
+    if (!fullscreenMode) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+    setFullscreenMode(!fullscreenMode);
+  };
+
   return (
     <>
       <CssBaseline />
-      <div style={{ height: "100vh", overflow: "hidden" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: fullscreenMode ? "100vh" : "auto",
+        }}
+      >
         <List
           sx={{
-            width: 240,
-            height: "100%",
+            flex: 1,
             backgroundColor: brightnessMode ? "#FFFFFF" : "#C00100",
             color: brightnessMode ? "#000000" : "white",
             paddingTop: 0,
           }}
         >
-          {/* Main Menu Items */}
           <ListItem button onClick={() => handleNavigation("/dashboard")}>
             <ListItemIcon
               sx={{
@@ -67,6 +81,12 @@ function Sidebar() {
               <Dashboard />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
+            <IconButton
+              onClick={toggleFullscreen}
+              sx={{ color: brightnessMode ? "#000000" : "white" }}
+            >
+              {fullscreenMode ? <FullscreenExit /> : <Fullscreen />}
+            </IconButton>
           </ListItem>
           <ListItem button onClick={() => handleNavigation("/appointments")}>
             <ListItemIcon
@@ -134,7 +154,6 @@ function Sidebar() {
             </ListItemIcon>
             <ListItemText primary="My Account" />
           </ListItem>
-          {/* Additional Items */}
           <ListItem
             button
             sx={{ paddingTop: 22 }}
@@ -162,7 +181,7 @@ function Sidebar() {
             <ListItemText primary="Logout" />
           </ListItem>
         </List>
-      </div>
+      </Box>
     </>
   );
 }
