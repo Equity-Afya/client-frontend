@@ -105,7 +105,7 @@ function RegisterForm() {
       const userData = { name, email, phoneNumber, idNumber, password };
 
       const response = await axios.post(
-        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/register",
+        "https://cf72-102-210-244-74.ngrok-free.app/api/patient/register",
         userData
       );
 

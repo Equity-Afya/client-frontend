@@ -21,7 +21,7 @@ function OtpPassword() {
         e.preventDefault();
         setLoadingVerify(true);
         try {
-            const response = await axios.post("https://8ed2-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
+            const response = await axios.post("https://cf72-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
 
             if (response.status === 200) { 
                 alert('OTP verified');
@@ -42,7 +42,7 @@ function OtpPassword() {
         setLoadingResend(true);
         
         try {
-            const response = await axios.post("https://8ed2-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
+            const response = await axios.post("https://cf72-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
 
             if (response.status === 200) {
                 alert(response.data.message);
