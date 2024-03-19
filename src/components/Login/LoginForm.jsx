@@ -18,10 +18,13 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://8ed2-102-210-244-74.ngrok-free.app/api/patient/login', {
-        email,
-        password
-      });
+      const response = await axios.post(
+        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/login",
+        {
+          email,
+          password,
+        }
+      );
 
       alert(response.data.message); // Display login status message
 
