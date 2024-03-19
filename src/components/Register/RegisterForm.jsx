@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
   color: "white",
@@ -23,6 +25,8 @@ const FormTitle = styled("div")({
 });
 
 function RegisterForm() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -73,8 +77,7 @@ function RegisterForm() {
     setPassword(newPassword);
 
     // Custom password regex allowing user to choose special characters
-    const regex =
-      /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
+    const regex = /^(?=.\d)(?=.[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
         ...formErrors,
@@ -102,14 +105,14 @@ function RegisterForm() {
       const userData = { name, email, phoneNumber, idNumber, password };
 
       const response = await axios.post(
-        "https://3f41-102-210-244-74.ngrok-free.app/api/patient/register",
+        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/register",
         userData
       );
 
       if (response.status === 200) {
         console.log("Registration successful:", response.data);
         // Navigate to the OTP verification page
-        window.location.href = "http://localhost:5173/register/verify-otp";
+        navigate("/verify-otp", { state: { email } });
         // Reset form data on successful registration
         setName("");
         setEmail("");
