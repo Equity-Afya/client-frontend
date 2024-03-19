@@ -41,8 +41,7 @@ function AppRoutes() {
         <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/modern-lab" element={<ModernLabPage />} />
-        <Route path="/forgot-password" element={ForgotPassword} />
-        <Route path="/reset-password" element={PasswordReset} />
+        
       </Routes>
     </Router>
   );
