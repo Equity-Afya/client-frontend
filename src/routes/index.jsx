@@ -14,6 +14,7 @@ import CustomerCarePage from "../pages/CustomerCarePage";
 import TeleclinicsPage from "../pages/TeleclinicsPage";
 import OtherServicesPage from "../pages/OtherServicesPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import BookAppointmentPage from "../pages/BookAppointmentPage";
 import ModernLabPage from "../pages/ModernLabPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage"
 
@@ -38,6 +39,10 @@ function AppRoutes() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/modern-lab" element={<ModernLabPage />} />
         <Route path="/otp-password" element={<OtpPasswordPage />} />
+        <Route path="/book-appointment" element={<BookAppointmentPage />} />
+        <Route path="/modern-lab" element={<ModernLabPage />} />
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
       </Routes>
     </Router>
   );
