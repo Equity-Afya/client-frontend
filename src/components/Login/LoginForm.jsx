@@ -4,14 +4,13 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Typography, Link, Checkbox } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false, // New state for "Remember me" checkbox
-  });
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
     email: "",
@@ -20,8 +19,19 @@ function LoginForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
-    setFormData({ ...formData, [name]: newValue });
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      case 'rememberMe':
+        setRememberMe(checked);
+        break;
+      default:
+        break;
+    }
     setFormErrors({ ...formErrors, [name]: "" });
   };
 
@@ -30,13 +40,12 @@ function LoginForm() {
 
     // Validate form fields
     const errors = {};
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key !== 'rememberMe' && !value) {
-        errors[key] = `${
-          key.charAt(0).toUpperCase() + key.slice(1)
-        } is required`;
-      }
-    });
+    if (!email) {
+      errors.email = "Email is required";
+    }
+    if (!password) {
+      errors.password = "Password is required";
+    }
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -47,17 +56,20 @@ function LoginForm() {
       // Send the form data to the backend
       const response = await axios.post(
         "https://7190-102-210-244-74.ngrok-free.app/api/login",
-        formData
+        { email, password, rememberMe }
       );
 
       // Check if the login was successful
       if (response.data.success) {
         // Clear form data and errors
-        setFormData({ email: "", password: "", rememberMe: false });
+        setEmail("");
+        setPassword("");
+        setRememberMe(false);
         setFormErrors({ email: "", password: "" });
         
         // Perform any further actions (e.g., redirect to dashboard)
         console.log("Login successful!");
+        navigate('/dashboard')
       } else {
         // Handle login failure (e.g., display error message)
         console.log("Login failed:", response.data.message);
@@ -68,58 +80,73 @@ function LoginForm() {
   };
 
   return (
-    <Box sx={{backgroundColor: 'lightgrey', display: "flex", flexDirection: "column", alignItems: "center", width: '100%', margin: "auto",height:800}}>
-      <Box sx={{ backgroundColor: '#FFFFFF', padding: 4, borderRadius: 3, width: 400,marginTop:10, }}>
-        <form onSubmit={handleSubmit}>
-          <Typography variant="h4" color='brown' gutterBottom sx={{ textAlign: 'center', fontWeight: "bold", }}>
-            Teleafia
-          </Typography>
-          <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: "bold" }}>
-            User Login
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <TextField
-              label="Email"
-              variant="outlined"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              error={Boolean(formErrors.email)}
-              helperText={formErrors.email}
-            />
-            <TextField
-              label="Password"
-              variant="outlined"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              error={Boolean(formErrors.password)}
-              helperText={formErrors.password}
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Checkbox
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                name="rememberMe"
-              />
-              <Typography variant="body1">Remember me</Typography>
-              <Link href="#" underline="none">Forgot password?</Link>
-            </Box>
-            <Button type="submit" variant="contained" sx={{ backgroundColor: 'brown', color: 'white', width: '100%', marginTop: 2 }}>
-              Login
-            </Button>
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1 }}>
-              Don't have an account? <Link href="#" underline="none">Sign up</Link>
-            </Typography>
-          </Box>
-        </form>
+   <Box sx={{ display: "flex", flexDirection: "column", 
+              alignItems: "center", width: '100%', 
+              margin: "auto", backgroundColor: "#f0f0f0", 
+              height: 900 }}>
+    <Box sx={{ backgroundColor: '#FFFFFF', paddingTop: 5,
+               marginTop:20,paddingBottom:10,width:500,height:450,
+               borderRadius:3,paddingLeft:5,paddingRight:5,}} >
+    <form onSubmit={handleSubmit}>
+    <Typography variant="h4" color='brown'  gutterBottom sx={{ textAlign:'center',paddingBottom:2, fontWeight:"bold"}}>
+        Teleafia
+      </Typography>
+      <Typography variant="h6"  gutterBottom sx={{ textAlign:'center',paddingBottom:2,fontWeight:"bold", }}>
+        ______User Login______
+      </Typography>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2,backgroundColor:'#FFFFFF' }}>
+        <TextField
+          label="Email"
+          variant="outlined"
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleChange}
+          error={Boolean(formErrors.email)}
+          helperText={formErrors.email}
+        />
+  
+        <TextField
+          label="Password"
+          variant="outlined"
+          type="password"
+          name="password"
+          value={password}
+          onChange={handleChange}
+          error={Boolean(formErrors.password)}
+          helperText={formErrors.password}
+        />
+
+        {/* Remember me checkbox */}
+        <Box sx={{ display: 'flex', alignItems: 'center'}}>
+          <Checkbox
+            checked={rememberMe}
+            onChange={handleChange}
+            name="rememberMe"
+          />
+          
+          <Typography variant="body1">Remember me</Typography>
+        
+
+        {/* Forgot password link */}
+        <Typography variant="body1" sx={{ textAlign: 'right',marginLeft:20 }}>
+          <Link href="/forgot-password" underline="none">Forgot password?</Link>
+        </Typography>
+        </Box>
+
+        <Button type="submit" variant="contained" style={{ backgroundColor: 'brown', color: 'white',width:200,marginLeft:150, marginTop: 10 }}>
+          Login
+        </Button>
+        
+        {/* Sign up link */}
+        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1 }}>
+          Don't have an account? <Link href="/register" underline="none">Sign up</Link>
+        </Typography>
       </Box>
+    </form>
     </Box>
+  </Box>
   );
 }
 
 export default LoginForm;
-
-
