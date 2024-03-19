@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Button, Grid, TextField } from '@mui/material';
+import { Card, CardContent, Typography, Button, Grid, TextField, CssBaseline } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const servicesData = [
@@ -30,6 +30,8 @@ const SpecialistServices = () => {
   };
 
   return (
+    <>
+    <CssBaseline />
     <div style={{ textAlign: 'center' }}>
       <div style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '10px' }}>
         <TextField
@@ -65,6 +67,7 @@ const SpecialistServices = () => {
         ))}
       </Grid>
     </div>
+    </>
   );
 };
 

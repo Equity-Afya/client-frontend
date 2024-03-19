@@ -9,10 +9,10 @@ function SpecialistsPage() {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar on the left with margin-right */}
-    <Box>
-      <Sidebar sx={{ marginRight: '32px', height:'100vh' }} /> 
+    <Box sx={{display: 'flex', flexDirection: 'column', flex: 'o o auto', marginRight: '32px'}}>
+      <Sidebar /> 
     </Box>
-    <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}>
+    <Box sx={{display: 'flex', flexDirection: 'column', flex: '1', overflowY: 'auto', marginTop: '48px', marginLeft: '32px'}}>
         < SpecialistServices />
     </Box>
       </ Box>
