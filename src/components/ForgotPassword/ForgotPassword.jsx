@@ -20,18 +20,11 @@ function ForgotPassword() {
         email
       });
 
-      const response = await axios.post(
-        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/forgotpassword",
-        {
-          email,
-        }
-      );
-
   
       alert(response.data.message);
   
       if (response.status === 200) {
-        navigate('/VerifypassOtp', { state: { email } });
+        navigate('/otp-password', { state: { email } });
       }
     } catch (error) {
       alert('Password reset failed. Please check your email.');
