@@ -5,6 +5,10 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function PasswordReset() {
   const [email, setEmail] = useState('');
@@ -14,15 +18,16 @@ function PasswordReset() {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
-  const [passwordError, setPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handlePasswordChange = (value) => {
-    // Check password requirements
+
     const regex = /^(?=.\d)(?=.[!@#$%^&])(?!.\s).{5,15}$/;
     if (!regex.test(value)) {
-      setPasswordError("Password must be between 5 to 15 characters, contain at least one number, one symbol, and no spaces");
+      setError("Password must be between 5 to 15 characters, contain at least one number, one symbol, and no spaces");
     } else {
-      setPasswordError("");
+      setError("");
     }
 
     setNewPassword(value);
@@ -38,14 +43,13 @@ function PasswordReset() {
 
     try {
       setLoading(true);
-      const response = await axios.put('https://cf72-102-210-244-74.ngrok-free.app/api/patient/resetpassword', {
+      const response = await axios.put('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resetpassword', {
         email,
         newPassword,
       });
 
       setSuccessMessage(response.data.message);
       
-      // Navigate to the login page after successful password reset
       navigate('/login');
     } catch (error) {
       console.error('Error resetting password:', error.response.data);
@@ -54,6 +58,7 @@ function PasswordReset() {
 
     setLoading(false);
   };
+
   return (
     <Box
       sx={{
@@ -88,22 +93,48 @@ function PasswordReset() {
           />
           <TextField
             fullWidth
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={newPassword}
             onChange={(e) => handlePasswordChange(e.target.value)}
             placeholder="New Password"
             required
             sx={{ mt: 2 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-          {passwordError && <Typography variant="body2" sx={{ color: 'red', mt: 1 }}>{passwordError}</Typography>}
+          {error && <Typography variant="body2" sx={{ color: 'red', mt: 1 }}>{error}</Typography>}
           <TextField
             fullWidth
-            type="password"
+            type={showConfirmPassword ? 'text' : 'password'}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm New Password"
             required
             sx={{ mt: 2 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle confirm password visibility"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    edge="end"
+                  >
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             type="submit"
@@ -115,7 +146,6 @@ function PasswordReset() {
             {loading ? 'Resetting...' : 'Reset'}
           </Button>
         </form>
-        {error && <Typography variant="body2" sx={{ color: 'red', mt: 2 }}>{error}</Typography>}
         {successMessage && <Typography variant="body2" sx={{ color: 'green', mt: 2 }}>{successMessage}</Typography>}
       </Box>
     </Box>
