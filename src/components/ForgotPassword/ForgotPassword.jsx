@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -22,25 +23,27 @@ function ForgotPassword() {
         }
       );
   
+      const response = await axios.post('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/forgotpassword', {
+        email
+      });
       alert(response.data.message);
   
       if (response.status === 200) {
-        navigate('/VerifypassOtp', { state: { email } });
+        navigate('/otp-password', { state: { email } });
+        setLoading(false);
       }
     } catch (error) {
-      alert('Password reset failed. Please check your email.');
+      alert('Password reset failed.');
       console.error('Password Reset Error:', error);
-    }
-    finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
  
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#DEE1E6' }}>
-      <Box sx={{ width: 500, p: 4, borderRadius: 3, bgcolor: 'white', textAlign: 'center',height:'500px' }}>
-        <Typography variant='h3' sx={{color:"#c00100",fontWeight:'bold',marginBottom:"20px"}}>TeleAfia</Typography>
-        <Typography variant="h5" gutterBottom sx={{fontWeight:'bold',marginBottom:'40px'}}>_Password Reset_</Typography>
+      <Box sx={{ width: 500, p: 4, borderRadius: 3, bgcolor: 'white', textAlign: 'center', height: '500px' }}>
+        <Typography variant='h3' sx={{ color:"#c00100", fontWeight:'bold', marginBottom:"20px" }}>TeleAfia</Typography>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight:'bold', marginBottom:'40px' }}>Password Reset</Typography>
         <Typography variant="body1" gutterBottom>Enter your email address to receive a Verification Code</Typography>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -56,11 +59,10 @@ function ForgotPassword() {
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ mt: 2,backgroundColor:'#c00100',marginTop:'20px', cursor:'pointer', hover: {
-              backgroundColor: '#c00100'}
-            }}
+            sx={{ mt: 2, backgroundColor:'#c00100', marginTop:'20px', cursor:'pointer', hover: { backgroundColor: '#c00100' } }}
+            disabled={loading}
           >
-            {loading ? 'Loading...' : 'Get code'}
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Get code'}
           </Button>
         </form>
       </Box>
