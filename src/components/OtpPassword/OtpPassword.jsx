@@ -34,7 +34,7 @@ function OtpPassword() {
             alert("Wrong OTP.");
         }
     
-        setLoading(false);
+        setLoadingVerify(false);
     };
 
 
@@ -42,7 +42,10 @@ function OtpPassword() {
         setLoadingResend(true);
         
         try {
-            const response = await axios.post("https://8ed2-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
+            const response = await axios.post(
+              "https://062d-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp",
+              { email }
+            );
 
             if (response.status === 200) {
                 alert(response.data.message);
@@ -54,7 +57,7 @@ function OtpPassword() {
             alert("An error occurred while resending OTP. Please try again later.");
         }
 
-        setLoading(false);
+        setLoadingResend(false);
     };
     return (
         <Box sx={{ backgroundColor: '#DEE1E6', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -55,7 +55,7 @@ function VerifyOtp() {
     try {
       setResendLoading(true);
       const response = await axios.post(
-        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/resendotp",
+        "https://062d-102-210-244-74.ngrok-free.app/api/patient/resendotp",
         { email }
       );
 
@@ -130,4 +130,4 @@ function VerifyOtp() {
   );
 }
 
-export default VerifyOtp;
+export default VerifyOtp;

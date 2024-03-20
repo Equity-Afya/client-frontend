@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -7,90 +9,157 @@ import {
   CircularProgress,
   LinearProgress,
   MenuItem,
+  Snackbar,
+  Box, // Import Box component from Material-UI
 } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
 
-const CompleteAppointment = ({ onSubmit }) => {
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
+const CompleteAppointment = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSubmit = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phoneNumber: "",
+    gender: "",
+    age: "",
+    bookFor: "",
+    service: "",
+    date: "",
+    time: "",
+    appointmentType: "",
+  });
+
+  useEffect(() => {
+    const stateFormData = location.state;
+    if (stateFormData) {
+      setFormData(stateFormData);
+    }
+  }, [location.state]);
+
+  const handleSubmit = async () => {
     setLoading(true);
-    // Here you can save data or perform any action
-    setTimeout(() => {
+
+    try {
+      const response = await axios.post(
+        "https://b3be-102-210-244-74.ngrok-free.app/api/patient/appointments",
+        formData
+      );
+
+      if (response.status === 201) {
+        setLoading(false);
+        setSnackbarOpen(true);
+        // Navigate to the next page
+        navigate("/next-page");
+      } else {
+        throw new Error("Internal server error");
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
       setLoading(false);
-      onSubmit();
-    }, 1500); // Simulating saving data with a timeout
+      setError("An error occurred. Please try again.");
+    }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
   };
 
   return (
-    <Container
-      maxWidth="sm" // You can adjust the maxWidth as needed
-      sx={{
-        padding: 6,
-        border: 1,
-        borderColor: "grey.300",
-        borderRadius: 2,
-        overflow: "hidden", // Set overflow to hidden
-      }}
-    >
-      <Typography variant="h5" gutterBottom>
-        Complete Appointment
-      </Typography>
-      <TextField
-        label="Full Name"
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Phone Number"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        select
-        label="Gender"
-        value={gender}
-        onChange={(e) => setGender(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2 }}
-      >
-        <MenuItem value="male">Male</MenuItem>
-        <MenuItem value="female">Female</MenuItem>
-        <MenuItem value="other">Other</MenuItem>
-      </TextField>
-      <TextField
-        type="number"
-        label="Age"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2 }}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-        disabled={!fullName || !phoneNumber || !gender || !age || loading}
+    <Container maxWidth="sm">
+      <Box
         sx={{
-          mb: 2,
-          backgroundColor: "#C00010",
-          "&:hover": { backgroundColor: "#800008" },
+          border: "2px solid #C00100", // Border color and thickness
+          borderRadius: "15px", // Border radius for rounded corners
+          padding: "20px", // Padding for spacing
+          textAlign: "center", // Center align the content
         }}
       >
-        {loading ? <CircularProgress size={24} /> : "Submit"}
-      </Button>
-      {loading && <LinearProgress sx={{ mb: 2 }} />}
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontStyle: 'Outfit'}}>
+          Complete Appointment
+        </Typography>
+        <TextField
+          label="Full Name"
+          value={formData.fullName}
+          onChange={(e) =>
+            setFormData({ ...formData, fullName: e.target.value })
+          }
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Phone Number"
+          value={formData.phoneNumber}
+          onChange={(e) =>
+            setFormData({ ...formData, phoneNumber: e.target.value })
+          }
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          select
+          label="Gender"
+          value={formData.gender}
+          onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
+          <MenuItem value="male">Male</MenuItem>
+          <MenuItem value="female">Female</MenuItem>
+          <MenuItem value="other">Other</MenuItem>
+        </TextField>
+        <TextField
+          type="number"
+          label="Age"
+          value={formData.age}
+          onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          disabled={
+            !formData.fullName ||
+            !formData.phoneNumber ||
+            !formData.gender ||
+            !formData.age ||
+            loading
+          }
+          sx={{ mb: 2, borderRadius: "20px" }} // Button color and text color
+        >
+          {loading ? <CircularProgress size={24} /> : "Submit"}
+        </Button>
+        {loading && <LinearProgress />}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleCloseSnackbar}
+            severity="success"
+          >
+            Booking Successful
+          </MuiAlert>
+        </Snackbar>
+      </Box>
     </Container>
   );
 };

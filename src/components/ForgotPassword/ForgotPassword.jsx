@@ -16,7 +16,7 @@ function ForgotPassword() {
     setLoading(true); 
     try {
       const response = await axios.post(
-        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/forgotpassword",
+        "https://062d-102-210-244-74.ngrok-free.app/api/patient/forgotpassword",
         {
           email,
         }
