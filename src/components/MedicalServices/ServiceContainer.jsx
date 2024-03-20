@@ -62,7 +62,7 @@ const ServiceContainer = () => {
     { name: 'General consultation', image: 'src/assets/general_consultation.jpg', route: '/book-appointment' },
     { name: 'Modern lab', image: 'src/assets/modern_lab.jpg', route: '/modern-lab' },
     { name: 'Pharmacy', image: 'src/assets/pharmacy_image.jpg', route: '/pharmacy' },
-    { name: 'Specialist services', image: 'src/assets/specialist_services.jpg', route: '/specialist-services' }
+    { name: 'Specialist services', image: 'src/assets/specialist_services.jpg', route: '/specialists' }
   ];
 
   const handleSearch = () => {
