@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { MemoryRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
@@ -16,36 +16,32 @@ import OtherServicesPage from "../pages/OtherServicesPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import ModernLabPage from "../pages/ModernLabPage";
-import OtpPasswordPage from "../pages/OtpPasswordPage"
-import CompleteAppointment from "../components/Booking/CompleteBooking";
+import OtpPasswordPage from "../pages/OtpPasswordPage";
 import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />}replace />
-        <Route path="/login" element={<LoginPage />}replace />
-        <Route path="/register" element={<RegisterPage />}replace />
-        <Route path="/reset-password" element={<ResetPasswordPage />} replace/>
-        <Route path="/verify-otp" element={<VerifyOTPPage />}replace />
-        <Route path="/dashboard" element={<DashboardPage />}replace />
-        <Route path="/medical-services" element={<MedicalServicesPage />}replace />
-        <Route path="/specialists" element={<SpecialistsPage />}replace />
-        <Route path="/health-records" element={<MyHealthRecordsPage />} replace/>
-        <Route path="/appointments" element={<MyAppointmentsPage />}replace />
-        <Route path="/teleclinics" element={<TeleclinicsPage />}replace />
-        <Route path="/payments" element={<PaymentsPage />}replace />
-        <Route path="/customer-care" element={<CustomerCarePage />} replace/>
-        <Route path="/other-services" element={<OtherServicesPage />}replace />
-        <Route path="/customer-care" element={< CustomerCarePage />}replace />
-        <Route path="/other-services" element={< OtherServicesPage />}replace />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />}replace />
-        <Route path="/modern-lab" element={<ModernLabPage />} replace/>
-        <Route path="/otp-password" element={<OtpPasswordPage />} replace/>
-        <Route path="/book-appointment" element={<BookAppointmentPage />}replace />
-        <Route path="/modern-lab" element={<ModernLabPage />}replace />
-        <Route path="/complete-booking" element={<CompleteAppointmentPage />}replace />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/verify-otp" element={<VerifyOTPPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/medical-services" element={<MedicalServicesPage />} />
+        <Route path="/specialists" element={<SpecialistsPage />} />
+        <Route path="/health-records" element={<MyHealthRecordsPage />} />
+        <Route path="/appointments" element={<MyAppointmentsPage />} />
+        <Route path="/teleclinics" element={<TeleclinicsPage />} />
+        <Route path="/payments" element={<PaymentsPage />} />
+        <Route path="/customer-care" element={<CustomerCarePage />} />
+        <Route path="/other-services" element={<OtherServicesPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/modern-lab" element={<ModernLabPage />} />
+        <Route path="/otp-password" element={<OtpPasswordPage />} />
+        <Route path="/book-appointment" element={<BookAppointmentPage />} />
+        <Route path="/complete-booking" element={<CompleteAppointmentPage />} />
       </Routes>
     </Router>
   );
