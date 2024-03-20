@@ -3,19 +3,26 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
 import { Link, useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State variable to toggle password visibility
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -27,6 +34,7 @@ function Login() {
       );
 
       alert(response.data.message);
+
       if (response.status === 200) {
         navigate('/dashboard');
       }
@@ -37,7 +45,13 @@ function Login() {
         setErrorMessage('Login failed. Please check your credentials.');
       }
       console.error('Login Error:', error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -76,7 +90,7 @@ function Login() {
           </div>
           <div>
             <TextField
-              type='password'
+              type={showPassword ? 'text' : 'password'} // Toggle password visibility based on showPassword state
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               label="Password"
@@ -84,6 +98,13 @@ function Login() {
               placeholder='Enter your password'
               required
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                ),
+              }}
             /><br /><br />
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -96,7 +117,9 @@ function Login() {
             <Link to='/forgot-password' style={{ textDecoration: 'none', marginLeft: 'auto', color: '#c00100' }}>Forgot password?</Link>
           </div>
           <br />
-          <Button type='submit' variant="contained" sx={{ backgroundColor: '#c00100', width: '300px' }}>Login</Button>
+          <Button type='submit' variant="contained" sx={{ backgroundColor: '#c00100', width: '300px' }}>
+            {loading ? <CircularProgress size={24} /> : 'Login'}
+          </Button>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
         </form><br />
         <div>
@@ -110,4 +133,3 @@ function Login() {
 }
 
 export default Login;
-
