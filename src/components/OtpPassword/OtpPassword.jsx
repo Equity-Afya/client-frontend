@@ -34,6 +34,8 @@ function OtpPassword() {
             console.error("Error verifying OTP:", error);
             setMessage("Wrong OTP.");
         }
+    
+        setLoadingVerify(false);
         finally {
             setLoadingVerify(false);
         }   
@@ -42,6 +44,10 @@ function OtpPassword() {
     const handleResendPassOTP = async () => {
         setLoadingResend(true);
         try {
+            const response = await axios.post(
+              "https://062d-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp",
+              { email }
+            );
             const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
 
             if (response.status === 200) {
@@ -53,6 +59,8 @@ function OtpPassword() {
             console.error("Error resending OTP:", error);
             setMessage("An error occurred while resending OTP. Please try again later.");
         }
+
+        setLoadingResend(false);
         finally {
             setLoadingResend(false);
         }        
