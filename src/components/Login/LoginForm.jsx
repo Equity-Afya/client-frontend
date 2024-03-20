@@ -19,16 +19,14 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://062d-102-210-244-74.ngrok-free.app/api/patient/login",
+        "https://d3a9-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
         }
       );
 
-      alert(response.data.message); // Display login status message
-
-      // Redirect to Home page on successful login
+      alert(response.data.message);
       if (response.status === 200) {
         navigate('/dashboard');
       }
@@ -72,7 +70,7 @@ function Login() {
               label="Email"
               variant="outlined"
               placeholder='Enter your email'
-              required // Marked as required
+              required
               fullWidth
             /><br /><br />
           </div>
@@ -84,7 +82,7 @@ function Login() {
               label="Password"
               variant="outlined"
               placeholder='Enter your password'
-              required // Marked as required
+              required
               fullWidth
             /><br /><br />
           </div>
