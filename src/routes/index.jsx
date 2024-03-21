@@ -43,7 +43,14 @@ function AppRoutes() {
         <Route path="/modern-lab" element={<ModernLabPage />} />
         <Route path="/appointment-status" element={<AppointmentStatusPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<PasswordReset />} />
+        <Route path="/reset-password" element={<PasswordReset />} 
+        <Route path="/customer-care" element={< CustomerCarePage />} />
+        <Route path="/other-services" element={< OtherServicesPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/book-appointment" element={<BookAppointmentPage />} />
+        <Route path="/modern-lab" element={<ModernLabPage />} />
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
       </Routes>
     </Router>
   );
