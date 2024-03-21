@@ -16,7 +16,7 @@ const MedicalServicesPage = () => {
         {/*<SearchBar />*/}
 
         {/* Medical services content with margin-left */}
-        <Box sx={{ marginLeft: '200px', justifyContent: 'center', alignItems:'center' }}> {/* Increase marginLeft to create a larger gap */}
+        <Box sx={{ marginLeft: '150px', justifyContent: 'center', alignItems:'center' }}> {/* Increase marginLeft to create a larger gap */}
           {/* Medical Services /> */}
           <ServiceContainer />
         </Box>
