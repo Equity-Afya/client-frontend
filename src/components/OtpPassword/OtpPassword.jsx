@@ -20,35 +20,30 @@ function OtpPassword() {
 
     const handleVerifyPassOTP = async (e) => {
         e.preventDefault();
-        setLoadingVerify(true); // Set loading state to true while verifying OTP
+        setLoadingVerify(true);
         
         try {
-
             const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
-    
 
             if (response.status === 200) { 
                 alert('OTP verified');
                 navigate('/reset-password');
             } else {
-                // If response status is not 200, display the message from the server
                 alert(response.data.message);
             }
         } catch (error) {
             console.error("Error verifying OTP:", error);
             alert("An error occurred while verifying OTP. Please try again later.");
-        }
-    
-        setLoadingVerify(false); // Reset loading state after verification
+        } finally {
+            setLoadingVerify(false);
+        }   
     };
-    
+
     const handleResendPassOTP = async () => {
-        setLoadingResend(true); // Set loading state to true while resending OTP
+        setLoadingResend(true);
     
         try {
-
             const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
-    
 
             if (response.status === 200) {
                 setMessage(response.data.message);
@@ -58,11 +53,10 @@ function OtpPassword() {
         } catch (error) {
             console.error("Error resending OTP:", error);
             setMessage("An error occurred while resending OTP. Please try again later.");
-        }
-    
-        setLoadingResend(false); // Reset loading state after resending OTP
+        } finally {
+            setLoadingResend(false);
+        }        
     };
-    
     
     return (
         <Box sx={{ backgroundColor: '#DEE1E6', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
