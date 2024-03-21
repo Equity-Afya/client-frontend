@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -7,120 +9,137 @@ import {
   CircularProgress,
   LinearProgress,
   MenuItem,
+  Grid,
+  Box, // Import Box component from Material-UI
 } from "@mui/material";
 
 const services = ["Dentist", "General Checkup", "Other Service"];
 
-const BookingForm = ({ onNext }) => {
-  const [bookFor, setBookFor] = useState("");
-  const [selectedService, setSelectedService] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [appointmentType, setAppointmentType] = useState("");
+const BookingForm = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    bookFor: "",
+    service: "",
+    date: "",
+    time: "",
+    appointmentType: "",
+  });
   const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = () => {
     setLoading(true);
-    // Here you can save data or perform any action before moving to the next page
-    setTimeout(() => {
-      setLoading(false);
-      onNext();
-    }, 1500); // Simulating saving data with a timeout
+    // Assuming validation is successful
+    // Pass form data as state to the next page
+    navigate("/complete-booking", { state: formData });
   };
 
   return (
-    <Container
-      maxWidth="sm" // You can adjust the maxWidth as needed
-      sx={{
-        padding: 6,
-        border: 1,
-        borderColor: "grey.300",
-        borderRadius: 2,
-        overflow: "hidden", // Set overflow to hidden
-        textAlign: "center", // Center align text
-      }}
-    >
-      <Typography variant="h5" gutterBottom>
-        Book Appointment
-      </Typography>
-      <TextField
-        select
-        label="Book for"
-        value={bookFor}
-        onChange={(e) => setBookFor(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2, textAlign: "left" }} // Align left
-      >
-        <MenuItem value="myself">Myself</MenuItem>
-        <MenuItem value="others">Others</MenuItem>
-      </TextField>
-      <TextField
-        select
-        label="Select service"
-        value={selectedService}
-        onChange={(e) => setSelectedService(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2, textAlign: "left" }} // Align left
-      >
-        {services.map((service) => (
-          <MenuItem key={service} value={service}>
-            {service}
-          </MenuItem>
-        ))}
-      </TextField>
-      <TextField
-        select
-        label="Appointment type"
-        value={appointmentType}
-        onChange={(e) => setAppointmentType(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ mb: 2, textAlign: "left" }} // Align left
-      >
-        <MenuItem value="physical">Physical</MenuItem>
-        <MenuItem value="virtual">Virtual</MenuItem>
-      </TextField>
-      <TextField
-        type="date"
-        label="Select date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ width: "calc(50% - 12px)", marginRight: 2, mb: 2 }}
-      />
-      <TextField
-        type="time"
-        label="Select time"
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
-        fullWidth
-        variant="outlined"
-        sx={{ width: "calc(50% - 12px)", mb: 2 }}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-        disabled={
-          !bookFor ||
-          !selectedService ||
-          !date ||
-          !time ||
-          !appointmentType ||
-          loading
-        }
+    <Container maxWidth="sm">
+      <Box
         sx={{
-          mb: 2,
-          backgroundColor: "#C00010",
-          "&:hover": { backgroundColor: "#800008" },
-        }} // Change color to #C00010
+          border: "2px solid #C00100",
+          borderRadius: "15px", // Set border radius to 10px for rounded corners
+          padding: "20px", // Add padding for better appearance
+        }}
       >
-        {loading ? <CircularProgress size={24} /> : "Next"}
-      </Button>
-      {loading && <LinearProgress sx={{ mb: 2 }} />}
+        <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold'}}> 
+          Book Appointment
+        </Typography>
+        <TextField
+          select
+          name="bookFor"
+          label="Book for"
+          value={formData.bookFor}
+          onChange={handleChange}
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
+          <MenuItem value="myself">Myself</MenuItem>
+          <MenuItem value="others">Others</MenuItem>
+        </TextField>
+        <TextField
+          select
+          name="service"
+          label="Select service"
+          value={formData.service}
+          onChange={handleChange}
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
+          {services.map((service) => (
+            <MenuItem key={service} value={service}>
+              {service}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          select
+          name="appointmentType"
+          label="Appointment type"
+          value={formData.appointmentType}
+          onChange={handleChange}
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
+          <MenuItem value="physical">Physical</MenuItem>
+          <MenuItem value="virtual">Virtual</MenuItem>
+        </TextField>
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={6}>
+            <TextField
+              type="date"
+              name="date"
+              label="Select date"
+              value={formData.date}
+              onChange={handleChange}
+              fullWidth
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              type="time"
+              name="time"
+              label="Select time"
+              value={formData.time}
+              onChange={handleChange}
+              fullWidth
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+            />
+          </Grid>
+        </Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          disabled={
+            !formData.bookFor ||
+            !formData.service ||
+            !formData.date ||
+            !formData.time ||
+            !formData.appointmentType ||
+            loading
+          }
+          sx={{ mb: 2, borderRadius: '20px'}}
+        >
+          {loading ? <CircularProgress size={24} /> : "Next"}
+        </Button>
+        {loading && <LinearProgress />}
+      </Box>
     </Container>
   );
 };

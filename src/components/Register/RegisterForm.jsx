@@ -13,6 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
 
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
@@ -47,7 +48,6 @@ function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
-  // Function to check if all fields are filled
   const areFieldsFilled = () => {
     return (
       name && email && phoneNumber && idNumber && password && confirmPassword
@@ -86,9 +86,7 @@ function RegisterForm() {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    // Custom password regex allowing user to choose special characters
-    const regex =
-      /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
+    const regex = /^(?=.\d)(?=.[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
         ...formErrors,
@@ -137,6 +135,7 @@ function RegisterForm() {
           navigate("/verify-otp", { state: { email } });
         }, 3000); //Delay navigation to verification
         // Reset form data on successful registration
+        navigate("/verify-otp", { state: { email } });
         setName("");
         setEmail("");
         setPhoneNumber("");
@@ -284,6 +283,14 @@ function RegisterForm() {
                   style={{ width: "100%" }}
                   autoComplete="off" // Turn off autocomplete
                   InputProps={field.InputProps} // Pass input properties including the visibility toggle
+                  autoComplete="off"
+                  InputProps={{
+                    sx: {
+                      "&:focus": {
+                        backgroundColor: theme.palette.action.active,
+                      },
+                    },
+                  }}
                 />
               ))}
               <Button
@@ -291,7 +298,7 @@ function RegisterForm() {
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%" }}
-                disabled={loading || !areFieldsFilled()} // Disable button if fields are not filled
+                disabled={loading || !areFieldsFilled()}
               >
                 {loading ? "Loading..." : "Register"}
               </Button>

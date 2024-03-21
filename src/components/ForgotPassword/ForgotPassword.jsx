@@ -1,124 +1,68 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, CssBaseline, Box, Paper, Typography, Link, Card, CardContent } from '@mui/material';
-import LockIcon from '@mui/icons-material/Lock';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function ForgotPassword() {
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [verificationCode, setVerificationCode] = useState('');
-    const [isCodeSent, setIsCodeSent] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('email');
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-    const handleGetCode = async () => {
-        try {
-            const response = await axios.post('https://1d34-102-210-244-74.ngrok-free.app/api/patient/forgotpassword', {
-                email: selectedOption === 'email' ? email : null,
-                phoneNumber: selectedOption === 'phoneNumber' ? phoneNumber : null,
-            });
-            setIsCodeSent(true);
-        } catch (error) {
-            console.error('Error sending verification code:', error);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true); 
 
-    const handleTryAnotherWay = () => {
-        setSelectedOption(selectedOption === 'email' ? 'phoneNumber' : 'email');
-        setIsCodeSent(false);
-        setEmail('');
-        setPhoneNumber('');
-        setVerificationCode('');
-    };
-
-    const handleReset = async () => {
-        try {
-            const response = await axios.post('https://1d34-102-210-244-74.ngrok-free.app/api/patient/resetpassword', {
-                verificationCode,
-                newPassword: 'newPassword', // Change this to the actual new password input value
-            });
-            // Optionally, you can navigate to another page upon successful password reset
-            return <Navigate to="/reset-password" />;
-        } catch (error) {
-            console.error('Error resetting password:', error);
-        }
-    };
-
-    return (
-        <Container component="main" maxWidth="xs" style={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-            <CssBaseline />
-            <Card>
-                <CardContent>
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="center"
-                        padding="3"
-                        className='wrapper'
-                    >
-                        <Box mb={3}>
-                            <Paper elevation={3} style={{ padding: '10px', borderRadius: '50%', borderStyle: 'solid', borderColor: '#C00100' }}>
-                                <LockIcon alt='Forgot Password' />
-                            </Paper>
-                        </Box>
-                        <Typography variant="h4" align="center" gutterBottom>
-                            Password Reset
-                        </Typography>
-                        <Typography variant="body2" align="center" paragraph>
-                            {isCodeSent ? `Please enter the verification code sent to your ${selectedOption}` : `Please enter your ${selectedOption === 'email' ? 'email address' : 'phone number'} to receive a verification code.`}
-                        </Typography>
-                        {isCodeSent ? (
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="verificationCode"
-                                label="Verification Code"
-                                placeholder='Verification Code'
-                                value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                                required
-                            />
-                        ) : (
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id={selectedOption === 'email' ? "EmailAddress" : "PhoneNumber"}
-                                label={selectedOption === 'email' ? "Email Address" : "Phone Number"}
-                                placeholder={selectedOption === 'email' ? "Email Address" : "Phone Number"}
-                                value={selectedOption === 'email' ? email : phoneNumber}
-                                onChange={(e) => selectedOption === 'email' ? setEmail(e.target.value) : setPhoneNumber(e.target.value)}
-                                required
-                            />
-                        )}
-                        <Button
-                            type='submit'
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className='submit'
-                            onClick={isCodeSent ? handleReset : handleGetCode}
-                            style={{
-                                backgroundColor: "#C00100",
-                                color: "#fff",
-                                marginTop: "16px",
-                            }}
-                        >
-                            {isCodeSent ? 'Reset Password' : 'Get Code'}
-                        </Button>
-                        <br />
-                        {isCodeSent && (
-                            <Link href="#" underline="none" color="#C00100" onClick={handleTryAnotherWay}>
-                                Try another way
-                            </Link>
-                        )}
-                    </Box>
-                </CardContent>
-            </Card>
-        </Container>
-    );
+    try {
+      const response = await axios.post('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/forgotpassword', 
+        {email}
+      );
+  
+      alert(response.data.message);
+  
+      if (response.status === 200) {
+        navigate('/otp-password', { state: { email } });
+        setLoading(false);
+      }
+    } catch (error) {
+      alert('Password reset failed.');
+      console.error('Password Reset Error:', error);
+      setLoading(false);
+    }
+  };
+ 
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#DEE1E6' }}>
+      <Box sx={{ width: 500, p: 4, borderRadius: 3, bgcolor: 'white', textAlign: 'center', height: '500px' }}>
+        <Typography variant='h3' sx={{ color:"#c00100", fontWeight:'bold', marginBottom:"20px" }}>TeleAfia</Typography>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight:'bold', marginBottom:'40px' }}>Password Reset</Typography>
+        <Typography variant="body1" gutterBottom>Enter your email address to receive a Verification Code</Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+            sx={{ mt: 2 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2, backgroundColor:'#c00100', marginTop:'20px', cursor:'pointer', hover: { backgroundColor: '#c00100' } }}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Get code'}
+          </Button>
+        </form>
+      </Box>
+    </Box>
+  );
 }
 
 export default ForgotPassword;
