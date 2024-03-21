@@ -16,12 +16,6 @@ import OtherServicesPage from "../pages/OtherServicesPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import ModernLabPage from "../pages/ModernLabPage";
-<<<<<<< HEAD
-import OtpPasswordPage from "../pages/OtpPasswordPage";
-=======
-import OtpPasswordPage from "../pages/OtpPasswordPage"
->>>>>>> d3ca7841f4047f7eb25abeb95049b9a60c1d9861
-import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 
 function AppRoutes() {
   return (
