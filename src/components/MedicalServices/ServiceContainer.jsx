@@ -40,9 +40,9 @@ const DataAnalytics = ({ medicalServices }) => {
   }));
 
   return (
-    <div style={{ marginTop: '50px' }}>
-      <Typography variant="h4" style={{ marginBottom: '20px' }}>Data Analytics</Typography>
-      <LineChart width={1100} height={300} data={data} margin={{ top: 5, right: 30, left: 90, bottom: 5 }}>
+    <div style={{ marginTop: '50px'}}>
+      <Typography variant="h4" style={{ marginBottom: '20px' }}></Typography>
+      <LineChart width={1100} height={300} data={data} margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
         <XAxis dataKey="name" />
         <YAxis />
         <CartesianGrid strokeDasharray="3 3" />
@@ -85,7 +85,7 @@ const ServiceContainer = () => {
         <Button variant="contained" onClick={handleSearch} style={{ marginLeft: '10px' }}>Search</Button>
       </div>
       <DataAnalytics medicalServices={medicalServices} />
-      <Paper elevation={3} style={{ padding: '20px', margin: '20px auto', maxWidth: '1200px', width: '90%' }}>
+      <Paper elevation={3} style={{ padding: '20px', margin: '0 auto', width: '90%',marginTop:'100px' }}>
         <Grid container spacing={3}>
           {(filteredServices.length > 0 ? filteredServices : medicalServices).map((service, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>

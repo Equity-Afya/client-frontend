@@ -25,7 +25,7 @@ function OtpPassword() {
 
             if (response.status === 200) { 
                 alert('OTP verified');
-                navigate('/Resetpassword');
+                navigate('/reset-password');
             } else {
                 alert(response.data.message);
             }
