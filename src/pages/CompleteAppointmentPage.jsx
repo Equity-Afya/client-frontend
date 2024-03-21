@@ -8,7 +8,7 @@ const CompleteAppointmentPage = () => {
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
       <Sidebar />
-      <Box sx={{ marginTop: '48px',  marginLeft: '400px'}}>
+      <Box sx={{ marginTop: '48px',  marginLeft: '200px'}}>
         <CompleteAppointment />
       </Box>
     </Box>
