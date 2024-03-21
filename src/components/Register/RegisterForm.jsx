@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -6,7 +6,13 @@ import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
@@ -26,6 +32,9 @@ const FormTitle = styled("div")({
 
 function RegisterForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const showLoginLink = location.pathname !== "/login";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,8 +45,8 @@ function RegisterForm() {
   const [formErrors, setFormErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
-  // Function to check if all fields are filled
   const areFieldsFilled = () => {
     return (
       name && email && phoneNumber && idNumber && password && confirmPassword
@@ -76,7 +85,6 @@ function RegisterForm() {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    // Custom password regex allowing user to choose special characters
     const regex = /^(?=.\d)(?=.[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
@@ -104,15 +112,30 @@ function RegisterForm() {
 
       const userData = { name, email, phoneNumber, idNumber, password };
 
+
       const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/register",
          userData
+
       );
 
       if (response.status === 200) {
         console.log("Registration successful:", response.data);
+        //Show success message
+        toast.success("Registration successful!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         // Navigate to the OTP verification page
-        navigate("/verify-otp", { state: { email } });
+        setTimeout(() => {
+          navigate("/verify-otp", { state: { email } });
+        }, 3000); //Delay navigation to verification
         // Reset form data on successful registration
+        navigate("/verify-otp", { state: { email } });
         setName("");
         setEmail("");
         setPhoneNumber("");
@@ -140,6 +163,14 @@ function RegisterForm() {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -158,10 +189,13 @@ function RegisterForm() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxHeight: "100vh",
+          minHeight: "100vh",
+          padding: { xs: "10px", md: "20px" },
         }}
       >
-        <Box sx={{ width: "400px", maxWidth: "100%" }}>
+        <ToastContainer />
+
+        <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "400px" } }}>
           <FormTitle>
             <h1>TeleAfia</h1>
             <h3 style={{ textAlign: "center", position: "relative" }}>
@@ -193,13 +227,43 @@ function RegisterForm() {
                   label: "Password",
                   name: "password",
                   value: password,
-                  type: "password",
+                  type: showPassword ? "text" : "password", // Toggle between text and password type
+                  InputProps: {
+                    // Show/Hide password visibility toggle
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          style={{ background: "grey" }}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 },
                 {
                   label: "Confirm Password",
                   name: "confirmPassword",
                   value: confirmPassword,
-                  type: "password",
+                  type: showPassword ? "text" : "password", // Toggle between text and password type
+                  InputProps: {
+                    // Show/Hide password visibility toggle
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          style={{ background: "grey" }}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 },
               ].map((field) => (
                 <TextField
@@ -217,7 +281,7 @@ function RegisterForm() {
                   error={Boolean(formErrors[field.name])}
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
-                  autoComplete="off" // Turn off autocomplete
+                  autoComplete="off" // Turn off autocomplete // Pass input properties including the visibility toggle
                   InputProps={{
                     sx: {
                       "&:focus": {
@@ -227,22 +291,23 @@ function RegisterForm() {
                   }}
                 />
               ))}
-
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%" }}
-                disabled={loading || !areFieldsFilled()} // Disable button if fields are not filled
+                disabled={loading || !areFieldsFilled()}
               >
                 {loading ? "Loading..." : "Register"}
               </Button>
               {serverError && <p style={{ color: "red" }}>{serverError}</p>}
             </Box>
           </form>
-          <Box mt={2}>
-            <Link to="/login">Already registered? Proceed to Login</Link>
-          </Box>
+          {showLoginLink && (
+            <Box mt={2}>
+              <Link to="/login">Already registered? Proceed to Login</Link>
+            </Box>
+          )}
         </Box>
       </Box>
     </ThemeProvider>

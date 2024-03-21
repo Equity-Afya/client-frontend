@@ -10,7 +10,7 @@ const BookAppointmentPage = () => {
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
       <Sidebar />
-      <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '150px'}}>
+      <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '200px'}}>
         <BookingForm />
       </Box>
     </Box>

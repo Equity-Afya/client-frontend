@@ -1,28 +1,18 @@
-import { useState } from "react"; // Import React and useState
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import { ArrowRightAltRounded } from "@mui/icons-material";
 import CardContent from "@mui/material/CardContent";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button"; // Import Button component
-import { ThemeProvider, createTheme } from "@mui/material/styles"; // Import ThemeProvider and createTheme
+import Button from "@mui/material/Button";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import myImage from "../../assets/teleclinics_photo.jpg";
-
-const teleclinicFacilities = [
-  "Equityafia Ruiru",
-  "Equityafia Nakuru",
-  "Equityafia Ngong",
-  "Equityafia Donholm",
-  "Equityafia Thika",
-  "Equityafia Upperhill",
-  // Add more facilities as needed
-];
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#c00100", // Set primary color to #c00100
+      main: "#c00100",
     },
   },
 });
@@ -30,20 +20,36 @@ const theme = createTheme({
 function TeleclinicsCard() {
   const [selectedFacility, setSelectedFacility] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [teleclinicFacilities, setTeleclinicFacilities] = useState([]);
+
+  // Simulating fetching data from an API
+  useEffect(() => {
+    // Replace this with actual API fetch logic
+    const fetchTeleclinics = async () => {
+      try {
+        // Simulated API call to fetch teleclinics
+        const response = await fetch("https://api.example.com/teleclinics");
+        const data = await response.json();
+        // Update state with fetched teleclinics
+        setTeleclinicFacilities(data);
+      } catch (error) {
+        console.error("Error fetching teleclinics:", error);
+      }
+    };
+
+    fetchTeleclinics();
+  }, []);
 
   const handleFacilityChange = (event) => {
     setSelectedFacility(event.target.value);
-    setErrorMessage(""); // Reset error message when facility is selected
+    setErrorMessage("");
   };
 
   const handleButtonClick = () => {
-    // Check if a facility is selected
     if (!selectedFacility) {
-      // Set error message if no facility is selected
       setErrorMessage("Please select a facility first.");
       return;
     }
-    // Perform navigation logic here
     console.log("Navigating to booking appointment...");
   };
 
@@ -59,8 +65,9 @@ function TeleclinicsCard() {
           width: "100%",
           maxWidth: "500px",
           height: "auto",
-          backgroundColor: "#D9D9D9",
+          backgroundColor: "#ffffff",
           borderRadius: "10px",
+          outline: "1px solid #c00100",
         }}
       >
         <CardContent>
@@ -76,7 +83,7 @@ function TeleclinicsCard() {
               height: "auto",
               "&:focus": { color: "#c00100" },
             }}
-            label={selectedFacility ? "" : "Select a facility"} // Conditionally render label
+            label={selectedFacility ? "" : "Select a facility"}
           >
             {teleclinicFacilities.map((facility, index) => (
               <MenuItem key={index} value={facility}>
@@ -97,7 +104,7 @@ function TeleclinicsCard() {
           <Button
             variant="contained"
             onClick={handleButtonClick}
-            disabled={!selectedFacility} // Disable button if no facility is selected
+            disabled={!selectedFacility}
             style={{
               backgroundColor: "#c00100",
               color: "white",
@@ -108,7 +115,6 @@ function TeleclinicsCard() {
           >
             <ArrowRightAltRounded />
           </Button>
-          {/* Display error message if no facility is selected */}
           {errorMessage && (
             <p style={{ color: "red", marginTop: "10px" }}>{errorMessage}</p>
           )}

@@ -20,7 +20,6 @@ function VerifyOtp() {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Move to the next field if a character is entered and it's not the last field
     if (value && index < otp.length - 1) {
       document.getElementById(`otp-${index + 1}`).focus();
     }
@@ -31,17 +30,16 @@ function VerifyOtp() {
     setVerifyLoading(true);
 
     try {
-        const enteredOtp = otp.join(''); // Combine OTP characters into one string
+        const enteredOtp = otp.join('');
         const response = await axios.post(
           "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
           { enteredOtp }
         );
 
-        if (response.status === 200) { // check for status code instead of response.data.success
-            // OTP verification successful
-            navigate('/login'); // Redirect to a success page
+        if (response.status === 200) {
+            navigate('/login');
         } else {
-            alert(response.data.message); // Display error message
+            alert(response.data.message);
         }
     } catch (error) {
         console.error("Error verifying OTP:", error);
@@ -130,4 +128,4 @@ function VerifyOtp() {
   );
 }
 
-export default VerifyOtp;
+export default VerifyOtp;
