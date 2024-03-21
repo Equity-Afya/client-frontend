@@ -37,7 +37,6 @@ function RegisterForm() {
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Function to check if all fields are filled
   const areFieldsFilled = () => {
     return (
       name && email && phoneNumber && idNumber && password && confirmPassword
@@ -76,7 +75,6 @@ function RegisterForm() {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    // Custom password regex allowing user to choose special characters
     const regex = /^(?=.\d)(?=.[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
@@ -105,16 +103,13 @@ function RegisterForm() {
       const userData = { name, email, phoneNumber, idNumber, password };
 
       const response = await axios.post(
-
         "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/register",
         userData
       );
 
       if (response.status === 200) {
         console.log("Registration successful:", response.data);
-        // Navigate to the OTP verification page
         navigate("/verify-otp", { state: { email } });
-        // Reset form data on successful registration
         setName("");
         setEmail("");
         setPhoneNumber("");
@@ -219,7 +214,7 @@ function RegisterForm() {
                   error={Boolean(formErrors[field.name])}
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
-                  autoComplete="off" // Turn off autocomplete
+                  autoComplete="off"
                   InputProps={{
                     sx: {
                       "&:focus": {
@@ -235,7 +230,7 @@ function RegisterForm() {
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%" }}
-                disabled={loading || !areFieldsFilled()} // Disable button if fields are not filled
+                disabled={loading || !areFieldsFilled()}
               >
                 {loading ? "Loading..." : "Register"}
               </Button>
