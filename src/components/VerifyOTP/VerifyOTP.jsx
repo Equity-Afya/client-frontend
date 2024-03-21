@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 
-function VerifyOTP() {
-  const [otp, setOtp] = useState("");
+function VerifyOtp() {
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,8 +15,15 @@ function VerifyOTP() {
 
   const email = location.state?.email || "";
 
-  const handleInputChange = (e) => {
-    setOtp(e.target.value);
+  const handleInputChange = (index, value) => {
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Move to the next field if a character is entered and it's not the last field
+    if (value && index < otp.length - 1) {
+      document.getElementById(`otp-${index + 1}`).focus();
+    }
   };
 
   const handleVerifyOTP = async (e) => {
@@ -24,15 +31,18 @@ function VerifyOTP() {
     setVerifyLoading(true);
 
     try {
+      const enteredOtp = otp.join(""); // Combine OTP characters into one string
       const response = await axios.post(
-        "https://8ed2-102-210-244-74.ngrok-free.app/patient/register/verifyotp",
-        { enteredOTP: otp }
+        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
+        { enteredOtp }
       );
 
       if (response.status === 200) {
-        navigate("/login");
+        // check for status code instead of response.data.success
+        // OTP verification successful
+        navigate("/login"); // Redirect to a success page
       } else {
-        alert(response.data.message);
+        alert(response.data.message); // Display error message
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -43,12 +53,11 @@ function VerifyOTP() {
 
     setVerifyLoading(false);
   };
-
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
       const response = await axios.post(
-        "https://8ed2-102-210-244-74.ngrok-free.app/patient/resendotp",
+        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/resendotp",
         { email }
       );
 
@@ -92,25 +101,32 @@ function VerifyOTP() {
           TeleAfia
         </Typography>
         <Typography
-          variant="h6"
+          variant="h5"
           gutterBottom
-          sx={{ fontWeight: "semi-bold", marginBottom: "20px" }}
+          sx={{ fontWeight: "bold", marginBottom: "20px" }}
         >
           OTP Verification
         </Typography>
         <Typography gutterBottom>
           A verification code has been sent to{" "}
-          <span style={{ color: "#c00100" }}>{email}.</span>
+          <span style={{ color: "blue" }}>{email}.</span> If the email address
+          is incorrect, you can go back and change it.
         </Typography>
-        <Typography gutterBottom>Enter OTP sent to your email</Typography>
+        <Typography gutterBottom>Enter OTP sent to your device here</Typography>
         <form onSubmit={handleVerifyOTP}>
-          <TextField
-            type="text"
-            value={otp}
-            onChange={handleInputChange}
-            placeholder="Enter OTP"
-            sx={{ width: "100%", textAlign: "center", mb: 2 }}
-          />
+          <div>
+            {otp.map((value, index) => (
+              <TextField
+                key={index}
+                type="text"
+                maxLength={1}
+                value={value}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                id={`otp-${index}`}
+                sx={{ width: 60, textAlign: "center", mb: 2, mr: 1 }}
+              />
+            ))}
+          </div>
           <Button
             type="submit"
             variant="contained"
@@ -140,4 +156,4 @@ function VerifyOTP() {
   );
 }
 
-export default VerifyOTP;
+export default VerifyOtp;

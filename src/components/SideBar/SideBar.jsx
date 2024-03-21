@@ -1,4 +1,5 @@
-import { useState, useNavigate } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   List,
   ListItem,
@@ -7,6 +8,8 @@ import {
   CssBaseline,
   IconButton,
   Box,
+} from "@mui/material";
+import {
   Dashboard,
   EventNote,
   PeopleAlt,
@@ -19,7 +22,7 @@ import {
   Logout,
   Fullscreen,
   FullscreenExit,
-} from "@mui/material";
+} from "@mui/icons-material";
 import axios from "axios";
 
 function Sidebar() {
