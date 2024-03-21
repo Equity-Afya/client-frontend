@@ -13,7 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useNavigate } from "react-router-dom";
 
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
@@ -281,9 +280,7 @@ function RegisterForm() {
                   error={Boolean(formErrors[field.name])}
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
-                  autoComplete="off" // Turn off autocomplete
-                  InputProps={field.InputProps} // Pass input properties including the visibility toggle
-                  autoComplete="off"
+                  autoComplete="off" // Turn off autocomplete // Pass input properties including the visibility toggle
                   InputProps={{
                     sx: {
                       "&:focus": {
