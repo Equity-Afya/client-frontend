@@ -1,3 +1,14 @@
+import React, { useState, useRef } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+function VerifyOtp() {
+  const [otp, setOtp] = useState(["", "", "", ""]);
+
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,6 +31,14 @@ function VerifyOtp() {
     newOtp[index] = value;
     setOtp(newOtp);
 
+
+  const handleInputChange = (index, value) => {
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Move to the next field if a character is entered and it's not the last field
+
     if (value && index < otp.length - 1) {
       document.getElementById(`otp-${index + 1}`).focus();
     }
@@ -30,6 +49,19 @@ function VerifyOtp() {
     setVerifyLoading(true);
 
     try {
+      const enteredOtp = otp.join(""); // Combine OTP characters into one string
+      const response = await axios.post(
+        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
+        { enteredOtp }
+      );
+
+      if (response.status === 200) {
+        // check for status code instead of response.data.success
+        // OTP verification successful
+        navigate("/login"); // Redirect to a success page
+      } else {
+        alert(response.data.message); // Display error message
+      }
         const enteredOtp = otp.join('');
         const response = await axios.post(
 
@@ -49,12 +81,14 @@ function VerifyOtp() {
     }
 
     setVerifyLoading(false);
+  };
     
 };
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
       const response = await axios.post(
+        "https://b0d3-102-210-244-74.ngrok-free.app/api/patient/resendotp",
         
         "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendotp",
         { email }
@@ -92,6 +126,24 @@ function VerifyOtp() {
           textAlign: 'center',
         }}
       >
+        <Typography
+          variant="h3"
+          gutterBottom
+          sx={{ color: "#c00100", fontWeight: "bold" }}
+        >
+          TeleAfia
+        </Typography>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontWeight: "bold", marginBottom: "20px" }}
+        >
+          OTP Verification
+        </Typography>
+        <Typography gutterBottom>
+          A verification code has been sent to{" "}
+          <span style={{ color: "blue" }}>{email}.</span> If the email address
+          is incorrect, you can go back and change it.
         <Typography variant="h3" gutterBottom sx={{color:'#c00100',fontWeight: 'bold'}}>TeleAfia</Typography>
         <Typography variant="h5" gutterBottom sx={{fontWeight: 'bold',marginBottom:'20px'}} >OTP Verification</Typography>
         <Typography gutterBottom>
@@ -108,6 +160,7 @@ function VerifyOtp() {
                 value={value}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 id={`otp-${index}`}
+                sx={{ width: 60, textAlign: "center", mb: 2, mr: 1 }}
 
                 sx={{ width: 60, textAlign: 'center', mb: 2, mr: 1 }}
               />
@@ -131,4 +184,8 @@ function VerifyOtp() {
   );
 }
 
+
 export default VerifyOtp;
+=======
+export default VerifyOtp;
+
