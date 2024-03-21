@@ -32,7 +32,13 @@ function VerifyOtp() {
     try {
         const enteredOtp = otp.join('');
         const response = await axios.post(
+<<<<<<< HEAD
+
           "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
+
+=======
+          "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
+>>>>>>> d3ca7841f4047f7eb25abeb95049b9a60c1d9861
           { enteredOtp }
         );
 
@@ -53,8 +59,11 @@ function VerifyOtp() {
     try {
       setResendLoading(true);
       const response = await axios.post(
+<<<<<<< HEAD
+=======
         "https://062d-102-210-244-74.ngrok-free.app/api/patient/resendotp",
 =======
+>>>>>>> d3ca7841f4047f7eb25abeb95049b9a60c1d9861
         "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendotp",
         { email }
       );

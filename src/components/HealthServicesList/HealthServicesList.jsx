@@ -10,9 +10,10 @@ const Notification = ({ message }) => {
 
 const HealthServicesList = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
   const [avatarSrc, setAvatarSrc] = useState('');
   const [notifications, setNotifications] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredServices, setFilteredServices] = useState([]);
 
   const serviceRequestsData = [
     { name: 'Medical services', requests: 65 },
@@ -62,40 +63,43 @@ const HealthServicesList = () => {
     }
   };
 
-  const filteredServices = healthServices.filter((service) =>
-    service.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleSearch = () => {
+    const filtered = healthServices.filter(service =>
+      service.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredServices(filtered);
+  };
 
   return (
-    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
- <Box style={{ marginBottom: '5px', marginTop: '20px' }}>
-  <LineChart
-    width={900}
-    height={250}
-    data={serviceRequestsData}
-    margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
-  >
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="name" label={{ value: 'Month', position: 'insideBottom',dy: 30,color:'blue' }} />
-    <YAxis />
-    <Tooltip />
-    <Legend align="left" verticalAlign="middle" layout="vertical" />
-    <Line type="monotone" dataKey="requests" stroke="#8884d8" />
-  </LineChart>
-</Box>
+    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', border: '1px solid #ccc',marginTop:'25px', padding: '10px', borderRadius: '8px' }}>
+      <Box style={{ marginBottom: '5px', marginTop: '20px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
+        <LineChart
+          width={900}
+          height={250}
+          data={serviceRequestsData}
+          margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" label={{ value: 'Month', position: 'insideBottom', dy: 30, color: 'blue' }} />
+          <YAxis />
+          <Tooltip />
+          <Legend align="left" verticalAlign="middle" layout="vertical" />
+          <Line type="monotone" dataKey="requests" stroke="#8884d8" />
+        </LineChart>
+      </Box>
 
-
-
-      <Box style={{ position: 'fixed', top: 0, right: 0, maxWidth: '90%', background: '#fff', padding: '10px', boxSizing: 'border-box', zIndex: 1, display: 'flex', alignItems: 'center' }}>
-        <input
-          type="text"
-          placeholder="Search services..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ flex: 1, height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px', minWidth: '500px' }}
-        />
-        <Button variant="contained" sx={{ height: '40px', minWidth: '80px', marginRight: '280px', }}>Search</Button>
-        <IconButton size="small" sx={{ color: '#C00100', marginRight: '0px' }}>
+      <Box className="search-box" style={{ position: 'fixed', top: 0, right: 0, maxWidth: '90%',backgroundColor:'#80000080',paddingLeft:'40px', padding: '10px', boxSizing: 'border-box', zIndex: 1, display: 'flex', alignItems: 'center', border: '1px solid #ccc', transition: 'all 0.3s ease' }}>
+        <Box style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+          <input
+            type="text"
+            placeholder="Search services..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px',width:'537px' }}
+          />
+          <Button variant="contained" sx={{ height: '40px',backgroundColor:'#C00100',marginRight:'250px' }} onClick={handleSearch}>Search</Button>
+        </Box>
+        <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px' }}>
           <Notifications />
         </IconButton>
         <label htmlFor="avatar-input" style={{ marginRight: '20px' }}>
@@ -114,19 +118,22 @@ const HealthServicesList = () => {
           />
         </label>
       </Box>
+
       <Box style={{ height: '60px' }}></Box>
-      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px' }}>
-        {filteredServices.map((service, index) => (
+
+      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px', border: '1px solid #ccc', borderRadius: '8px' }}>
+        {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
             sx={{
               position: 'relative',
               width: '280px',
               height: '200px',
-              borderRadius: '8px',
+              borderRadius: '0px',
               overflow: 'hidden',
               textAlign: 'center',
               marginTop: '10px',
+              border: '1px solid #ccc',
             }}
           >
             <img src={service.photo} alt={service.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -155,14 +162,16 @@ const HealthServicesList = () => {
           </Box>
         ))}
       </List>
-      <Box>
-        <ul>
-          {notifications.map((notification, index) => (
-            <Notification key={index} message={notification.message} />
-          ))}
-        </ul>
-      </Box>
-    </Box>
+
+  <Box style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '10px' }}>
+    <ul>
+      {notifications.map((notification, index) => (
+        <Notification key={index} message={notification.message} />
+      ))}
+    </ul>
+  </Box>
+</Box>
+
   );
 };
 

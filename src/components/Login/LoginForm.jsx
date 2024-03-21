@@ -25,18 +25,18 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://d3a9-102-210-244-74.ngrok-free.app/api/login",
-        {
-          email,
-          password,
-        }
-      );
+      
+      const response = await axios.post('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/login', {
+        email,
+        password
+      });
 
-      alert(response.data.message);
+      alert(response.data.message); // Display login status message
+      // Redirect to Home page on successful login
 
       if (response.status === 200) {
-        navigate('/dashboard');
+        
+       navigate('/dashboard');
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
