@@ -21,33 +21,29 @@ function OtpPassword() {
     const handleVerifyPassOTP = async (e) => {
         e.preventDefault();
         setLoadingVerify(true);
+        
         try {
             const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
 
             if (response.status === 200) { 
-                setMessage('OTP verified');
+                alert('OTP verified');
                 navigate('/reset-password');
             } else {
-                setMessage(response.data.message);
+                alert(response.data.message);
             }
         } catch (error) {
             console.error("Error verifying OTP:", error);
-            setMessage("Wrong OTP.");
-        }
-    
-        finally {
+            alert("An error occurred while verifying OTP. Please try again later.");
+        } finally {
             setLoadingVerify(false);
         }   
     };
 
     const handleResendPassOTP = async () => {
         setLoadingResend(true);
+    
         try {
-            const response = await axios.post(
-              "https://062d-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp",
-              
-              { email }
-            );
+            const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
 
             if (response.status === 200) {
                 setMessage(response.data.message);
@@ -57,13 +53,11 @@ function OtpPassword() {
         } catch (error) {
             console.error("Error resending OTP:", error);
             setMessage("An error occurred while resending OTP. Please try again later.");
-        }
-
-        finally {
+        } finally {
             setLoadingResend(false);
         }        
     };
-
+    
     return (
         <Box sx={{ backgroundColor: '#DEE1E6', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box className='ver2' sx={{ padding: 3, borderRadius: 3, backgroundColor: 'white', textAlign: 'center',width:'400px',height:'500px' }}>

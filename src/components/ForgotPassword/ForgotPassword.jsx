@@ -15,11 +15,12 @@ function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); 
-    
+
     try {
       const response = await axios.post('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/forgotpassword', 
         {email}
       );
+  
       alert(response.data.message);
   
       if (response.status === 200) {
