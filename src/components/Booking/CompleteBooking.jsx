@@ -13,7 +13,7 @@ import {
   Box, // Import Box component from Material-UI
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import axios from "axios";
+import api from "../../services/api";
 
 const CompleteAppointment = () => {
   const location = useLocation();
@@ -46,7 +46,7 @@ const CompleteAppointment = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         "https://b3be-102-210-244-74.ngrok-free.app/api/patient/appointments",
         formData
       );

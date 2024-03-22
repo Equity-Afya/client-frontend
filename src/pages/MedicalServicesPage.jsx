@@ -6,7 +6,7 @@ import ServiceContainer from '../components/MedicalServices/ServiceContainer';
 
 const MedicalServicesPage = () => {
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
+    <Box sx={{ display: 'flex' }}>
       {/* Sidebar on the left with margin-right */}
       <Sidebar sx={{ marginRight: '32px' }} /> {/* Increase margin-right to create a larger gap */}
 
@@ -16,7 +16,7 @@ const MedicalServicesPage = () => {
         {/*<SearchBar />*/}
 
         {/* Medical services content with margin-left */}
-        <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
+        <Box sx={{ marginLeft: '150px', justifyContent: 'center', alignItems:'center' }}> {/* Increase marginLeft to create a larger gap */}
           {/* Medical Services /> */}
           <ServiceContainer />
         </Box>
