@@ -13,7 +13,7 @@ import {
   Box, // Import Box component from Material-UI
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import axios from "axios";
+import api from "../../services/api";
 
 const CompleteAppointment = () => {
   const location = useLocation();

@@ -48,12 +48,8 @@ function VerifyOtp() {
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await axios.post(
-        
-        "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendotp",
-        { email }
-      );
-
+      const response = await api.post("/resendotp",{ email });
+      
       if (response.status === 200) {
         alert(response.data.message);
       } else {
