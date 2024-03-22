@@ -31,17 +31,7 @@ function VerifyOtp() {
 
     try {
         const enteredOtp = otp.join('');
-<<<<<<< HEAD
-        const response = await axios.post(
-
-          "https://b50f-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
-
-          { enteredOtp }
-        );
-
-=======
         const response = await api.post("/verifyotp",{ enteredOtp });
->>>>>>> e0b6576af3d93806d53e6fb8cb399b2411ea2b68
         if (response.status === 200) {
             navigate('/login');
         } else {
