@@ -95,7 +95,7 @@ function PaymentDetails() {
               backgroundColor: "#D9D9D9",
               borderRadius: "15px",
               padding: "20px",
-              width: "350px", // Adjust card width
+              width: "250px", // Adjust card width
               textAlign: "center", // Center text
             }}
           >
