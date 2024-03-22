@@ -20,7 +20,7 @@ function ForgotPassword() {
       const response = await api.post('/forgotpassword', 
         {email}
       );
-  
+
       alert(response.data.message);
   
       if (response.status === 200) {

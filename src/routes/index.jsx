@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
@@ -16,6 +17,9 @@ import OtherServicesPage from "../pages/OtherServicesPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import ModernLabPage from "../pages/ModernLabPage";
+import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
+import PasswordReset from "../components/PasswordReset/passwordReset";
+import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 import ProfilePage from "../pages/ProfilePage";
@@ -40,6 +44,9 @@ function AppRoutes() {
         <Route path="/other-services" element={<OtherServicesPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/modern-lab" element={<ModernLabPage />} />
+        <Route path="/appointment-status" element={<AppointmentStatusPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/complete-booking" element={<CompleteAppointmentPage />} />

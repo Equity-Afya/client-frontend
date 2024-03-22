@@ -6,7 +6,6 @@ import {
   ListItemText,
   CssBaseline,
   IconButton,
-  Box,
 } from "@mui/material";
 import {
   Dashboard,
