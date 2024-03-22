@@ -47,7 +47,7 @@ const CompleteAppointment = () => {
 
     try {
       const response = await api.post(
-        "https://b3be-102-210-244-74.ngrok-free.app/api/patient/appointments",
+        "/bookappointment",
         formData
       );
 
