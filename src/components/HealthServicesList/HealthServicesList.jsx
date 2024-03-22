@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AvatarWithProfileDetails from '../Profile/ProfileDetails'
 import { List, Box, Typography, Button, IconButton, Avatar } from '@mui/material';
 import { ArrowForward, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -52,17 +53,6 @@ const HealthServicesList = () => {
     navigate(route);
   };
 
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloaded = () => {
-      setAvatarSrc(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSearch = () => {
     const filtered = healthServices.filter(service =>
       service.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -102,21 +92,7 @@ const HealthServicesList = () => {
         <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px' }}>
           <Notifications />
         </IconButton>
-        <label htmlFor="avatar-input" style={{ marginRight: '20px' }}>
-          <Avatar
-            alt="User Avatar"
-            src={avatarSrc}
-            sx={{ cursor: 'pointer' }}
-            onClick={() => console.log("Avatar clicked")}
-          />
-          <input
-            id="avatar-input"
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleAvatarChange}
-          />
-        </label>
+         < AvatarWithProfileDetails />
       </Box>
 
       <Box style={{ height: '60px' }}></Box>
