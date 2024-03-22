@@ -25,7 +25,8 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await api.post('/login', {
+      
+      const response = await axios.post('https://b50f-102-210-244-74.ngrok-free.app/api/login', {
         email,
         password
       });
