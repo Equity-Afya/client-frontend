@@ -8,29 +8,15 @@ const DashboardPage = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar on the left with margin-right */}
-      <Sidebar sx={{ marginRight: '32px' }} /> {/* Increase margin-right to create a larger gap */}
+      <Sidebar sx={{display: 'flex', flexDirection: 'column', flex: 'o o auto', marginRight: '32px'}} /> {/* Increase margin-right to create a larger gap */}
 
-      {/* Search bar and Health services list */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
-        {/* Search bar */}
-      { /*<SearchBar  />*/}
-
+      
         {/* Health services list with margin-left */}
-        <Box sx={{ marginTop: '2px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
-          <HealthServicesList sx={{ paddingRight: '20px' }} />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: '16px',
-              background: 'linear-gradient(to right, transparent, #f0f0f0)', // Adjust the gradient color as needed
-            }}
-          />
+        <Box sx={{display: 'flex', flexDirection: 'column', flex: '1', overflowY: 'auto', marginTop: '10px', marginLeft: '32px'}}>
+          <HealthServicesList/>
         </Box>
       </Box>
-    </Box>
+  
   );
 };
 

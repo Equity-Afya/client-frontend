@@ -72,7 +72,7 @@ const HealthServicesList = () => {
 
   return (
     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
-      <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1000px', border: '1px solid #ccc', borderRadius: '0px' }}>
+      <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
         <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <Box style={{ display: 'flex', alignItems: 'center' }}>
             <input
@@ -107,9 +107,9 @@ const HealthServicesList = () => {
         </Box>
       </Box>
 
-      <Box style={{ marginBottom: '30px', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px' }}>
+      <Box style={{ marginBottom: '30px', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px' }}>
         <LineChart
-          width={975}
+          width={1000}
           height={250}
           data={serviceRequestsData}
           margin={{ top: 5, right: 70, left: 10, bottom: 0 }}
@@ -123,7 +123,7 @@ const HealthServicesList = () => {
         </LineChart>
       </Box>
 
-      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px', border: '1px solid #ccc', borderRadius: '0px',width:'975px'}}>
+      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'990px'}}>
         {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
