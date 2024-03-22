@@ -26,6 +26,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
 
 
+
 function AppRoutes() {
   return (
     <Router>
@@ -46,6 +47,7 @@ function AppRoutes() {
         <Route path="/other-services" element={<OtherServicesPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/modern-lab" element={<ModernLabPage />} />
+<<<<<<< Updated upstream
         <Route path="/appointment-status" element={<AppointmentStatusPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<PasswordReset />} />
@@ -55,6 +57,11 @@ function AppRoutes() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
 
+=======
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
+     
+>>>>>>> Stashed changes
       </Routes>
     </Router>
   );
