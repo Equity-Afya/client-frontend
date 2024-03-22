@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import api from '../../services/api'
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ function ForgotPassword() {
     setLoading(true); 
 
     try {
-      const response = await axios.post('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/forgotpassword', 
+      const response = await api.post('/forgotpassword', 
         {email}
       );
   

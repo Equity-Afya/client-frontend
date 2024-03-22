@@ -55,7 +55,7 @@ const HealthServicesList = () => {
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onloadend = () => {
+    reader.onloaded = () => {
       setAvatarSrc(reader.result);
     };
     if (file) {

@@ -33,7 +33,7 @@ function VerifyOtp() {
         const enteredOtp = otp.join('');
         const response = await axios.post(
 
-          "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
+          "https://b50f-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
 
           { enteredOtp }
         );
@@ -55,8 +55,8 @@ function VerifyOtp() {
     try {
       setResendLoading(true);
       const response = await axios.post(
-        
-        "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendotp",
+
+        "https://b50f-102-210-244-74.ngrok-free.app/api/patient/resendotp",
         { email }
       );
 

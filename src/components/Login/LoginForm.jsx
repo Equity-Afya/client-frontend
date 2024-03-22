@@ -26,7 +26,7 @@ function Login() {
 
     try {
       
-      const response = await axios.post('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/login', {
+      const response = await axios.post('https://b50f-102-210-244-74.ngrok-free.app/api/login', {
         email,
         password
       });

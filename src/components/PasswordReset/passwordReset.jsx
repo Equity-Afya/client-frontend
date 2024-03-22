@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -44,7 +44,7 @@ function PasswordReset() {
     try {
       setLoading(true);
 
-      const response = await axios.put('https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resetpassword', {
+      const response = await api.put('/resetpassword', {
 
         email,
         newPassword,
