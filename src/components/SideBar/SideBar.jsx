@@ -31,13 +31,18 @@ function Sidebar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3000/logout'); // Send POST request to logout endpoint
-      // After successful logout, redirect the user to the login page
-      navigate('/login'); // Redirect to login page
+      const response = await axios.post('http://localhost:3000/logout');
+      console.log('Logout response:', response); // Add this line for debugging
+      if (response.status === 200) {
+        navigate('/login');
+      } else {
+        console.error('Logout failed');
+      }
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
+  
 
   const handleNavigation = (route) => {
     if (route === '/light-mode') {
