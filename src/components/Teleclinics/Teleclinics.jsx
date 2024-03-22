@@ -15,6 +15,16 @@ const theme = createTheme({
       main: "#c00100",
     },
   },
+  typography: {
+    htmlFontSize: 16,
+    fontSize: 16, // Default font size
+    "@media (min-width:600px)": {
+      fontSize: "calc(16px + 0.5vw)", // Fluid typography for larger screens
+    },
+    "@media (min-width:960px)": {
+      fontSize: "calc(16px + 1vw)", // Fluid typography for even larger screens
+    },
+  },
 });
 
 function TeleclinicsCard() {
@@ -95,8 +105,9 @@ function TeleclinicsCard() {
             src={myImage}
             alt="Teleclinics Image"
             style={{
-              width: "400px",
-              height: "250px",
+              width: "100%",
+              height: "auto",
+              maxWidth: "400px",
               marginTop: "20px",
             }}
           />

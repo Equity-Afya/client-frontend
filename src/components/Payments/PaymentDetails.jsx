@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, CardContent, TextField, Modal } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,13 +20,15 @@ function PaymentDetails() {
 
   const navigate = useNavigate(); // Initialize useNavigate for navigation
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#c00100",
+  const theme = responsiveFontSizes(
+    createTheme({
+      palette: {
+        primary: {
+          main: "#c00100",
+        },
       },
-    },
-  });
+    })
+  );
 
   const fetchServiceCharge = async () => {
     try {
@@ -97,7 +103,7 @@ function PaymentDetails() {
               <h4
                 style={{
                   fontWeight: "bold",
-                  fontSize: "15px",
+                  fontSize: "clamp(14px, 3vw, 18px)", // Fluid typography for heading
                   borderBottom: "1px solid #c00100",
                   margin: "0 0 20px", // Add margin bottom
                 }}
@@ -105,13 +111,28 @@ function PaymentDetails() {
                 Billing Information
               </h4>
               <h4>Service: {serviceType}</h4> {/* Display the service type */}
-              <p style={{ fontSize: "12px", fontWeight: "bold" }}>
+              <p
+                style={{
+                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontWeight: "bold",
+                }}
+              >
                 Amount : {serviceCharge}
               </p>
-              <p style={{ fontSize: "12px", fontWeight: "bold" }}>
+              <p
+                style={{
+                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontWeight: "bold",
+                }}
+              >
                 PayBill : {payBill} {/* Display PayBill */}
               </p>
-              <p style={{ fontSize: "12px", fontWeight: "bold" }}>
+              <p
+                style={{
+                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontWeight: "bold",
+                }}
+              >
                 Account Number : {accountNumber} {/* Display Account Number */}
               </p>
               <TextField
@@ -130,7 +151,7 @@ function PaymentDetails() {
                 style={{
                   backgroundColor: "#c00100",
                   color: "white",
-                  fontSize: "12px",
+                  fontSize: "clamp(10px, 2vw, 12px)", // Fluid typography for button
                   width: "100%",
                   height: "40px",
                   marginTop: "10px",
