@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -47,6 +47,7 @@ function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
+  // Function to check if all fields are filled
   const areFieldsFilled = () => {
     return (
       name && email && phoneNumber && idNumber && password && confirmPassword
@@ -85,7 +86,9 @@ function RegisterForm() {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    const regex = /^(?=.\d)(?=.[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
+    // Custom password regex allowing user to choose special characters
+    const regex =
+      /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
         ...formErrors,
@@ -112,11 +115,7 @@ function RegisterForm() {
 
       const userData = { name, email, phoneNumber, idNumber, password };
 
-
-      const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/register",
-         userData
-
-      );
+      const response = await api.post("/register", userData);
 
       if (response.status === 200) {
         console.log("Registration successful:", response.data);
@@ -135,7 +134,6 @@ function RegisterForm() {
           navigate("/verify-otp", { state: { email } });
         }, 3000); //Delay navigation to verification
         // Reset form data on successful registration
-        navigate("/verify-otp", { state: { email } });
         setName("");
         setEmail("");
         setPhoneNumber("");
@@ -281,14 +279,8 @@ function RegisterForm() {
                   error={Boolean(formErrors[field.name])}
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
-                  autoComplete="off" // Turn off autocomplete // Pass input properties including the visibility toggle
-                  InputProps={{
-                    sx: {
-                      "&:focus": {
-                        backgroundColor: theme.palette.action.active,
-                      },
-                    },
-                  }}
+                  autoComplete="off" // Turn off autocomplete
+                  InputProps={field.InputProps} // Pass input properties including the visibility toggle
                 />
               ))}
               <Button
@@ -296,7 +288,7 @@ function RegisterForm() {
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%" }}
-                disabled={loading || !areFieldsFilled()}
+                disabled={loading || !areFieldsFilled()} // Disable button if fields are not filled
               >
                 {loading ? "Loading..." : "Register"}
               </Button>

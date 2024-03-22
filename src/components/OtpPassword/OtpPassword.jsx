@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -23,7 +23,7 @@ function OtpPassword() {
         setLoadingVerify(true);
         
         try {
-            const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifypasswordotp", { enteredPassOtp: passOtp });
+            const response = await api.post("/verifypasswordotp", { enteredPassOtp: passOtp });
 
             if (response.status === 200) { 
                 alert('OTP verified');
@@ -43,7 +43,7 @@ function OtpPassword() {
         setLoadingResend(true);
     
         try {
-            const response = await axios.post("https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendpasswordotp", { email });
+            const response = await api.post("/resendpasswordotp", { email });
 
             if (response.status === 200) {
                 setMessage(response.data.message);
