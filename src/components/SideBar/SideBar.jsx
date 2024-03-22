@@ -31,7 +31,7 @@ function Sidebar() {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/logout');
+      const response = await axios.post('/logout');
       console.log('Logout response:', response); // Add this line for debugging
       if (response.status === 200) {
         navigate('/login');
@@ -126,14 +126,14 @@ function Sidebar() {
           <ListItemText primary="My Account" />
         </ListItem>
         {/* Additional Items */}
-        <ListItem button sx={{ paddingTop: 25 }} onClick={() => handleNavigation("/light-mode")}>
+        <ListItem button sx={{ paddingTop: 20 }} onClick={() => handleNavigation("/light-mode")}>
           <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
             {brightnessMode ? <Brightness7 /> : <Brightness4 />}
           </ListItemIcon>
           <ListItemText primary="Light Mode" />
         </ListItem>
         <ListItem button onClick={handleLogout}>
-          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3,paddingBottom:'15px' }}>
             <Logout />
           </ListItemIcon>
           <ListItemText primary="Logout" />
