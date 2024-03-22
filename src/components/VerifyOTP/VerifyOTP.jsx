@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -31,11 +31,7 @@ function VerifyOtp() {
 
     try {
         const enteredOtp = otp.join('');
-        const response = await axios.post(
-          "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/verifyotp",
-          { enteredOtp }
-        );
-
+        const response = await api.post("/verifyotp",{ enteredOtp });
         if (response.status === 200) {
             navigate('/login');
         } else {
@@ -52,11 +48,8 @@ function VerifyOtp() {
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await axios.post(
-        "https://d3a9-102-210-244-74.ngrok-free.app/api/patient/resendotp",
-        { email }
-      );
-
+      const response = await api.post("/resendotp",{ email });
+      
       if (response.status === 200) {
         alert(response.data.message);
       } else {
