@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import api from '../../services/api';
+import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
 import { Link, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -25,8 +25,7 @@ function Login() {
     setLoading(true);
 
     try {
-      
-      const response = await axios.post('https://b50f-102-210-244-74.ngrok-free.app/api/login', {
+      const response = await axios.post('https://36e9-102-210-244-74.ngrok-free.app/api/login', {
         email,
         password
       });
