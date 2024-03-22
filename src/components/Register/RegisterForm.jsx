@@ -34,7 +34,7 @@ function RegisterForm() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showLoginLink = location.pathname !== "/login";
+  const showLoginLink = location.pathname !== "https://eb76-102-210-244-74.ngrok-free.app/login";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

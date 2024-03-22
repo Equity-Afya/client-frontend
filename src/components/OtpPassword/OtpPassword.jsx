@@ -23,7 +23,7 @@ function OtpPassword() {
         setLoadingVerify(true);
         
         try {
-            const response = await api.post("/verifypasswordotp", { enteredPassOtp: passOtp });
+            const response = await api.post("https://eb76-102-210-244-74.ngrok-free.app/verifypasswordotp", { enteredPassOtp: passOtp });
 
             if (response.status === 200) { 
                 alert('OTP verified');
@@ -43,7 +43,7 @@ function OtpPassword() {
         setLoadingResend(true);
     
         try {
-            const response = await api.post("/resendpasswordotp", { email });
+            const response = await api.post("https://eb76-102-210-244-74.ngrok-free.app/resendpasswordotp", { email });
 
             if (response.status === 200) {
                 setMessage(response.data.message);
