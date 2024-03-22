@@ -43,8 +43,8 @@ function VerifyOtp() {
     }
 
     setVerifyLoading(false);
-    
 };
+
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
@@ -102,7 +102,6 @@ function VerifyOtp() {
                 value={value}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 id={`otp-${index}`}
-
                 sx={{ width: 60, textAlign: 'center', mb: 2, mr: 1 }}
               />
             ))}
@@ -117,9 +116,7 @@ function VerifyOtp() {
             {verifyLoading ? 'Verifying...' : 'Verify OTP'}
           </Button>
         </form>
-
         <Button onClick={handleResendOTP} disabled={resendLoading} sx={{ mt: 2, color: '#c00100', backgroundColor: 'white', border: '1px solid black' }}> {resendLoading ? 'Resending...' : 'RESEND OTP'}</Button>
-
       </Box>
     </Box>
   );
