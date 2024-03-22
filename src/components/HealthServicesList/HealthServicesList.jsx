@@ -53,20 +53,6 @@ const HealthServicesList = () => {
     navigate(route);
   };
 
-<<<<<<< HEAD
-=======
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAvatarSrc(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
->>>>>>> fe57bad51b2d949c5ad5401886ff34fd464074df
   const handleSearch = () => {
     const filtered = healthServices.filter(service =>
       service.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -127,7 +113,6 @@ const HealthServicesList = () => {
         </LineChart>
       </Box>
 
-<<<<<<< HEAD
       <Box className="search-box" style={{ position: 'fixed', top: 0, right: 0, maxWidth: '90%',backgroundColor:'#80000080',paddingLeft:'40px', padding: '10px', boxSizing: 'border-box', zIndex: 1, display: 'flex', alignItems: 'center', border: '1px solid #ccc', transition: 'all 0.3s ease' }}>
         <Box style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
           <input
@@ -148,9 +133,6 @@ const HealthServicesList = () => {
       <Box style={{ height: '60px' }}></Box>
 
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px', border: '1px solid #ccc', borderRadius: '8px' }}>
-=======
-      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'990px'}}>
->>>>>>> fe57bad51b2d949c5ad5401886ff34fd464074df
         {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
