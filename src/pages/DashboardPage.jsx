@@ -16,7 +16,7 @@ const DashboardPage = () => {
       { /*<SearchBar  />*/}
 
         {/* Health services list with margin-left */}
-        <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
+        <Box sx={{ marginTop: '2px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
           <HealthServicesList sx={{ paddingRight: '20px' }} />
           <Box
             sx={{
