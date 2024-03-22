@@ -8,7 +8,7 @@ const DashboardPage = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar on the left with margin-right */}
-      <Sidebar sx={{display: 'flex', flexDirection: 'column', flex: 'o o auto', marginRight: '32px'}} /> {/* Increase margin-right to create a larger gap */}
+      <Sidebar sx={{display: 'flex', flexDirection: 'column', flex: '0 auto', marginRight: '32px'}} /> {/* Increase margin-right to create a larger gap */}
 
       
         {/* Health services list with margin-left */}
