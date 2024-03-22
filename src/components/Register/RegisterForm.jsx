@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from '../../services/api';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -45,7 +45,7 @@ function RegisterForm() {
   const [formErrors, setFormErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const areFieldsFilled = () => {
     return (
@@ -112,8 +112,8 @@ function RegisterForm() {
 
       const userData = { name, email, phoneNumber, idNumber, password };
 
-      const response = await axios.post(
-        "https://b50f-102-210-244-74.ngrok-free.app/api/patient/register",
+      const response = await api.post(
+        "/api/patient/register",
         userData
       );
 
