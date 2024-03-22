@@ -22,7 +22,9 @@ import PasswordReset from "../components/PasswordReset/passwordReset";
 import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
+import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
+
 
 function AppRoutes() {
   return (
@@ -50,7 +52,9 @@ function AppRoutes() {
         <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/complete-booking" element={<CompleteAppointmentPage />} />
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
+
       </Routes>
     </Router>
   );
