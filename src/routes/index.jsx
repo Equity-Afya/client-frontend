@@ -24,7 +24,7 @@ import OtpPasswordPage from "../pages/OtpPasswordPage";
 import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
-
+import ReceiptPage from "../pages/ReceiptPage";
 
 function AppRoutes() {
   return (
@@ -54,7 +54,7 @@ function AppRoutes() {
         <Route path="/complete-booking" element={<CompleteAppointmentPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
-
+        <Route path="receipt" element={<ReceiptPage />} />
       </Routes>
     </Router>
   );
