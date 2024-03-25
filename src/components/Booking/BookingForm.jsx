@@ -37,7 +37,7 @@ const BookingForm = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    // Assuming validation is successful
+    
     // Pass form data as state to the next page
     navigate("/complete-booking", { state: formData });
   };
@@ -47,8 +47,8 @@ const BookingForm = () => {
       <Box
         sx={{
           border: "2px solid #C00100",
-          borderRadius: "15px", // Set border radius to 10px for rounded corners
-          padding: "20px", // Add padding for better appearance
+          borderRadius: "15px",
+          padding: "20px", 
         }}
       >
         <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold'}}> 
