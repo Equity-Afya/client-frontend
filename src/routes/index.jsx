@@ -8,7 +8,6 @@ import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import MedicalServicesPage from "../pages/MedicalServicesPage";
 import SpecialistsPage from "../pages/SpecialistsPage";
-import MyHealthRecordsPage from "../pages/MyhealthRecordsPage";
 import MyAppointmentsPage from "../pages/MyAppoitmentsPage";
 import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
@@ -24,6 +23,8 @@ import OtpPasswordPage from "../pages/OtpPasswordPage";
 import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
+import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
+
 
 
 function AppRoutes() {
@@ -38,7 +39,6 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
-        <Route path="/health-records" element={<MyHealthRecordsPage />} />
         <Route path="/appointments" element={<MyAppointmentsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
@@ -54,7 +54,9 @@ function AppRoutes() {
         <Route path="/complete-booking" element={<CompleteAppointmentPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
-
+        <Route path="health-records" element={<MyhealthRecordsPage />} />
+      
+        
       </Routes>
     </Router>
   );
