@@ -13,10 +13,10 @@ const PaymentsPage = () => {
       <div style={{ marginRight: "0" }}>
         <Sidebar />
       </div>
-      <div style={{ width: "350px", marginLeft: "100px", marginTop: "25px" }}>
+      <div style={{ width: "350px", marginLeft: "75px", marginTop: "25px" }}>
         <PaymentDetails />
       </div>
-      <div style={{ marginLeft: "150px" }}>
+      <div style={{ marginLeft: "75px" }}>
         <Payments />
       </div>
     </div>

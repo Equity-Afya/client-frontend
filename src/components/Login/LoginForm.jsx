@@ -76,7 +76,7 @@ function Login() {
         }}
       >
         <Typography variant="h3" gutterBottom sx={{ color: '#c00100', fontWeight: 'bold', marginBottom: 4 }}>TeleAfia</Typography>
-        <Typography variant="h5" gutterBottom sx={{ marginBottom: '35px', fontWeight: 'bold' }}>__________User Login_________</Typography>
+        <Typography variant="h5" gutterBottom sx={{ marginBottom: '35px', fontWeight: 'bold' }}>________User Login________</Typography>
         <form onSubmit={handleSubmit}>
           <div>
             <TextField
