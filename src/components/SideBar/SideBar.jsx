@@ -133,14 +133,14 @@ function Sidebar() {
           <ListItemText primary="E-Pharmacy" />
         </ListItem>
         {/* Additional Items */}
-        <ListItem button sx={{ paddingTop: 20 }} onClick={() => handleNavigation("/light-mode")}>
+        <ListItem button sx={{ paddingTop: 15 }} onClick={() => handleNavigation("/light-mode")}>
           <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
             {brightnessMode ? <Brightness7 /> : <Brightness4 />}
           </ListItemIcon>
           <ListItemText primary="Light Mode" />
         </ListItem>
         <ListItem button onClick={handleLogout}>
-          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3,paddingBottom:'15px' }}>
+          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3,paddingBottom:'0px' }}>
             <Logout />
           </ListItemIcon>
           <ListItemText primary="Logout" />
