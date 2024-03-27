@@ -124,7 +124,7 @@ const HealthServicesList = () => {
       </Box>
 
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
-        {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
+        {(filteredServices.length > 3 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
             sx={{
