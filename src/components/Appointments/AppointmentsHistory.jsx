@@ -64,7 +64,7 @@ const AppointmentHistory = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
-        My History
+        Appointments History
       </Typography>
       <TableContainer component={Paper}>
         <Table>

@@ -24,7 +24,7 @@ import ProfilePage from "../pages/ProfilePage";
 import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
-import AppointmentsHistoryPage from "../pages/AppointmentsHistory";
+import AppointmentsHistory from "../pages/AppointmentsHistory";
 
 
 
@@ -53,7 +53,7 @@ function AppRoutes() {
         <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
-        <Route path="/appointments-history" element={<AppointmentsHistoryPage />} />
+        <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="health-records" element={<MyhealthRecordsPage />} />
