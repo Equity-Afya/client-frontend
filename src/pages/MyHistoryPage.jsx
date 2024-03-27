@@ -1,6 +1,6 @@
 import React from "react"
 import Sidebar from "../components/SideBar/SideBar";
-import MyHistory from "../components/Booking/MyHistory"
+import MyHistory from "../components/Appointments/AppointmentsHistory"
 import { Box } from "@mui/system";
 
 

@@ -13,18 +13,40 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import api from "../../services/api"; // Import your API service
+import api from "../../services/api";
 
-const MyHistory = () => {
-  const [loading, setLoading] = useState(true); // State to manage loading indicator
+const AppointmentHistory = () => {
+  const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState([]);
+  const [idNumber, setIdNumber] = useState("");
+
+  useEffect(() => {
+
+    const fetchIdNumber = async () => {
+      try {
+        const response = await api.get("/idNumberEndpoint"); // Replace with your actual endpoint
+
+        if (response.status === 200) {
+          setIdNumber(response.data.idNumber); // Set ID number in state
+        } else {
+          throw new Error("Failed to fetch ID number");
+        }
+      } catch (error) {
+        console.error("Error fetching ID number:", error);
+      }
+    };
+
+    fetchIdNumber(); // Call the fetchIdNumber function when the component mounts
+  }, []);
 
   useEffect(() => {
     // Function to fetch form data from the database
     const fetchFormData = async () => {
       try {
-        const response = await api.get("/appointmenthistory");
+        const response = await api.get(`/appointmenthistory/${idNumber}`);
 
         if (response.status === 200) {
+          setFormData(response.data); // Store fetched data in state
           setLoading(false); // Turn off loading indicator
         } else {
           throw new Error("Internal Server error");
@@ -34,8 +56,10 @@ const MyHistory = () => {
       }
     };
 
-    fetchFormData(); // Call the fetchFormData function when the component mounts
-  }, []);
+    if (idNumber) {
+      fetchFormData(); // Call the fetchFormData function only if idNumber is truthy
+    }
+  }, [idNumber]);
 
   return (
     <Container maxWidth="md">
@@ -61,15 +85,23 @@ const MyHistory = () => {
                   <CircularProgress />
                 </TableCell>
               </TableRow>
-            ) : (
-              // Directly render fetched data
+            ) : formData.length === 0 ? ( // Display a message if no data is available
               <TableRow>
-                <TableCell>Fetched Full Name</TableCell>
-                <TableCell>Fetched Phone Number</TableCell>
-                <TableCell>Fetched Service</TableCell>
-                <TableCell>Fetched Date</TableCell>
-                <TableCell>Fetched Time</TableCell>
+                <TableCell colSpan={5} align="center">
+                  No data available
+                </TableCell>
               </TableRow>
+            ) : (
+              // Map over fetched data and render rows
+              formData.map((data) => (
+                <TableRow key={data.id}>
+                  <TableCell>{data.fullName}</TableCell>
+                  <TableCell>{data.phoneNumber}</TableCell>
+                  <TableCell>{data.service}</TableCell>
+                  <TableCell>{data.date}</TableCell>
+                  <TableCell>{data.time}</TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
         </Table>
@@ -87,4 +119,4 @@ const MyHistory = () => {
   );
 };
 
-export default MyHistory;
+export default AppointmentHistory;

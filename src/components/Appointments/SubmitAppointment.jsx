@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 
-const CompleteAppointment = () => {
+const SubmitAppointment = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ const CompleteAppointment = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
+    idNumber: "", // New field for ID number
     gender: "",
     age: "",
     bookFor: "",
@@ -107,6 +108,16 @@ const CompleteAppointment = () => {
           sx={{ mb: 2 }}
         />
         <TextField
+          label="ID Number" // New field for ID number
+          value={formData.idNumber}
+          onChange={(e) =>
+            setFormData({ ...formData, idNumber: e.target.value })
+          }
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
+        <TextField
           select
           label="Gender"
           value={formData.gender}
@@ -168,4 +179,4 @@ const CompleteAppointment = () => {
   );
 };
 
-export default CompleteAppointment;
+export default SubmitAppointment;

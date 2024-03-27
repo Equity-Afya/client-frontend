@@ -15,7 +15,7 @@ import {
 
 const services = ["Dentist", "General Checkup", "Other Service"];
 
-const BookingForm = () => {
+const AppointmentForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -144,4 +144,4 @@ const BookingForm = () => {
   );
 };
 
-export default BookingForm;
+export default AppointmentForm;
