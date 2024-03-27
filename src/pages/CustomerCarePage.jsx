@@ -1,4 +1,7 @@
+import Sidebar from "../components/SideBar/SideBar";
 import CustomerCare from "../components/CustomerCare/CustomerCare";
+
+
 
 
 
@@ -6,8 +9,10 @@ import CustomerCare from "../components/CustomerCare/CustomerCare";
 function CustomerCarePage () {
 
           return(
-          <div>
+          <div style={{ display:"flex", flexDirection:"row"}}>
+            <Sidebar/>
          <CustomerCare/>
+   
 
 
           </div>
