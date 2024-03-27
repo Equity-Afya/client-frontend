@@ -55,7 +55,7 @@ const HealthServicesList = () => {
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onloaded = () => {
+    reader.onload = () => {
       setAvatarSrc(reader.result);
     };
     if (file) {
@@ -71,13 +71,48 @@ const HealthServicesList = () => {
   };
 
   return (
-    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', border: '1px solid #ccc',marginTop:'25px', padding: '10px', borderRadius: '8px' }}>
-      <Box style={{ marginBottom: '5px', marginTop: '20px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
+    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
+      <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
+        <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              type="text"
+              placeholder="Search services..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px', width: '537px' }}
+            />
+            <Button variant="contained" sx={{ height: '40px', backgroundColor: '#C00100',marginRight:'40px' }} onClick={handleSearch}>Search</Button>
+          </Box>
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px',marginLeft:'100px' }}>
+              <Notifications />
+            </IconButton>
+            <label htmlFor="avatar-input" style={{ marginRight: '0px' }}>
+              <Avatar
+                alt="User Avatar"
+                src={avatarSrc}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => console.log("Avatar clicked")}
+              />
+              <input
+                id="avatar-input"
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleAvatarChange}
+              />
+            </label>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box style={{ marginBottom: '30px', width: '100%', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px', maxWidth: '1500px' }}>
         <LineChart
-          width={900}
+          width={1000}
           height={250}
           data={serviceRequestsData}
-          margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
+          margin={{ top: 5, right: 70, left: 10, bottom: 0 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" label={{ value: 'Month', position: 'insideBottom', dy: 30, color: 'blue' }} />
@@ -88,40 +123,7 @@ const HealthServicesList = () => {
         </LineChart>
       </Box>
 
-      <Box className="search-box" style={{ position: 'fixed', top: 0, right: 0, maxWidth: '90%',backgroundColor:'#80000080',paddingLeft:'40px', padding: '10px', boxSizing: 'border-box', zIndex: 1, display: 'flex', alignItems: 'center', border: '1px solid #ccc', transition: 'all 0.3s ease' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-          <input
-            type="text"
-            placeholder="Search services..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px',width:'537px' }}
-          />
-          <Button variant="contained" sx={{ height: '40px',backgroundColor:'#C00100',marginRight:'250px' }} onClick={handleSearch}>Search</Button>
-        </Box>
-        <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px' }}>
-          <Notifications />
-        </IconButton>
-        <label htmlFor="avatar-input" style={{ marginRight: '20px' }}>
-          <Avatar
-            alt="User Avatar"
-            src={avatarSrc}
-            sx={{ cursor: 'pointer' }}
-            onClick={() => console.log("Avatar clicked")}
-          />
-          <input
-            id="avatar-input"
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleAvatarChange}
-          />
-        </label>
-      </Box>
-
-      <Box style={{ height: '60px' }}></Box>
-
-      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
         {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
@@ -134,6 +136,7 @@ const HealthServicesList = () => {
               textAlign: 'center',
               marginTop: '10px',
               border: '1px solid #ccc',
+              
             }}
           >
             <img src={service.photo} alt={service.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
