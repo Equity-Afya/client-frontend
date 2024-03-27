@@ -8,6 +8,7 @@ import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import MedicalServicesPage from "../pages/MedicalServicesPage";
 import SpecialistsPage from "../pages/SpecialistsPage";
+import MyAppointmentsPage from "../pages/MyAppoitmentsPage";
 import MyHealthRecordsPage from "../pages/MyhealthRecordsPage";
 import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
@@ -21,6 +22,7 @@ import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
+import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistoryPage from "../pages/AppointmentsHistory";
@@ -39,6 +41,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
+        <Route path="/appointments" element={<MyAppointmentsPage />} />
         <Route path="/health-records" element={<MyHealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
@@ -55,6 +58,7 @@ function AppRoutes() {
         <Route path="/appointments-history" element={<AppointmentsHistoryPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
       </Routes>
