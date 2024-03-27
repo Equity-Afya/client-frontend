@@ -1,4 +1,4 @@
-import { useState } from "react"; // Import useState hook
+import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/Lipanampesa.png";
@@ -7,22 +7,49 @@ import myImage from "../../assets/CardImage.png";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#c00100", // Set primary color to #c00100
+      main: "#c00100",
     },
   },
 });
 
 const Payments = () => {
-  // State variables for input fields
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [amount, setAmount] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [isCardInfoValid, setIsCardInfoValid] = useState(false);
 
-  // Function to handle button click
+  const handleLipaNaMpesaClick = () => {
+    console.log("Sending mobile number to backend:", mobileNumber);
+  };
+
   const handleConfirmClick = () => {
-    // Logic to handle confirmation
-    console.log("Confirm button clicked");
+    console.log("Sending entered data for confirmation to backend:", {
+      cardNumber,
+      expiryDate,
+      cvv,
+      amount,
+    });
+  };
+
+  const validateMobileNumber = (value) => {
+    const regex = /^[0-9]{10}$/;
+    return regex.test(value);
+  };
+
+  const handleMobileNumberChange = (e) => {
+    const value = e.target.value;
+    setMobileNumber(value);
+  };
+
+  const handleCardInfoChange = () => {
+    setIsCardInfoValid(
+      cardNumber.trim() !== "" &&
+        expiryDate.trim() !== "" &&
+        cvv.trim() !== "" &&
+        amount.trim() !== ""
+    );
   };
 
   return (
@@ -31,7 +58,7 @@ const Payments = () => {
         style={{
           height: "450px",
           marginTop: "20px",
-          width: "400px",
+          width: "500px",
           backgroundColor: "#ffffff",
           borderRadius: "20px",
           padding: "20px",
@@ -73,6 +100,8 @@ const Payments = () => {
               style={{ flex: "1" }}
               label="Enter Mobile Number"
               variant="outlined"
+              value={mobileNumber}
+              onChange={handleMobileNumberChange}
             />
           </div>
           <Button
@@ -83,8 +112,10 @@ const Payments = () => {
               width: "25%",
               marginLeft: "75%",
               marginTop: "2px",
-              paddimgBottom: "0",
+              paddingBottom: "0",
             }}
+            onClick={handleLipaNaMpesaClick}
+            disabled={!validateMobileNumber(mobileNumber)}
           >
             Send
           </Button>
@@ -121,14 +152,20 @@ const Payments = () => {
               label="Enter Card Number"
               variant="outlined"
               value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
+              onChange={(e) => {
+                setCardNumber(e.target.value);
+                handleCardInfoChange();
+              }}
             />
             <TextField
               style={{ flex: "1" }}
               label="Expiry Date"
               variant="outlined"
               value={expiryDate}
-              onChange={(e) => setExpiryDate(e.target.value)}
+              onChange={(e) => {
+                setExpiryDate(e.target.value);
+                handleCardInfoChange();
+              }}
             />
           </div>
           <div style={{ display: "flex" }}>
@@ -137,14 +174,20 @@ const Payments = () => {
               label="CVV"
               variant="outlined"
               value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
+              onChange={(e) => {
+                setCvv(e.target.value);
+                handleCardInfoChange();
+              }}
             />
             <TextField
               style={{ flex: "1" }}
               label="Amount"
               variant="outlined"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                setAmount(e.target.value);
+                handleCardInfoChange();
+              }}
             />
           </div>
           <Button
@@ -156,7 +199,8 @@ const Payments = () => {
               marginLeft: "70%",
               marginTop: "15px",
             }}
-            onClick={handleConfirmClick} // Add onClick event handler
+            onClick={handleConfirmClick}
+            disabled={!isCardInfoValid}
           >
             Confirm
           </Button>

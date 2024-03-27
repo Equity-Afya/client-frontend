@@ -1,10 +1,11 @@
 import Sidebar from "../components/SideBar/SideBar";
-import TeleclinicsCard from "../components/Teleclinics/Teleclinics";
-
+import Teleclinics from "../components/Teleclinics/Teleclinics";
+import SearchBar from "../components/SearchBar/SearchBar";
 const TeleclinicPage = () => {
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
+
       <div
         style={{
           height: "100vh",
@@ -14,7 +15,7 @@ const TeleclinicPage = () => {
           alignItems: "center",
         }}
       >
-        <TeleclinicsCard />
+        <Teleclinics />
       </div>
     </div>
   );

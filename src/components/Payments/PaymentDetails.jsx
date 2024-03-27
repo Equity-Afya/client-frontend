@@ -5,20 +5,21 @@ import {
   ThemeProvider,
   responsiveFontSizes,
 } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import confirmIcon from "../../assets/paymentStatus.png";
+import togetherIcon from "../../assets/together.jpeg";
 
 function PaymentDetails() {
   const [serviceCharge, setServiceCharge] = useState(0);
   const [referenceCode, setReferenceCode] = useState("");
-  const [serviceType, setServiceType] = useState("Consultation"); // Default service type
-  const [payBill, setPayBill] = useState(""); // Placeholder for PayBill
-  const [accountNumber, setAccountNumber] = useState(""); // Placeholder for Account Number
-  const [openPopup, setOpenPopup] = useState(false); // State for controlling the popup
+  const [serviceType, setServiceType] = useState("Consultation");
+  const [payBill, setPayBill] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [openPopup, setOpenPopup] = useState(false);
 
-  const navigate = useNavigate(); // Initialize useNavigate for navigation
+  const navigate = useNavigate();
 
   const theme = responsiveFontSizes(
     createTheme({
@@ -32,7 +33,6 @@ function PaymentDetails() {
 
   const fetchServiceCharge = async () => {
     try {
-      // Send the service type to the backend to fetch the service charge
       const response = await fetch(
         `backend_api_endpoint_here?service=${serviceType}`
       );
@@ -43,24 +43,48 @@ function PaymentDetails() {
     }
   };
 
-  const handleTransactionComplete = () => {
-    console.log("Transaction completed with reference code:", referenceCode);
-    setOpenPopup(true); // Open the popup
-    // toast.success("Transaction successful!"); // Removed toast message
+  const sendVerificationCode = async () => {
+    try {
+      const response = await fetch("backend_verification_endpoint_here", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: referenceCode }),
+      });
+      if (response.ok) {
+        console.log("Verification code sent successfully");
+        // Handle success, e.g., show success toast message
+        toast.success("Verification code sent successfully");
+        handleTransactionComplete();
+      } else {
+        // Handle error response from backend
+        console.error("Error sending verification code");
+        // Show error toast message
+        toast.error("Error sending verification code");
+      }
+    } catch (error) {
+      console.error("Error sending verification code:", error);
+      // Show error toast message
+      toast.error("Error sending verification code");
+    }
   };
 
-  // Function to handle popup close and navigate to appointment status page
-  const handleClosePopup = () => {
-    setOpenPopup(false); // Close the popup
-    navigate("/appointment-status"); // Navigate to appointment status page
+  const handleTransactionComplete = () => {
+    console.log("Transaction completed with reference code:", referenceCode);
+    setOpenPopup(true);
+  };
+
+  const handleClosePopup = (shouldNavigate) => {
+    setOpenPopup(false);
+    if (shouldNavigate) {
+      navigate("/appointment-status");
+    }
   };
 
   useEffect(() => {
-    // Fetch PayBill and Account Number from the backend
-    // This is just a placeholder, replace with actual fetch logic
-    setPayBill("123456"); // Example PayBill value
-    setAccountNumber("7891011"); // Example Account Number value
-
+    setPayBill("123456");
+    setAccountNumber("7891011");
     fetchServiceCharge();
   }, [serviceType]);
 
@@ -68,26 +92,13 @@ function PaymentDetails() {
     <ThemeProvider theme={theme}>
       <div>
         <ToastContainer />
-        <style>
-          {`
-            body {
-              overflow: hidden; /* Prevent scrolling */
-            }
 
-            @media screen and (max-width: 500px) {
-              /* Adjustments for smaller screens */
-              body {
-                overflow: auto; /* Allow scrolling for smaller screens */
-              }
-            }
-          `}
-        </style>
         <div
           style={{
             display: "flex",
-            justifyContent: "center", // Center horizontally
-            alignItems: "center", // Center vertically
-            height: "100vh", // Full viewport height
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
           }}
         >
           <Card
@@ -95,22 +106,22 @@ function PaymentDetails() {
               backgroundColor: "#D9D9D9",
               borderRadius: "15px",
               padding: "20px",
-              width: "250px", // Adjust card width
-              textAlign: "center", // Center text
+              width: "300px",
+              textAlign: "center",
             }}
           >
             <CardContent>
               <h4
                 style={{
                   fontWeight: "bold",
-                  fontSize: "clamp(14px, 3vw, 18px)", // Fluid typography for heading
+                  fontSize: "clamp(14px, 3vw, 18px)",
                   borderBottom: "1px solid #c00100",
-                  margin: "0 0 20px", // Add margin bottom
+                  margin: "0 0 20px",
                 }}
               >
                 Billing Information
               </h4>
-              <h4>Service: {serviceType}</h4> {/* Display the service type */}
+              <h4>Service: {serviceType}</h4>
               <p
                 style={{
                   fontSize: "clamp(10px, 2vw, 12px)",
@@ -125,7 +136,7 @@ function PaymentDetails() {
                   fontWeight: "bold",
                 }}
               >
-                PayBill : {payBill} {/* Display PayBill */}
+                PayBill : {payBill}
               </p>
               <p
                 style={{
@@ -133,7 +144,7 @@ function PaymentDetails() {
                   fontWeight: "bold",
                 }}
               >
-                Account Number : {accountNumber} {/* Display Account Number */}
+                Account Number : {accountNumber}
               </p>
               <TextField
                 style={{
@@ -141,7 +152,7 @@ function PaymentDetails() {
                   padding: "5px 0",
                   color: "#c00100",
                   borderRadius: "15px",
-                  marginBottom: "10px", // Add margin bottom
+                  marginBottom: "10px",
                 }}
                 label="Enter Reference Code"
                 value={referenceCode}
@@ -151,22 +162,21 @@ function PaymentDetails() {
                 style={{
                   backgroundColor: "#c00100",
                   color: "white",
-                  fontSize: "clamp(10px, 2vw, 12px)", // Fluid typography for button
+                  fontSize: "clamp(10px, 2vw, 12px)",
                   width: "100%",
                   height: "40px",
                   marginTop: "10px",
                 }}
-                onClick={handleTransactionComplete}
+                onClick={sendVerificationCode}
               >
                 Complete Transaction
               </Button>
             </CardContent>
           </Card>
         </div>
-        {/* Popup */}
         <Modal
           open={openPopup}
-          onClose={handleClosePopup}
+          onClose={() => handleClosePopup(false)}
           aria-labelledby="transaction-successful"
           aria-describedby="transaction-successful-description"
         >
@@ -179,16 +189,47 @@ function PaymentDetails() {
               backgroundColor: "white",
               borderRadius: "15px",
               padding: "20px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "300px",
               textAlign: "center",
             }}
           >
-            <img src={confirmIcon} alt="checkmark" />
+            <img
+              src={confirmIcon}
+              alt="checkmark"
+              style={{ width: "75px", height: "100px" }}
+            />
             <h3>Transaction successful!</h3>
+            <h3>Thank you for choosing Equityafya</h3>
+            <img
+              src={togetherIcon}
+              alt="Handshake image"
+              style={{ width: "75px", height: "75px" }}
+            />
             <Button
-              onClick={handleClosePopup}
-              style={{ backgroundColor: "#c00100", color: "#ffffff" }}
+              onClick={() => handleClosePopup(true)}
+              style={{
+                backgroundColor: "#c00100",
+                color: "#ffffff",
+                marginBottom: "10px",
+                marginTop: "10px",
+              }}
             >
               Check Status
+            </Button>
+            <Button
+              onClick={() => handleClosePopup(false)}
+              style={{
+                backgroundColor: "#c00100",
+                color: "#ffffff",
+                width: "75px",
+                height: "35px",
+              }}
+            >
+              Close
             </Button>
           </div>
         </Modal>
