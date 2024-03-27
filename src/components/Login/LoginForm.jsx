@@ -25,11 +25,21 @@ function Login() {
     setLoading(true);
 
     try {
+<<<<<<< HEAD
       
       const response = await api.post('/api/login', {
         email,
         password
       });
+=======
+      const response = await axios.post(
+        "https://3764-102-210-244-74.ngrok-free.app/api/login",
+        {
+          email,
+          password,
+        }
+      );
+>>>>>>> 652ab1840df9e00c6a42ebed3b8cdb9fa9287a19
 
       alert(response.data.message);
 
@@ -73,7 +83,7 @@ function Login() {
         }}
       >
         <Typography variant="h3" gutterBottom sx={{ color: '#c00100', fontWeight: 'bold', marginBottom: 4 }}>TeleAfia</Typography>
-        <Typography variant="h5" gutterBottom sx={{ marginBottom: '35px', fontWeight: 'bold' }}>__________User Login_________</Typography>
+        <Typography variant="h5" gutterBottom sx={{ marginBottom: '35px', fontWeight: 'bold' }}>________User Login________</Typography>
         <form onSubmit={handleSubmit}>
           <div>
             <TextField

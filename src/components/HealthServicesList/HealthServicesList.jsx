@@ -80,8 +80,13 @@ const HealthServicesList = () => {
           <AvatarWithProfileDetails />
         </Box>
       </Box>
+<<<<<<< HEAD
     </Box>
       <Box style={{ marginBottom: '30px', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px' }}>
+=======
+
+      <Box style={{ marginBottom: '30px', width: '100%', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px', maxWidth: '1500px' }}>
+>>>>>>> 652ab1840df9e00c6a42ebed3b8cdb9fa9287a19
         <LineChart
           width={1000}
           height={250}
@@ -97,9 +102,13 @@ const HealthServicesList = () => {
         </LineChart>
       </Box>
 
+<<<<<<< HEAD
       <Box style={{ height: '60px' }}></Box>
 
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '0px', border: '1px solid #ccc', borderRadius: '8px' }}>
+=======
+      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
+>>>>>>> 652ab1840df9e00c6a42ebed3b8cdb9fa9287a19
         {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
