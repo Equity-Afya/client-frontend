@@ -26,6 +26,7 @@ import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistoryPage from "../pages/AppointmentsHistory";
 
 
+
 function AppRoutes() {
   return (
     <Router>
@@ -54,9 +55,12 @@ function AppRoutes() {
         <Route path="/appointments-history" element={<AppointmentsHistoryPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
       </Routes>
     </Router>
   );
 }
 
 export default AppRoutes;
+
