@@ -8,7 +8,6 @@ import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import MedicalServicesPage from "../pages/MedicalServicesPage";
 import SpecialistsPage from "../pages/SpecialistsPage";
-import MyAppointmentsPage from "../pages/MyAppoitmentsPage";
 import MyHealthRecordsPage from "../pages/MyhealthRecordsPage";
 import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
@@ -41,7 +40,6 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
-        <Route path="/appointments" element={<MyAppointmentsPage />} />
         <Route path="/health-records" element={<MyHealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
