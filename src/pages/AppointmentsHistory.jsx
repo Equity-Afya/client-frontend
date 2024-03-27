@@ -1,9 +1,9 @@
 import React from "react";
 import Sidebar from "../components/SideBar/SideBar";
-import MyHistory from "../components/Appointments/AppointmentsHistory";
+import AppointmentHistory from "../components/Appointments/AppointmentsHistory";
 import { Box } from "@mui/system";
 
-const MyHistoryPage = () => {
+const AppointmentsHistoryPage = () => {
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
       {/* Sidebar on the left with margin-right */}
@@ -27,10 +27,10 @@ const MyHistoryPage = () => {
           marginLeft: "32px",
         }}
       >
-        <MyHistory />
+        <AppointmentHistory />
       </Box>
     </Box>
   );
 };
 
-export default MyHistoryPage;
+export default AppointmentsHistoryPage;
