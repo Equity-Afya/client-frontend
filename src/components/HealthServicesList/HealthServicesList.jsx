@@ -107,7 +107,7 @@ const HealthServicesList = () => {
         </Box>
       </Box>
 
-      <Box style={{ marginBottom: '30px', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px' }}>
+      <Box style={{ marginBottom: '30px', width: '100%', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px', maxWidth: '1500px' }}>
         <LineChart
           width={1000}
           height={250}
@@ -123,7 +123,7 @@ const HealthServicesList = () => {
         </LineChart>
       </Box>
 
-      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'990px'}}>
+      <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
         {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}

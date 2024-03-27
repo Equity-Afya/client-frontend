@@ -1,15 +1,6 @@
 import React from 'react';
 import { Paper, Card, CardContent, Typography, Button, Grid, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from 'recharts';
 
 const ServiceCard = ({ service }) => {
   const navigate = useNavigate();
@@ -30,27 +21,6 @@ const ServiceCard = ({ service }) => {
         </Button>
       </CardContent>
     </Card>
-  );
-};
-
-const DataAnalytics = ({ medicalServices }) => {
-  const data = medicalServices.map(service => ({
-    name: service.name,
-    value: Math.floor(Math.random() * 100),
-  }));
-
-  return (
-    <div style={{ marginTop: '50px', }}>
-      <Typography variant="h4" style={{ marginBottom: '20px' }}></Typography>
-      <LineChart width={1100} height={300} data={data} margin={{ top: 5, right: 30, left: 70, bottom: 5 }}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
-      </LineChart>
-    </div>
   );
 };
 
@@ -84,7 +54,6 @@ const ServiceContainer = () => {
         />
         <Button variant="contained" onClick={handleSearch} style={{ marginLeft: '10px' }}>Search</Button>
       </div>
-      <DataAnalytics medicalServices={medicalServices} />
       <Paper elevation={3} style={{ padding: '20px', marginLeft: '10px', width: '80%',marginTop:'60px' }}>
         <Grid container spacing={3}>
           {(filteredServices.length > 0 ? filteredServices : medicalServices).map((service, index) => (
@@ -99,3 +68,4 @@ const ServiceContainer = () => {
 };
 
 export default ServiceContainer;
+

@@ -29,9 +29,9 @@ const Payments = () => {
     <ThemeProvider theme={theme}>
       <Box
         style={{
-          height: "580px",
+          height: "450px",
           marginTop: "20px",
-          width: "500px",
+          width: "400px",
           backgroundColor: "#ffffff",
           borderRadius: "20px",
           padding: "20px",
@@ -53,8 +53,8 @@ const Payments = () => {
             outline: "1px solid #600100",
             borderRadius: "10px",
             padding: "20px",
-            marginBottom: "30px",
-            marginTop: "15px",
+            marginBottom: "10px",
+            marginTop: "10px",
           }}
         >
           <h4 style={{ marginTop: "0", textAlign: "left" }}>Lipa na M-Pesa</h4>
