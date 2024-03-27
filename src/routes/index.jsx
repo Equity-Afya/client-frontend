@@ -23,7 +23,8 @@ import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 import NotFoundPage from "../pages/NotFoundPage";
-//import ProfilePage from "../pages/ProfilePage";
+import ViewProfilePage from "../pages/ViewProfilePage"
+import LanguagePage from "../pages/languagePage"
 
 
 function AppRoutes() {
@@ -53,7 +54,8 @@ function AppRoutes() {
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/complete-booking" element={<CompleteAppointmentPage />} />
         <Route path="*" element={<NotFoundPage />} />
-
+        <Route path="/view-profile" element={<ViewProfilePage />} />
+        <Route path="/language" element={<LanguagePage />} />
       </Routes>
     </Router>
   );

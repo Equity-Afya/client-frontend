@@ -11,7 +11,6 @@ const Notification = ({ message }) => {
 
 const HealthServicesList = () => {
   const navigate = useNavigate();
-  const [avatarSrc, setAvatarSrc] = useState('');
   const [notifications, setNotifications] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredServices, setFilteredServices] = useState([]);
@@ -62,41 +61,26 @@ const HealthServicesList = () => {
 
   return (
     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
-      <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <input
-              type="text"
-              placeholder="Search services..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px', width: '537px' }}
-            />
-            <Button variant="contained" sx={{ height: '40px', backgroundColor: '#C00100',marginRight:'40px' }} onClick={handleSearch}>Search</Button>
-          </Box>
-          <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px',marginLeft:'100px' }}>
-              <Notifications />
-            </IconButton>
-            <label htmlFor="avatar-input" style={{ marginRight: '0px' }}>
-              <Avatar
-                alt="User Avatar"
-                src={avatarSrc}
-                sx={{ cursor: 'pointer' }}
-                onClick={() => console.log("Avatar clicked")}
-              />
-              <input
-                id="avatar-input"
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handleAvatarChange}
-              />
-            </label>
-          </Box>
+    <Box style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
+      <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="Search services..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px', width: '537px' }}
+          />
+          <Button variant="contained" sx={{ height: '40px', backgroundColor: '#C00100',marginRight:'40px' }} onClick={handleSearch}>Search</Button>
+        </Box>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px',marginLeft:'100px' }}>
+            <Notifications />
+          </IconButton>
+          <AvatarWithProfileDetails />
         </Box>
       </Box>
-
+    </Box>
       <Box style={{ marginBottom: '30px', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px',marginTop:'20px' }}>
         <LineChart
           width={1000}
@@ -111,23 +95,6 @@ const HealthServicesList = () => {
           <Legend align="left" verticalAlign="middle" layout="vertical" />
           <Line type="monotone" dataKey="requests" stroke="#8884d8" />
         </LineChart>
-      </Box>
-
-      <Box className="search-box" style={{ position: 'fixed', top: 0, right: 0, maxWidth: '90%',backgroundColor:'#80000080',paddingLeft:'40px', padding: '10px', boxSizing: 'border-box', zIndex: 1, display: 'flex', alignItems: 'center', border: '1px solid #ccc', transition: 'all 0.3s ease' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-          <input
-            type="text"
-            placeholder="Search services..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px',width:'537px' }}
-          />
-          <Button variant="contained" sx={{ height: '40px',backgroundColor:'#C00100',marginRight:'250px' }} onClick={handleSearch}>Search</Button>
-        </Box>
-        <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px' }}>
-          <Notifications />
-        </IconButton>
-         < AvatarWithProfileDetails />
       </Box>
 
       <Box style={{ height: '60px' }}></Box>
