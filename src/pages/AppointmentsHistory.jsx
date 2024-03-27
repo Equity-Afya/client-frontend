@@ -3,7 +3,7 @@ import Sidebar from "../components/SideBar/SideBar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { Box } from '@mui/material';
 
-const MyAppointmentsPage = () => {
+const AppointmentsHistoryPage = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar on the left with margin-right */}
@@ -23,4 +23,4 @@ const MyAppointmentsPage = () => {
   );
 };
 
-export default MyAppointmentsPage;
+export default AppointmentsHistoryPage;

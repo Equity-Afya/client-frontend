@@ -9,21 +9,23 @@ import RegisterPage from "../pages/RegisterPage";
 import MedicalServicesPage from "../pages/MedicalServicesPage";
 import SpecialistsPage from "../pages/SpecialistsPage";
 import MyAppointmentsPage from "../pages/MyAppoitmentsPage";
+import MyHealthRecordsPage from "../pages/MyhealthRecordsPage";
 import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
 import TeleclinicsPage from "../pages/TeleclinicsPage";
 import OtherServicesPage from "../pages/OtherServicesPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
-import BookAppointmentPage from "../pages/BookAppointmentPage";
 import ModernLabPage from "../pages/ModernLabPage";
 import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
 import PasswordReset from "../components/PasswordReset/passwordReset";
 import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
-import CompleteAppointmentPage from "../pages/CompleteAppointmentPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
 import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
+import BookAppointmentPage from "../pages/BookAppointmentPage";
+import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
+import AppointmentsHistoryPage from "../pages/AppointmentsHistory";
 
 
 
@@ -40,6 +42,7 @@ function AppRoutes() {
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
         <Route path="/appointments" element={<MyAppointmentsPage />} />
+        <Route path="/health-records" element={<MyHealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
         <Route path="/customer-care" element={<CustomerCarePage />} />
@@ -51,15 +54,17 @@ function AppRoutes() {
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
-        <Route path="/complete-booking" element={<CompleteAppointmentPage />} />
+        <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
+        <Route path="/appointments-history" element={<AppointmentsHistoryPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="health-records" element={<MyhealthRecordsPage />} />
-      
-        
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
       </Routes>
     </Router>
   );
 }
 
 export default AppRoutes;
+
