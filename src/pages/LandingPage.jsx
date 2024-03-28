@@ -19,7 +19,7 @@ import FooterComponent from "../components/LandingPage/FooterComponent/FooterCom
 function LandingPage() {
   return(
 
-<div> 
+<div sx={{display: 'flex', flexDirection: 'column', flex: '1', overflowY: 'auto', marginTop: '48px', marginLeft: '32px'}}> 
     <HeaderComponent/>
     <BannerComponent/>
     <SearchbarComponent/>
