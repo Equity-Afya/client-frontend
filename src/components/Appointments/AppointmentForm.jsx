@@ -39,7 +39,7 @@ const AppointmentForm = () => {
     setLoading(true);
     
     // Pass form data as state to the next page
-    navigate("/complete-booking", { state: formData });
+    navigate("/submit-appointment", { state: formData });
   };
 
   return (

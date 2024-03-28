@@ -51,7 +51,7 @@ const SubmitAppointment = () => {
       if (response.status === 201) {
         setLoading(false);
         setSnackbarOpen(true); // Set snackbarOpen to true upon successful booking
-        navigate("/my-history");
+        navigate("/appointments-history");
       } else {
         throw new Error("Internal server error");
       }
@@ -108,7 +108,7 @@ const SubmitAppointment = () => {
           sx={{ mb: 2 }}
         />
         <TextField
-          label="ID Number" // New field for ID number
+          label="ID Number" 
           value={formData.idNumber}
           onChange={(e) =>
             setFormData({ ...formData, idNumber: e.target.value })
