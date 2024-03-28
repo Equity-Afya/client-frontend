@@ -20,6 +20,7 @@ import {
   Logout,
   Fullscreen,
   FullscreenExit,
+  LocalPharmacy
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios library for making HTTP requests
@@ -125,15 +126,21 @@ function Sidebar() {
           </ListItemIcon>
           <ListItemText primary="My Account" />
         </ListItem>
+        <ListItem button onClick={() => handleNavigation("/e-pharmacy")}>
+          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+            <LocalPharmacy />
+          </ListItemIcon>
+          <ListItemText primary="E-Pharmacy" />
+        </ListItem>
         {/* Additional Items */}
-        <ListItem button sx={{ paddingTop: 20 }} onClick={() => handleNavigation("/light-mode")}>
+        <ListItem button sx={{ paddingTop: 15 }} onClick={() => handleNavigation("/light-mode")}>
           <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
             {brightnessMode ? <Brightness7 /> : <Brightness4 />}
           </ListItemIcon>
           <ListItemText primary="Light Mode" />
         </ListItem>
         <ListItem button onClick={handleLogout}>
-          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3,paddingBottom:'15px' }}>
+          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3,paddingBottom:'0px' }}>
             <Logout />
           </ListItemIcon>
           <ListItemText primary="Logout" />

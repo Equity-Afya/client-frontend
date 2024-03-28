@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { List, Box, Typography, Button, IconButton, Avatar } from '@mui/material';
+import { List, Box, Typography, Button, IconButton, Avatar, CssBaseline } from '@mui/material';
 import { ArrowForward, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
@@ -71,7 +71,9 @@ const HealthServicesList = () => {
   };
 
   return (
+    
     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
+    
       <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
         <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
           <Box style={{ display: 'flex', alignItems: 'center' }}>
@@ -124,7 +126,7 @@ const HealthServicesList = () => {
       </Box>
 
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
-        {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
+        {(filteredServices.length > 3 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
             sx={{
