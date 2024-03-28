@@ -90,7 +90,7 @@ function Sidebar() {
               {fullscreenMode ? <FullscreenExit /> : <Fullscreen />}
             </IconButton>
         </ListItem>
-        <ListItem button onClick={() => handleNavigation("/appointments")}>
+        <ListItem button onClick={() => handleNavigation("/appointments-history")}>
           <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
             <EventNote />
           </ListItemIcon>
