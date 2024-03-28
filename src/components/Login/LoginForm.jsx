@@ -25,13 +25,6 @@ function Login() {
     setLoading(true);
 
     try {
-<<<<<<< HEAD
-      
-      const response = await api.post('/api/login', {
-        email,
-        password
-      });
-=======
       const response = await axios.post(
         "https://3764-102-210-244-74.ngrok-free.app/api/login",
         {
@@ -39,7 +32,6 @@ function Login() {
           password,
         }
       );
->>>>>>> 652ab1840df9e00c6a42ebed3b8cdb9fa9287a19
 
       alert(response.data.message);
 
