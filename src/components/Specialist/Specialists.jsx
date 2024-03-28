@@ -27,15 +27,14 @@ const SpecialistServices = () => {
   return (
     <>
       <CssBaseline />
-      <div style={{ textAlign: 'center' ,marginRight: '20px'}}>
-        <div style={{ display: 'flex', position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '10px',marginRight: '0px' }}>
+      <div style={{ textAlign: 'start', marginRight: '20px', marginLeft: '0px'}}>
+        <div style={{ display: 'flex', position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '10px',marginRight: '70px', marginLeft: '-8px' }}>
           <TextField
             label="Search Services"
             variant="outlined"
-            fullWidth
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '100%', marginRight: '10px'}}
+            style={{ width: '100%'}}
           />
           <Button variant="contained" sx={{backgroundColor:'#c00100'}} onClick={handleSearch} style={{ height: '55px' }}>
             Search
