@@ -20,8 +20,9 @@ import PasswordReset from "../components/PasswordReset/passwordReset";
 import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import ProfilePage from "../pages/ProfilePage";
-import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
+import ViewProfilePage from "../pages/ViewProfilePage"
+import LanguagePage from "../pages/languagePage"
+//import ProfilePage from "../pages/ProfilePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
@@ -55,10 +56,8 @@ function AppRoutes() {
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="health-records" element={<MyhealthRecordsPage />} />
-        <Route path="/forgot-password" element={ForgotPassword} />
-        <Route path="/reset-password" element={PasswordReset} />
+        <Route path="/view-profile" element={<ViewProfilePage />} />
+        <Route path="/language" element={<LanguagePage />} />
       </Routes>
     </Router>
   );
