@@ -1,47 +1,55 @@
-import React, { useState } from 'react';
-import { Container, Typography, Paper, Card, CardContent, Button, TextField, MenuItem } from '@mui/material';
-import { FavoriteBorderOutlined, Height, Description } from '@mui/icons-material'; // Importing icons
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'; // Importing Recharts components
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Paper, Card, CardContent, Button, TextField, MenuItem, CircularProgress } from '@mui/material';
+import { FavoriteBorderOutlined, Height, Description } from '@mui/icons-material';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import axios from 'axios'; // Import Axios
 
-const MyHealthRecords = () => (
-  <Container>
-    <Typography variant="h1" gutterBottom>
-      My Health Records
-    </Typography>
-    <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
-      <Typography variant="h5" gutterBottom>
-        Health Records
+const MyHealthRecords = () => {
+ const [labResults, setLabResults] = useState([]);
+
+ const fetchLabResults = async () => {
+    try {
+      const response = await axios.get('YOUR_API_ENDPOINT'); // Use axios.get
+      setLabResults(response.data); // Access data with response.data
+    } catch (error) {
+      console.error('Failed to fetch lab results:', error);
+    }
+ };
+
+ return (
+    <Container>
+      <Typography variant="h1" gutterBottom>
+        My Health Records
       </Typography>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <RecordCard title="Blood Pressure" buttonText="Record" icon={<FavoriteBorderOutlined />} formFields={['Date', 'Systolic', 'Diastolic']} />
-        <RecordCard title="BMI" buttonText="Record" icon={<Height />} formFields={['Weight', 'Height']} />
-        <RecordCard title="Lab Result" buttonText="View" icon={<Description />} />
-      </div>
-    </Paper>
-    <DataAnalyticsGraph />
-  </Container>
-);
+      <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
+        <Typography variant="h5" gutterBottom>
+          Health Records
+        </Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <RecordCard title="Blood Pressure" buttonText="Record" icon={<FavoriteBorderOutlined />} formFields={['Date', 'Systolic', 'Diastolic']} />
+          <RecordCard title="BMI" buttonText="Record" icon={<Height />} formFields={['Weight', 'Height']} />
+          <RecordCard title="Lab Results" buttonText="View" icon={<Description />} onViewClick={fetchLabResults} />
+        </div>
+      </Paper>
+      <DataAnalyticsGraph />
+    </Container>
+ );
+};
 
-const RecordCard = ({ title, buttonText, icon, formFields = [] }) => {
-  const [showForm, setShowForm] = useState(false);
+const RecordCard = ({ title, buttonText, icon, formFields = [], onViewClick }) => {
+ const [showForm, setShowForm] = useState(false);
+ const [loading, setLoading] = useState(false);
 
-  const handleButtonClick = () => {
-    if (title === "Lab Result") {
-      // If it's Lab Result, directly show the results
-      // You can implement logic to fetch and display lab results here
-      console.log("Show lab results");
+ const handleButtonClick = () => {
+    if (title === "Lab Results") {
+      setLoading(true);
+      onViewClick().then(() => setLoading(false)); // Ensure loading stops after fetching
     } else {
       setShowForm(true);
     }
-  };
+ };
 
-  const handleSubmit = () => {
-    // Handle form submission here
-    // You can collect the form data and perform further actions
-    setShowForm(false); // Close the form after submission
-  };
-
-  return (
+ return (
     <Card style={{ width: '30%', margin: '10px', background: `linear-gradient(to bottom, #B60709, #500304)`, borderRadius: '20px' }}>
       <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ background: `linear-gradient(to bottom, #C03b00, #AE0B0F)`, padding: '10px', borderRadius: '50%' }}>
@@ -50,31 +58,37 @@ const RecordCard = ({ title, buttonText, icon, formFields = [] }) => {
         <Typography variant="h6" gutterBottom style={{ marginTop: '10px', color: 'white', fontWeight: 'bold', textDecoration: 'underline' }}>
           {title}
         </Typography>
+        {title === 'Blood Pressure' && <Typography variant="h6" gutterBottom style={{ color: 'white' }}>Weekly Average:</Typography>}
         <Button variant="contained" color="primary" style={{ backgroundColor: '#C00100' }} onClick={handleButtonClick}>
-          {buttonText}
+          {loading ? <CircularProgress color="inherit" size={24} /> : buttonText}
         </Button>
-        {showForm && <RecordForm formFields={formFields} onSubmit={handleSubmit} />}
+        {showForm && <RecordForm formFields={formFields} onSubmit={() => setShowForm(false)} />}
       </CardContent>
     </Card>
-  );
+ );
 };
 
 const RecordForm = ({ formFields, onSubmit }) => {
-  const [formData, setFormData] = useState({});
+ const [formData, setFormData] = useState({});
+ const [loading, setLoading] = useState(false);
 
-  const handleChange = (field, value) => {
+ const handleChange = (field, value) => {
     setFormData(prevData => ({
       ...prevData,
       [field]: value
     }));
-  };
+ };
 
-  const handleSubmit = (event) => {
+ const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit();
-  };
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      onSubmit(); // Hide the form after submission
+    }, 2000);
+ };
 
-  return (
+ return (
     <form onSubmit={handleSubmit} style={{ marginTop: '20px', width: '100%', textAlign: 'center' }}>
       {formFields.map((field, index) => (
         <TextField
@@ -88,32 +102,35 @@ const RecordForm = ({ formFields, onSubmit }) => {
           }}
         />
       ))}
-      <Button type="submit" variant="contained" background="#c00100">
-        Submit
+      <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#C00100' }}>
+        {loading ? <CircularProgress color="inherit" size={24} /> : "Submit"}
       </Button>
     </form>
-  );
+ );
 };
 
 const DataAnalyticsGraph = () => {
-  // Sample data for illustration
-  const bloodPressureData = [
-    { date: '2022-01-01', systolic: 120, diastolic: 80 },
-    { date: '2022-01-02', systolic: 118, diastolic: 78 },
-    { date: '2022-01-03', systolic: 122, diastolic: 82 },
-    { date: '2022-01-04', systolic: 115, diastolic: 75 },
-    { date: '2022-01-05', systolic: 125, diastolic: 85 },
-    // Add more data as needed
-  ];
+ const bloodPressureData = [
+    { date: 'Monday', systolic: 120, diastolic: 80 },
+    { date: 'Tuesday', systolic: 118, diastolic: 78 },
+    { date: 'Wednesday', systolic: 122, diastolic: 82 },
+    { date: 'Thursday', systolic: 115, diastolic: 75 },
+    { date: 'Friday', systolic: 125, diastolic: 85 },
+    { date: 'Saturday', systolic: 122, diastolic: 83 },
+    { date: 'Sunday', systolic: 123, diastolic: 81 },
+ ];
 
-  const [timeInterval, setTimeInterval] = useState('Daily');
+ const [timeInterval, setTimeInterval] = useState('Daily');
 
-  const handleTimeIntervalChange = (event) => {
+ const handleTimeIntervalChange = (event) => {
     setTimeInterval(event.target.value);
-  };
+ };
 
-  return (
-    <Card style={{ marginTop: '70px', width: '50%', padding: '20px', borderRadius: '20px', background: `linear-gradient(to bottom, #C03b00, #AE0B0F)` }}>
+ // Calculate weekly average for blood pressure
+ const weeklyAverage = bloodPressureData.reduce((sum, entry) => sum + entry.systolic + entry.diastolic, 0) / bloodPressureData.length;
+
+ return (
+    <Card style={{ marginTop: '80px', width: '50%', padding: '20px', borderRadius: '20px', background: `linear-gradient(to bottom, #C03b00, #AE0B0F)` }}>
       <CardContent>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h5" gutterBottom style={{ color: 'white' }}>
@@ -133,7 +150,9 @@ const DataAnalyticsGraph = () => {
             <MenuItem value="Monthly">Monthly</MenuItem>
           </TextField>
         </div>
-        {/* Recharts LineChart */}
+        <Typography variant="h6" gutterBottom style={{ color: 'white' }}>
+          Weekly Average: {weeklyAverage.toFixed(2)}
+        </Typography>
         <LineChart width={500} height={200} data={bloodPressureData}>
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="date" />
@@ -145,7 +164,9 @@ const DataAnalyticsGraph = () => {
         </LineChart>
       </CardContent>
     </Card>
-  );
+ );
 };
 
 export default MyHealthRecords;
+
+

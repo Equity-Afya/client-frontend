@@ -60,6 +60,7 @@ const HealthServicesList = () => {
   };
 
   return (
+    
     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
     <Box style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
       <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
@@ -98,7 +99,7 @@ const HealthServicesList = () => {
       </Box>
 
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
-        {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
+        {(filteredServices.length > 3 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
             sx={{
