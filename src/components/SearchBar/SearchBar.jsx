@@ -18,7 +18,6 @@ function SearchBar() {
 
   return (
     <Box sx={{ position: 'fixed', top: 0, right: 0, display: 'flex', alignItems: 'center', gap: 0 }}>
-      {/* Search bar */}
       <TextField
         variant="outlined"
         size="small"
@@ -27,7 +26,7 @@ function SearchBar() {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <IconButton size="small">
+              <IconButton size='small'>
                 <Search />
               </IconButton>
             </InputAdornment>

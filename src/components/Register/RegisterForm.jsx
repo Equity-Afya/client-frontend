@@ -34,7 +34,7 @@ function RegisterForm() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showLoginLink = location.pathname !== "/login";
+  const showLoginLink = location.pathname !== "https://eb76-102-210-244-74.ngrok-free.app/login";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ function RegisterForm() {
   const [formErrors, setFormErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   // Function to check if all fields are filled
   const areFieldsFilled = () => {
