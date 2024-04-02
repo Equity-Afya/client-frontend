@@ -25,7 +25,7 @@ import LanguagePage from "../pages/languagePage"
 //import ProfilePage from "../pages/ProfilePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
-import AppointmentsHistory from "../pages/AppointmentsHistory"
+import AppointmentsHistory from "../pages/AppointmentsHistory";
 import DentalPage from "../pages/DentalPage"
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
 import EpharmacyLandingPage from "../pages/EpharmacyLandingPage";
