@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/system';
 import Sidebar from '../components/SideBar/SideBar'
-import AppointmentForm from '../components/Appointments/AppointmentForm';
+import AppointmentForm from '../components/Appointments/BookAppointment';
 
 
 

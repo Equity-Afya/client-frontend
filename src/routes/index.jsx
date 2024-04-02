@@ -20,8 +20,8 @@ import PasswordReset from "../components/PasswordReset/passwordReset";
 import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import ViewProfilePage from "../pages/ViewProfilePage"
-import LanguagePage from "../pages/languagePage"
+import ViewProfilePage from "../pages/ViewProfilePage";
+import LanguagePage from "../pages/languagePage";
 //import ProfilePage from "../pages/ProfilePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
@@ -33,8 +33,6 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
-
-
 
 
 function AppRoutes() {
@@ -79,4 +77,3 @@ function AppRoutes() {
 }
 
 export default AppRoutes;
-
