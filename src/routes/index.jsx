@@ -25,6 +25,12 @@ import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
+import EpharmacyLandingPage from "../pages/EpharmacyLandingPage";
+import ProductsPage from "../pages/ProductsPage";
+import PrescriptionsPage from "../pages/PrescriptionsPage";
+import CartPage from "../pages/CartPage";
+import MyOrdersPage from "../pages/MyOrdersPage";
 
 
 
@@ -59,6 +65,13 @@ function AppRoutes() {
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
+        <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />}/>
+        <Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/prescriptions" element={<PrescriptionsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/my-orders" element={<MyOrdersPage />} />
+        
       </Routes>
     </Router>
   );
