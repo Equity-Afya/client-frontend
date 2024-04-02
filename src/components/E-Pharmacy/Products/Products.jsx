@@ -11,18 +11,6 @@ const ProductsPage = () => {
  const [categoryDropdownAnchorEl, setCategoryDropdownAnchorEl] = useState(null);
  const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
 
- const products = [
-    { name: 'Medicine A', price: '$10.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine B', price: '$15.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine C', price: '$20.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine D', price: '$25.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine E', price: '$30.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine F', price: '$35.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine G', price: '$40.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine H', price: '$45.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine I', price: '$50.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine J', price: '$55.00', image: 'https://via.placeholder.com/150' },
-   
   const products = [
     { name: 'Baclofen', price: '$10.00', image: 'https://media.post.rvohealth.io/2U4nNZEf7jt4s7fWZRWXPcYsXyz/2023/08/22/2UM7Q8X8MCbyDneO1tpu6lmJxoq.jpg' },
     { name: 'Bisacodyl', price: '$15.00', image: 'https://www.findatopdoc.com/var/fatd/storage/images/_aliases/article_main/healthy-living/what-is-bisacodyl-used-for/6978077-2-eng-US/What-Is-Bisacodyl-Used-For.jpg' },

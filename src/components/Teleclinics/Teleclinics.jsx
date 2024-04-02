@@ -7,8 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import myImage from "../../assets/teleclinics_photo.jpg";
-import React, { useEffect, useState } from "react";
-import { Box, TextField, Button } from "@mui/material";
+
+import { Box} from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 const Teleclinics = () => {
