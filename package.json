@@ -43,5 +43,19 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "vite": "^5.2.2"
+  },
+  "eslintConfig": {
+    "rules": {
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "react/no-unknown-property": [
+        "error",
+        {
+          "ignore": [
+            "sx"
+          ]
+        }
+      ]
+    }
   }
 }

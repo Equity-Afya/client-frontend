@@ -3,6 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/Lipanampesa.png";
 import myImage from "../../assets/CardImage.png";
+import PropTypes from "prop-types";
 
 const theme = createTheme({
   palette: {
@@ -12,7 +13,7 @@ const theme = createTheme({
   },
 });
 
-const Payments = () => {
+const PaymentsMode = ({ billingId }) => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
@@ -21,16 +22,56 @@ const Payments = () => {
   const [isCardInfoValid, setIsCardInfoValid] = useState(false);
 
   const handleLipaNaMpesaClick = () => {
-    console.log("Sending mobile number to backend:", mobileNumber);
+    if (validateMobileNumber(mobileNumber)) {
+      const mpesaData = {
+        mobileNumber: mobileNumber,
+        billingId: billingId, // Append billing ID to M-Pesa data
+      };
+
+      fetch("https://eb76-102-210-244-74.ngrok-free.app/api/payments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(mpesaData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response from backend:", data);
+          // Further processing if needed
+        })
+        .catch((error) => {
+          console.error("Error sending mobile number to backend:", error);
+        });
+    } else {
+      console.error("Invalid mobile number");
+    }
   };
 
   const handleConfirmClick = () => {
-    console.log("Sending entered data for confirmation to backend:", {
-      cardNumber,
-      expiryDate,
-      cvv,
-      amount,
-    });
+    const cardData = {
+      cardNumber: cardNumber,
+      expiryDate: expiryDate,
+      cvv: cvv,
+      amount: amount,
+      billingId: billingId, // Append billing ID to card data
+    };
+
+    fetch("https://eb76-102-210-244-74.ngrok-free.app/api/cardpayment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cardData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response from card payment backend:", data);
+        // Further processing if needed
+      })
+      .catch((error) => {
+        console.error("Error sending card data to backend:", error);
+      });
   };
 
   const validateMobileNumber = (value) => {
@@ -74,6 +115,7 @@ const Payments = () => {
         >
           Pay Via
         </h4>
+
         {/* Box 1: Lipa na M-Pesa */}
         <Box
           style={{
@@ -210,4 +252,8 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+PaymentsMode.propTypes = {
+  billingId: PropTypes.string, // Allow string or undefined
+};
+
+export default PaymentsMode;

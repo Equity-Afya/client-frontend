@@ -11,12 +11,16 @@ import "react-toastify/dist/ReactToastify.css";
 import confirmIcon from "../../assets/paymentStatus.png";
 import togetherIcon from "../../assets/together.jpeg";
 
+import Payments from "./PaymentsMode";
+import PaymentsMode from "./PaymentsMode";
+
 function PaymentDetails() {
   const [serviceCharge, setServiceCharge] = useState(0);
   const [referenceCode, setReferenceCode] = useState("");
   const [serviceType, setServiceType] = useState("Consultation");
   const [payBill, setPayBill] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [billingId, setBillingId] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
 
   const navigate = useNavigate();
@@ -31,15 +35,16 @@ function PaymentDetails() {
     })
   );
 
-  const fetchServiceCharge = async () => {
+  const fetchBillingDetails = async () => {
     try {
       const response = await fetch(
         `backend_api_endpoint_here?service=${serviceType}`
       );
       const data = await response.json();
       setServiceCharge(data.charge);
+      setBillingId(data.billingId); // Fetch and set billing ID
     } catch (error) {
-      console.error("Error fetching service charge:", error);
+      console.error("Error fetching billing details:", error);
     }
   };
 
@@ -54,18 +59,14 @@ function PaymentDetails() {
       });
       if (response.ok) {
         console.log("Verification code sent successfully");
-        // Handle success, e.g., show success toast message
         toast.success("Verification code sent successfully");
         handleTransactionComplete();
       } else {
-        // Handle error response from backend
         console.error("Error sending verification code");
-        // Show error toast message
         toast.error("Error sending verification code");
       }
     } catch (error) {
       console.error("Error sending verification code:", error);
-      // Show error toast message
       toast.error("Error sending verification code");
     }
   };
@@ -85,12 +86,18 @@ function PaymentDetails() {
   useEffect(() => {
     setPayBill("123456");
     setAccountNumber("7891011");
-    fetchServiceCharge();
+    fetchBillingDetails();
   }, [serviceType]);
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          height: "100vh",
+        }}
+      >
         <ToastContainer />
 
         <div
@@ -136,7 +143,7 @@ function PaymentDetails() {
                   fontWeight: "bold",
                 }}
               >
-                PayBill : {payBill}
+                PAYBILL : {payBill}
               </p>
               <p
                 style={{
@@ -144,7 +151,16 @@ function PaymentDetails() {
                   fontWeight: "bold",
                 }}
               >
-                Account Number : {accountNumber}
+                ACCOUNT NUMBER : {accountNumber}
+              </p>
+              {/* Display billing ID */}
+              <p
+                style={{
+                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontWeight: "bold",
+                }}
+              >
+                Billing ID : {billingId}
               </p>
               <TextField
                 style={{
@@ -233,6 +249,7 @@ function PaymentDetails() {
             </Button>
           </div>
         </Modal>
+        <PaymentsMode billingId={billingId} />
       </div>
     </ThemeProvider>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
@@ -8,23 +8,28 @@ const Teleclinics = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFacility, setSelectedFacility] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [noMatchError, setNoMatchError] = useState(false);
+  const [services, setServices] = useState([]);
+
+  const fetchTeleclinicsData = async () => {
+    try {
+      const response = await fetch(
+        "https://e96c-102-210-244-74.ngrok-free.app/api/teleclinic/viewallteleclinics"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch teleclinics");
+      }
+      const data = await response.json();
+      const sortedTeleclinics = data.sort((a, b) =>
+        a.facility.localeCompare(b.facility)
+      );
+      setTeleclinics(sortedTeleclinics);
+    } catch (error) {
+      console.error("Error fetching teleclinics data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchTeleclinicsData = async () => {
-      try {
-        const response = await fetch(
-          "https://00bc-102-210-244-74.ngrok-free.app/api/teleclinic/teleclinics"
-        );
-        const data = await response.json();
-        const sortedTeleclinics = data.sort((a, b) =>
-          a.facility.localeCompare(b.facility)
-        );
-        setTeleclinics(sortedTeleclinics);
-      } catch (error) {
-        console.error("Error fetching teleclinics data:", error);
-      }
-    };
-
     fetchTeleclinicsData();
   }, []);
 
@@ -38,16 +43,30 @@ const Teleclinics = () => {
     setCurrentPage(page);
   };
 
-  const handleViewServices = (facility) => {
+  const handleViewServices = async (facility) => {
     setSelectedFacility(facility);
+    try {
+      const response = await fetch(
+        `https://your-backend-api.com/services?facility=${facility}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch services for facility");
+      }
+      const data = await response.json();
+      setServices(data.services);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
   };
 
   const handleCloseServices = () => {
     setSelectedFacility(null);
+    setServices([]);
   };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+    setNoMatchError(false);
   };
 
   const filteredTeleclinics = teleclinics.filter((teleclinic) => {
@@ -57,6 +76,10 @@ const Teleclinics = () => {
       teleclinic.address.toLowerCase().includes(query)
     );
   });
+
+  useEffect(() => {
+    setNoMatchError(filteredTeleclinics.length === 0 && searchQuery !== "");
+  }, [filteredTeleclinics, searchQuery]);
 
   return (
     <div
@@ -73,16 +96,15 @@ const Teleclinics = () => {
         style={{ backgroundColor: "#E6F0F8", padding: "20px", width: "100%" }}
       >
         <h2 style={{ paddingLeft: "40%" }}>Our Teleclinics</h2>
-        {/* Search Box */}
         <Box
           sx={{
             marginBottom: "20px",
             paddingLeft: "15%",
             borderRadius: "10px",
-            width: "75%", // Covering 75% of box width
+            width: "75%",
             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
               {
-                borderColor: "#c00100", // Color while active
+                borderColor: "#c00100",
               },
           }}
         >
@@ -97,6 +119,7 @@ const Teleclinics = () => {
             }}
           />
         </Box>
+        {noMatchError && <p>No matching facilities or addresses found.</p>}
         <Box
           sx={{
             backgroundColor: "#ffffff",
@@ -157,8 +180,6 @@ const Teleclinics = () => {
       {facilitiesPerPage < teleclinics.length && (
         <button onClick={handleShowMore}>Show More</button>
       )}
-
-      {/* Modal for displaying services */}
       {selectedFacility && (
         <div
           style={{
@@ -184,25 +205,10 @@ const Teleclinics = () => {
             }}
           >
             <h3>{selectedFacility} Services</h3>
-            {/* Fetch and display services for the selected facility */}
-            {/* Replace with actual logic to fetch services */}
-            {/* For demo, displaying dummy services */}
             <ul>
-              <li>Service 1</li>
-              <li>Service 2</li>
-              <li>Service 3</li>
-              <li>Service 4</li>
-              <li>Service 5</li>
-              <li>Service 6</li>
-              <li>Service 7</li>
-              <li>Service 8</li>
-              <li>Service 9</li>
-              <li>Service 10</li>
-              <li>Service 11</li>
-              <li>Service 12</li>
-              <li>Service 13</li>
-              <li>Service 14</li>
-              <li>Service 15</li>
+              {services.map((service, index) => (
+                <li key={index}>{service}</li>
+              ))}
             </ul>
             <button onClick={handleCloseServices}>Close</button>
           </div>
