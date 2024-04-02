@@ -26,12 +26,14 @@ import LanguagePage from "../pages/languagePage"
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+import DentalPage from "../pages/DentalPage"
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
 import EpharmacyLandingPage from "../pages/EpharmacyLandingPage";
 import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
+
 
 
 
@@ -74,6 +76,7 @@ function AppRoutes() {
         <Route path="/my-orders" element={<MyOrdersPage />} />
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
+        <Route path="/dental" element={<DentalPage />} />
       </Routes>
     </Router>
   );
