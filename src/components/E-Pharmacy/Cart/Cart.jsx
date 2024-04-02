@@ -12,11 +12,10 @@ const Cart = () => {
  const [openDialog, setOpenDialog] = useState(false);
  const [selectedProduct, setSelectedProduct] = useState(null);
 
- // Example products
  const exampleProducts = [
-    { id: 1, name: 'Medicine A', price: 10.00, imageUrl: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Medicine B', price: 15.00, imageUrl: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Medicine C', price: 20.00, imageUrl: 'https://via.placeholder.com/150' },
+    { id: 1, name: 'Baclofen', price: 10.00, imageUrl: 'https://media.post.rvohealth.io/2U4nNZEf7jt4s7fWZRWXPcYsXyz/2023/08/22/2UM7Q8X8MCbyDneO1tpu6lmJxoq.jpg' },
+    { id: 2, name: 'Bisacodyl', price: 15.00, imageUrl: 'https://www.findatopdoc.com/var/fatd/storage/images/_aliases/article_main/healthy-living/what-is-bisacodyl-used-for/6978077-2-eng-US/What-Is-Bisacodyl-Used-For.jpg' },
+    { id: 3, name: 'Diclofenac Potassium', price: 20.00, imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgDI9D5tgYZFVnVWThTi1LDeERcoCT6pd172UoZRcF5g&s' },
  ];
 
  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -199,9 +198,9 @@ const Cart = () => {
             <ArrowForwardIos />
           </IconButton>
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} >
           {exampleProducts.map((product) => (
-            <Grid item xs={4} key={product.id}>
+            <Grid item xs={4} key={product.id} sx={{display: 'flex', flexDirection: 'row'}}>
               <ProductCard product={product} onAddToCart={handleAddToCart} />
             </Grid>
           ))}
@@ -210,13 +209,13 @@ const Cart = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 2 }}>
         <Typography variant="h6" sx={{ color: '#c00100' }}>New to EquityAfia?</Typography>
         <Typography variant="body1">Subscribe to our e-pharmacy to get updates on our latest offers!</Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 1, width: '50%' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center',  textAlign: 'center', marginTop: 1, width: '50%' }}>
           <TextField
             label="Enter Email Address"
             variant="outlined"
             fullWidth
           />
-          <Button variant="contained" color="primary" sx={{ marginLeft: 1, backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>
+          <Button variant="contained" color="primary" sx={{display:'flex',textAlign: 'center', marginLeft: 1, paddingBottom: 2, paddingTop: 2, backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>
             Submit
           </Button>
         </Box>
