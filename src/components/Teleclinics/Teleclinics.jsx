@@ -6,7 +6,6 @@ import CardContent from "@mui/material/CardContent";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
 import myImage from "../../assets/teleclinics_photo.jpg";
 
 const theme = createTheme({
