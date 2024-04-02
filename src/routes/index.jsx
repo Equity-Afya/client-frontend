@@ -26,6 +26,7 @@ import LanguagePage from "../pages/languagePage"
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+import DentalPage from "../pages/DentalPage"
 
 
 
@@ -58,6 +59,7 @@ function AppRoutes() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
+        <Route path="/dental" element={<DentalPage />} />
       </Routes>
     </Router>
   );
