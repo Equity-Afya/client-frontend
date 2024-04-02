@@ -8,7 +8,7 @@ import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import MedicalServicesPage from "../pages/MedicalServicesPage";
 import SpecialistsPage from "../pages/SpecialistsPage";
-import MyHealthRecordsPage from "../pages/MyhealthRecordsPage";
+import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
 import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
 import TeleclinicsPage from "../pages/TeleclinicsPage";
@@ -47,7 +47,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
-        <Route path="/health-records" element={<MyHealthRecordsPage />} />
+        <Route path="/health-records" element={<MyhealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
         <Route path="/customer-care" element={<CustomerCarePage />} />
@@ -62,6 +62,16 @@ function AppRoutes() {
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="*" element={<NotFoundPage />} />
+        {/*<Route path="profile" element={<ProfilePage />} />*/}
+        <Route path="health-records" element={<MyhealthRecordsPage />} />
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
+        <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />}/>
+        <Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/prescriptions" element={<PrescriptionsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/my-orders" element={<MyOrdersPage />} />
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
       </Routes>
