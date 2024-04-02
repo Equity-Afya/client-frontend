@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+import api from "../../services/api";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -10,12 +10,11 @@ import {
   LinearProgress,
   MenuItem,
   Snackbar,
-  Box, // Import Box component from Material-UI
+  Box,
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import api from "../../services/api";
 
-const CompleteAppointment = () => {
+const SubmitAppointment = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,6 +25,7 @@ const CompleteAppointment = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
+    idNumber: "", // New field for ID number
     gender: "",
     age: "",
     bookFor: "",
@@ -46,16 +46,12 @@ const CompleteAppointment = () => {
     setLoading(true);
 
     try {
-      const response = await api.post(
-        "/bookappointment",
-        formData
-      );
+      const response = await api.post("/bookappointment", formData);
 
       if (response.status === 201) {
         setLoading(false);
-        setSnackbarOpen(true);
-        // Navigate to the next page
-        navigate("/next-page");
+        setSnackbarOpen(true); // Set snackbarOpen to true upon successful booking
+        navigate("/appointments-history");
       } else {
         throw new Error("Internal server error");
       }
@@ -78,13 +74,17 @@ const CompleteAppointment = () => {
     <Container maxWidth="sm">
       <Box
         sx={{
-          border: "2px solid #C00100", // Border color and thickness
-          borderRadius: "15px", // Border radius for rounded corners
-          padding: "20px", // Padding for spacing
-          textAlign: "center", // Center align the content
+          border: "2px solid #C00100",
+          borderRadius: "15px",
+          padding: "20px",
+          //textAlign: "center",
         }}
       >
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontStyle: 'Outfit'}}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontWeight: "bold", fontStyle: "Outfit" }}
+        >
           Complete Appointment
         </Typography>
         <TextField
@@ -102,6 +102,16 @@ const CompleteAppointment = () => {
           value={formData.phoneNumber}
           onChange={(e) =>
             setFormData({ ...formData, phoneNumber: e.target.value })
+          }
+          fullWidth
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="ID Number" 
+          value={formData.idNumber}
+          onChange={(e) =>
+            setFormData({ ...formData, idNumber: e.target.value })
           }
           fullWidth
           variant="outlined"
@@ -140,13 +150,18 @@ const CompleteAppointment = () => {
             !formData.age ||
             loading
           }
-          sx={{ mb: 2, borderRadius: "20px" }} // Button color and text color
+          sx={{ mb: 2, borderRadius: "20px" }}
         >
           {loading ? <CircularProgress size={24} /> : "Submit"}
         </Button>
+        {error && (
+          <Typography variant="body2" color="error" sx={{ mb: 2 }}>
+            {error}
+          </Typography>
+        )}
         {loading && <LinearProgress />}
         <Snackbar
-          open={snackbarOpen}
+          open={snackbarOpen} // Show Snackbar on successful booking
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
         >
@@ -164,4 +179,4 @@ const CompleteAppointment = () => {
   );
 };
 
-export default CompleteAppointment;
+export default SubmitAppointment;

@@ -1,26 +1,20 @@
-import React from 'react';
-import Sidebar from "../components/SideBar/SideBar";
-import SearchBar from "../components/SearchBar/SearchBar";
-import { Box } from '@mui/material';
+import React from 'react'
+import MyHealthRecords from '../components/MyHealthRecords/MyHealthRecords'
+import Sidebar from '../components/SideBar/SideBar'
+import { Box } from '@mui/system'
 
-const MyHealthRecordsPage = () => {
+function MyhealthRecordsPage() {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
-      {/* Sidebar on the left with margin-right */}
-      <Sidebar sx={{ marginRight: '32px' }} /> {/* Increase margin-right to create a larger gap */}
+    {/* Sidebar on the left with margin-right */}
+  <Box sx={{display: 'flex', flexDirection: 'column', flex: 'o o auto', marginRight: '32px'}}>
+    <Sidebar /> 
+  </Box>
+  <Box sx={{display: 'flex', flexDirection: 'column', flex: '1', overflowY: 'auto', marginTop: '48px', marginLeft: '32px'}}>
+      < MyHealthRecords/>
+  </Box>
+    </ Box>
+  )
+}
 
-      {/* Search bar and Medical services content */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
-        {/* Search bar */}
-        <SearchBar />
-
-        {/* Medical services content with margin-left */}
-        <Box sx={{ marginTop: '48px', overflowY: 'auto', height: 'calc(100vh - 48px)', position: 'relative', marginLeft: '32px' }}> {/* Increase marginLeft to create a larger gap */}
-          {/* Medical services content goes here */}
-        </Box>
-      </Box>
-    </Box>
-  );
-};
-
-export default MyHealthRecordsPage;
+export default MyhealthRecordsPage

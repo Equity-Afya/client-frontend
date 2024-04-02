@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AvatarWithProfileDetails from '../Profile/ProfileDetails'
 import { List, Box, Typography, Button, IconButton, Avatar } from '@mui/material';
 import { ArrowForward, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +11,6 @@ const Notification = ({ message }) => {
 
 const HealthServicesList = () => {
   const navigate = useNavigate();
-  const [avatarSrc, setAvatarSrc] = useState('');
   const [notifications, setNotifications] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredServices, setFilteredServices] = useState([]);
@@ -52,17 +52,6 @@ const HealthServicesList = () => {
     navigate(route);
   };
 
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAvatarSrc(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSearch = () => {
     const filtered = healthServices.filter(service =>
       service.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -71,39 +60,25 @@ const HealthServicesList = () => {
   };
 
   return (
+    
     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
-      <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
-        <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <input
-              type="text"
-              placeholder="Search services..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px', width: '537px' }}
-            />
-            <Button variant="contained" sx={{ height: '40px', backgroundColor: '#C00100',marginRight:'40px' }} onClick={handleSearch}>Search</Button>
-          </Box>
-          <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px',marginLeft:'100px' }}>
-              <Notifications />
-            </IconButton>
-            <label htmlFor="avatar-input" style={{ marginRight: '0px' }}>
-              <Avatar
-                alt="User Avatar"
-                src={avatarSrc}
-                sx={{ cursor: 'pointer' }}
-                onClick={() => console.log("Avatar clicked")}
-              />
-              <input
-                id="avatar-input"
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handleAvatarChange}
-              />
-            </label>
-          </Box>
+    <Box style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
+      <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="Search services..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ height: '40px', borderRadius: '5px', border: '1px solid #ccc', marginRight: '10px', width: '537px' }}
+          />
+          <Button variant="contained" sx={{ height: '40px', backgroundColor: '#C00100',marginRight:'40px' }} onClick={handleSearch}>Search</Button>
+        </Box>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton size="small" sx={{ color: '#C00100', marginRight: '20px',marginLeft:'100px' }}>
+            <Notifications />
+          </IconButton>
+          <AvatarWithProfileDetails />
         </Box>
       </Box>
 
@@ -124,7 +99,7 @@ const HealthServicesList = () => {
       </Box>
 
       <List sx={{ display: 'flex', flexWrap: 'wrap', gap: '40px', padding: 0, marginTop: '10px', border: '1px solid #ccc', borderRadius: '0px',width:'100%',maxWidth: '1500px' }}>
-        {(filteredServices.length > 0 ? filteredServices : healthServices).map((service, index) => (
+        {(filteredServices.length > 3 ? filteredServices : healthServices).map((service, index) => (
           <Box
             key={index}
             sx={{
@@ -173,6 +148,7 @@ const HealthServicesList = () => {
       ))}
     </ul>
   </Box>
+</Box>
 </Box>
 
   );
