@@ -1,19 +1,19 @@
-import React, { useState, useRef } from 'react';
-import api from '../../services/api';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useState, useRef } from "react";
+import api from "../../services/api";
+import { useLocation, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 function VerifyOtp() {
-  const [otp, setOtp] = useState(['', '', '', '']);
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const email = location.state?.email || '';
+  const email = location.state?.email || "";
 
   const handleInputChange = (index, value) => {
     const newOtp = [...otp];
@@ -30,25 +30,31 @@ function VerifyOtp() {
     setVerifyLoading(true);
 
     try {
-        const enteredOtp = otp.join('');
-        const response = await api.post("/verifyotp",{ enteredOtp });
-        if (response.status === 200) {
-            navigate('/login');
-        } else {
-            alert(response.data.message);
-        }
+      const enteredOtp = otp.join("");
+      const response = await api.post(
+        "https://eb76-102-210-244-74.ngrok-free.app/verifyotp",
+        { enteredOtp }
+      );
+      if (response.status === 200) {
+        navigate("/login");
+      } else {
+        alert(response.data.message);
+      }
     } catch (error) {
-        console.error("Error verifying OTP:", error);
-        alert("An error occurred during OTP verification. Please try again later.");
+      console.error("Error verifying OTP:", error);
+      alert(
+        "An error occurred during OTP verification. Please try again later."
+      );
     }
 
     setVerifyLoading(false);
-};
+  };
 
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await api.post("/resendotp",
+      const response = await api.post(
+        "https://eb76-102-210-244-74.ngrok-free.app/resendotp",
         { email }
       );
 
@@ -68,11 +74,11 @@ function VerifyOtp() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        backgroundColor: '#DEE1E6',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "#DEE1E6",
       }}
     >
       <Box
@@ -80,14 +86,28 @@ function VerifyOtp() {
           width: 400,
           p: 4,
           borderRadius: 3,
-          bgcolor: 'white',
-          textAlign: 'center',
+          bgcolor: "white",
+          textAlign: "center",
         }}
       >
-        <Typography variant="h3" gutterBottom sx={{color:'#c00100',fontWeight: 'bold'}}>TeleAfia</Typography>
-        <Typography variant="h5" gutterBottom sx={{fontWeight: 'bold',marginBottom:'20px'}} >OTP Verification</Typography>
+        <Typography
+          variant="h3"
+          gutterBottom
+          sx={{ color: "#c00100", fontWeight: "bold" }}
+        >
+          TeleAfia
+        </Typography>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontWeight: "bold", marginBottom: "20px" }}
+        >
+          OTP Verification
+        </Typography>
         <Typography gutterBottom>
-          A verification code has been sent to <span style={{color:'blue'}}>{email}.</span> If the email address is incorrect, you can go back and change it.
+          A verification code has been sent to{" "}
+          <span style={{ color: "blue" }}>{email}.</span> If the email address
+          is incorrect, you can go back and change it.
         </Typography>
         <Typography gutterBottom>Enter OTP sent to your device here</Typography>
         <form onSubmit={handleVerifyOTP}>
@@ -100,7 +120,7 @@ function VerifyOtp() {
                 value={value}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 id={`otp-${index}`}
-                sx={{ width: 60, textAlign: 'center', mb: 2, mr: 1 }}
+                sx={{ width: 60, textAlign: "center", mb: 2, mr: 1 }}
               />
             ))}
           </div>
@@ -109,12 +129,24 @@ function VerifyOtp() {
             variant="contained"
             color="primary"
             disabled={verifyLoading}
-            sx={{ mt: 2, backgroundColor: '#c00100' }}
+            sx={{ mt: 2, backgroundColor: "#c00100" }}
           >
-            {verifyLoading ? 'Verifying...' : 'Verify OTP'}
+            {verifyLoading ? "Verifying..." : "Verify OTP"}
           </Button>
         </form>
-        <Button onClick={handleResendOTP} disabled={resendLoading} sx={{ mt: 2, color: '#c00100', backgroundColor: 'white', border: '1px solid black' }}> {resendLoading ? 'Resending...' : 'RESEND OTP'}</Button>
+        <Button
+          onClick={handleResendOTP}
+          disabled={resendLoading}
+          sx={{
+            mt: 2,
+            color: "#c00100",
+            backgroundColor: "white",
+            border: "1px solid black",
+          }}
+        >
+          {" "}
+          {resendLoading ? "Resending..." : "RESEND OTP"}
+        </Button>
       </Box>
     </Box>
   );

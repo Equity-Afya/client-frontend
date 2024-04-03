@@ -21,11 +21,9 @@ function OtpPassword() {
   const handleVerifyPassOTP = async (e) => {
     e.preventDefault();
     setLoadingVerify(true);
-
-    try {
-      const response = await api.post("/verifypasswordotp", {
-        enteredPassOtp: passOtp,
-      });
+    
+        try {
+            const response = await api.post("https://eb76-102-210-244-74.ngrok-free.app/resendpasswordotp", { email });
 
       if (response.status === 200) {
         alert("OTP verified");

@@ -1,4 +1,3 @@
-import Payments from "../components/Payments/Payments";
 import Sidebar from "../components/SideBar/SideBar";
 import PaymentDetails from "../components/Payments/PaymentDetails";
 
@@ -13,11 +12,8 @@ const PaymentsPage = () => {
       <div style={{ marginRight: "0" }}>
         <Sidebar />
       </div>
-      <div style={{ width: "350px", marginLeft: "75px", marginTop: "25px" }}>
+      <div style={{ marginLeft: "100px" }}>
         <PaymentDetails />
-      </div>
-      <div style={{ marginLeft: "75px" }}>
-        <Payments />
       </div>
     </div>
   );

@@ -1,28 +1,96 @@
-import { useState } from "react"; // Import useState hook
+import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/Lipanampesa.png";
 import myImage from "../../assets/CardImage.png";
+import PropTypes from "prop-types";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#c00100", // Set primary color to #c00100
+      main: "#c00100",
     },
   },
 });
 
-const Payments = () => {
-  // State variables for input fields
+const PaymentsMode = ({ billingId }) => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [amount, setAmount] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [isCardInfoValid, setIsCardInfoValid] = useState(false);
 
-  // Function to handle button click
+  const handleLipaNaMpesaClick = () => {
+    if (validateMobileNumber(mobileNumber)) {
+      const mpesaData = {
+        mobileNumber: mobileNumber,
+        billingId: billingId, // Append billing ID to M-Pesa data
+      };
+
+      fetch("https://eb76-102-210-244-74.ngrok-free.app/api/payments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(mpesaData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response from backend:", data);
+          // Further processing if needed
+        })
+        .catch((error) => {
+          console.error("Error sending mobile number to backend:", error);
+        });
+    } else {
+      console.error("Invalid mobile number");
+    }
+  };
+
   const handleConfirmClick = () => {
-    // Logic to handle confirmation
-    console.log("Confirm button clicked");
+    const cardData = {
+      cardNumber: cardNumber,
+      expiryDate: expiryDate,
+      cvv: cvv,
+      amount: amount,
+      billingId: billingId, // Append billing ID to card data
+    };
+
+    fetch("https://eb76-102-210-244-74.ngrok-free.app/api/cardpayment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cardData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response from card payment backend:", data);
+        // Further processing if needed
+      })
+      .catch((error) => {
+        console.error("Error sending card data to backend:", error);
+      });
+  };
+
+  const validateMobileNumber = (value) => {
+    const regex = /^[0-9]{10}$/;
+    return regex.test(value);
+  };
+
+  const handleMobileNumberChange = (e) => {
+    const value = e.target.value;
+    setMobileNumber(value);
+  };
+
+  const handleCardInfoChange = () => {
+    setIsCardInfoValid(
+      cardNumber.trim() !== "" &&
+        expiryDate.trim() !== "" &&
+        cvv.trim() !== "" &&
+        amount.trim() !== ""
+    );
   };
 
   return (
@@ -31,7 +99,7 @@ const Payments = () => {
         style={{
           height: "450px",
           marginTop: "20px",
-          width: "400px",
+          width: "500px",
           backgroundColor: "#ffffff",
           borderRadius: "20px",
           padding: "20px",
@@ -47,6 +115,7 @@ const Payments = () => {
         >
           Pay Via
         </h4>
+
         {/* Box 1: Lipa na M-Pesa */}
         <Box
           style={{
@@ -73,6 +142,8 @@ const Payments = () => {
               style={{ flex: "1" }}
               label="Enter Mobile Number"
               variant="outlined"
+              value={mobileNumber}
+              onChange={handleMobileNumberChange}
             />
           </div>
           <Button
@@ -83,8 +154,10 @@ const Payments = () => {
               width: "25%",
               marginLeft: "75%",
               marginTop: "2px",
-              paddimgBottom: "0",
+              paddingBottom: "0",
             }}
+            onClick={handleLipaNaMpesaClick}
+            disabled={!validateMobileNumber(mobileNumber)}
           >
             Send
           </Button>
@@ -121,14 +194,20 @@ const Payments = () => {
               label="Enter Card Number"
               variant="outlined"
               value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
+              onChange={(e) => {
+                setCardNumber(e.target.value);
+                handleCardInfoChange();
+              }}
             />
             <TextField
               style={{ flex: "1" }}
               label="Expiry Date"
               variant="outlined"
               value={expiryDate}
-              onChange={(e) => setExpiryDate(e.target.value)}
+              onChange={(e) => {
+                setExpiryDate(e.target.value);
+                handleCardInfoChange();
+              }}
             />
           </div>
           <div style={{ display: "flex" }}>
@@ -137,14 +216,20 @@ const Payments = () => {
               label="CVV"
               variant="outlined"
               value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
+              onChange={(e) => {
+                setCvv(e.target.value);
+                handleCardInfoChange();
+              }}
             />
             <TextField
               style={{ flex: "1" }}
               label="Amount"
               variant="outlined"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                setAmount(e.target.value);
+                handleCardInfoChange();
+              }}
             />
           </div>
           <Button
@@ -156,7 +241,8 @@ const Payments = () => {
               marginLeft: "70%",
               marginTop: "15px",
             }}
-            onClick={handleConfirmClick} // Add onClick event handler
+            onClick={handleConfirmClick}
+            disabled={!isCardInfoValid}
           >
             Confirm
           </Button>
@@ -166,4 +252,8 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+PaymentsMode.propTypes = {
+  billingId: PropTypes.string, // Allow string or undefined
+};
+
+export default PaymentsMode;

@@ -17,7 +17,7 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State variable to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -26,15 +26,14 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://abc2-102-210-244-74.ngrok-free.app/api/login",
+        "https://7776-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
         }
       );
 
-      alert(response.data.message); // Display login status message
-      // Redirect to Home page on successful login
+      alert(response.data.message);
 
       if (response.status === 200) {
         

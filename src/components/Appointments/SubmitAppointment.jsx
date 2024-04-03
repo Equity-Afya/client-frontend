@@ -51,7 +51,7 @@ const SubmitAppointment = () => {
       if (response.status === 201) {
         setLoading(false);
         setSnackbarOpen(true); // Set snackbarOpen to true upon successful booking
-        navigate("/my-history");
+        navigate("/appointments-history");
       } else {
         throw new Error("Internal server error");
       }
@@ -75,9 +75,8 @@ const SubmitAppointment = () => {
       <Box
         sx={{
           border: "2px solid #C00100",
-          borderRadius: "15px",
+          borderRadius: "1px",
           padding: "20px",
-          //textAlign: "center",
         }}
       >
         <Typography
@@ -85,7 +84,7 @@ const SubmitAppointment = () => {
           gutterBottom
           sx={{ fontWeight: "bold", fontStyle: "Outfit" }}
         >
-          Complete Appointment
+          Personal Details
         </Typography>
         <TextField
           label="Full Name"
@@ -108,7 +107,7 @@ const SubmitAppointment = () => {
           sx={{ mb: 2 }}
         />
         <TextField
-          label="ID Number" // New field for ID number
+          label="ID Number"
           value={formData.idNumber}
           onChange={(e) =>
             setFormData({ ...formData, idNumber: e.target.value })
@@ -150,7 +149,7 @@ const SubmitAppointment = () => {
             !formData.age ||
             loading
           }
-          sx={{ mb: 2, borderRadius: "20px" }}
+          sx={{ mb: 2, borderRadius: "10px" }}
         >
           {loading ? <CircularProgress size={24} /> : "Submit"}
         </Button>
