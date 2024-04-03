@@ -1,12 +1,3 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Card from "@mui/material/Card";
-import { ArrowRightAltRounded } from "@mui/icons-material";
-import CardContent from "@mui/material/CardContent";
-import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import myImage from "../../assets/teleclinics_photo.jpg";
 import React, { useEffect, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
