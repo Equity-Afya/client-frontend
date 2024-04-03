@@ -71,7 +71,7 @@ const HealthServicesList = () => {
   };
 
   return (
-    
+   
     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #ccc' }}>
     
       <Box className="search-box" style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '30px', width: '100%', margin: '0 auto', maxWidth: '1500px', border: '1px solid #ccc', borderRadius: '0px' }}>
