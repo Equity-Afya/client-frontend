@@ -4,81 +4,68 @@ import { Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, Ca
 import { useNavigate } from 'react-router-dom';
 
 const ProductsPage = () => {
- const navigate = useNavigate();
- const [cart, setCart] = useState([]);
- const [cartNotification, setCartNotification] = useState(false);
- const [anchorEl, setAnchorEl] = useState(null);
- const [categoryDropdownAnchorEl, setCategoryDropdownAnchorEl] = useState(null);
- const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const [cart, setCart] = useState([]);
+  const [cartNotification, setCartNotification] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [categoryDropdownAnchorEl, setCategoryDropdownAnchorEl] = useState(null);
+  const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
 
- const products = [
+  const products = [
     { name: 'Medicine A', price: '$10.00', image: 'https://via.placeholder.com/150' },
     { name: 'Medicine B', price: '$15.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine C', price: '$20.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine D', price: '$25.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine E', price: '$30.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine F', price: '$35.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine G', price: '$40.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine H', price: '$45.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine I', price: '$50.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine J', price: '$55.00', image: 'https://via.placeholder.com/150' },
-   
-  const products = [
-    { name: 'Baclofen', price: '$10.00', image: 'https://media.post.rvohealth.io/2U4nNZEf7jt4s7fWZRWXPcYsXyz/2023/08/22/2UM7Q8X8MCbyDneO1tpu6lmJxoq.jpg' },
-    { name: 'Bisacodyl', price: '$15.00', image: 'https://www.findatopdoc.com/var/fatd/storage/images/_aliases/article_main/healthy-living/what-is-bisacodyl-used-for/6978077-2-eng-US/What-Is-Bisacodyl-Used-For.jpg' },
-
     // Add more products as needed
- ];
+  ];
 
- const addToCart = (product) => {
+  const addToCart = (product) => {
     setCart([...cart, product]);
     setCartNotification(true); // Show notification
     navigate('/cart'); // Navigate to the cart tab
- };
+  };
 
- const handleMenuOpen = (event) => {
+  const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
- };
+  };
 
- const handleMenuClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
     setCategoryDropdownAnchorEl(null);
     setConditionsDropdownAnchorEl(null);
- };
+  };
 
- const handleSubmitPrescription = () => {
+  const handleSubmitPrescription = () => {
     navigate('/prescriptions'); // Navigate to the prescriptions tab
     handleMenuClose();
- };
+  };
 
- const handleMyHealthRecords = () => {
+  const handleMyHealthRecords = () => {
     navigate('/health-records'); // Navigate to the my health records tab
     handleMenuClose();
- };
+  };
 
- const handleCategoryDropdownOpen = (event) => {
+  const handleCategoryDropdownOpen = (event) => {
     setCategoryDropdownAnchorEl(event.currentTarget);
- };
+  };
 
- const handleCategoryDropdownClose = () => {
+  const handleCategoryDropdownClose = () => {
     setCategoryDropdownAnchorEl(null);
- };
+  };
 
- const handleNavigateToMedicalServices = () => {
+  const handleNavigateToMedicalServices = () => {
     navigate('/medical-services'); // Navigate to the medical services tab
     handleMenuClose();
     handleCategoryDropdownClose();
- };
+  };
 
- const handleConditionsDropdownOpen = (event) => {
+  const handleConditionsDropdownOpen = (event) => {
     setConditionsDropdownAnchorEl(event.currentTarget);
- };
+  };
 
- const handleConditionsDropdownClose = () => {
+  const handleConditionsDropdownClose = () => {
     setConditionsDropdownAnchorEl(null);
- };
+  };
 
- return (
+  return (
     <div>
       <AppBar position="static" sx={{ backgroundColor: '#d9d9d9' }}>
         <Toolbar>
@@ -170,6 +157,7 @@ const ProductsPage = () => {
       <div className="products">
         {products.map((product, index) => (
           <Box sx={{ width: 200, margin: 2 }} key={index}>
+            {/* Adjust the width as needed */}
             <Card>
               <CardMedia
                 component="img"
@@ -179,10 +167,10 @@ const ProductsPage = () => {
               />
               <CardContent>
                 <Typography variant="h6" component="div">
-                 {product.name}
+                  {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                 {product.price}
+                  {product.price}
                 </Typography>
               </CardContent>
               <Button
@@ -200,7 +188,7 @@ const ProductsPage = () => {
         ))}
       </div>
     </div>
- );
+  );
 };
 
 export default ProductsPage;

@@ -62,8 +62,6 @@ function AppRoutes() {
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="*" element={<NotFoundPage />} />
-        {/*<Route path="profile" element={<ProfilePage />} />*/}
-        <Route path="profile" element={<ProfilePage />} />
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
