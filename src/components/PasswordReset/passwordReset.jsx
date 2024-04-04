@@ -44,7 +44,7 @@ function PasswordReset() {
     try {
       setLoading(true);
 
-      const response = await api.put('https://eb76-102-210-244-74.ngrok-free.app/resetpassword', {
+      const response = await api.put('/resetpassword', {
 
         email,
         newPassword,
