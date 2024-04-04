@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import logo from "../../assets/Lipanampesa.png";
 import myImage from "../../assets/CardImage.png";
 import PropTypes from "prop-types";
@@ -14,83 +15,100 @@ const theme = createTheme({
 });
 
 const PaymentsMode = ({ billingId }) => {
+  const stripe = useStripe(); // Ensure this is called only once
+  const elements = useElements();
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [amount, setAmount] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [cvv, setCVV] = useState("");
   const [isCardInfoValid, setIsCardInfoValid] = useState(false);
+  const [paymentError, setPaymentError] = useState(null);
 
-  const handleLipaNaMpesaClick = () => {
-    if (validateMobileNumber(mobileNumber)) {
+  useEffect(() => {
+    setIsCardInfoValid(validateCardInfo());
+  }, [cardNumber, expiryDate, cvv]);
+
+  const validateCardInfo = () => {
+    // You can implement your validation logic here
+    return (
+      cardNumber.trim() !== "" && expiryDate.trim() !== "" && cvv.trim() !== ""
+    );
+  };
+
+  const handleLipaNaMpesaClick = async () => {
+    if (!validateMobileNumber(phoneNumber)) {
+      console.error("Invalid mobile number");
+      return;
+    }
+
+    try {
       const mpesaData = {
-        mobileNumber: mobileNumber,
-        billingId: billingId, // Append billing ID to M-Pesa data
+        mobileNumber: phoneNumber,
+        billingId: billingId,
       };
 
-      fetch("https://eb76-102-210-244-74.ngrok-free.app/api/payments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(mpesaData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Response from backend:", data);
-          // Further processing if needed
-        })
-        .catch((error) => {
-          console.error("Error sending mobile number to backend:", error);
-        });
-    } else {
-      console.error("Invalid mobile number");
+      const response = await fetch(
+        "https://b5ee-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mpesaData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Payment failed");
+      }
+
+      console.log("Response from backend:", response);
+      // Further processing if needed
+    } catch (error) {
+      console.error("Error sending mobile number to backend:", error);
     }
   };
 
-  const handleConfirmClick = () => {
-    const cardData = {
-      cardNumber: cardNumber,
-      expiryDate: expiryDate,
-      cvv: cvv,
-      amount: amount,
-      billingId: billingId, // Append billing ID to card data
-    };
+  const handleConfirmClick = async () => {
+    if (!stripe || !elements) {
+      return;
+    }
 
-    fetch("https://eb76-102-210-244-74.ngrok-free.app/api/cardpayment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cardData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from card payment backend:", data);
-        // Further processing if needed
-      })
-      .catch((error) => {
-        console.error("Error sending card data to backend:", error);
+    try {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardElement),
       });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const response = await fetch(
+        "https://b5ee-102-210-244-74.ngrok-free.app/api/payments/makecardpayments/B00001",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: paymentMethod.id, billingId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Payment failed");
+      }
+
+      console.log("Payment successful");
+    } catch (error) {
+      console.error("Error:", error);
+      setPaymentError("Payment failed");
+    }
   };
 
   const validateMobileNumber = (value) => {
     const regex = /^[0-9]{10}$/;
     return regex.test(value);
-  };
-
-  const handleMobileNumberChange = (e) => {
-    const value = e.target.value;
-    setMobileNumber(value);
-  };
-
-  const handleCardInfoChange = () => {
-    setIsCardInfoValid(
-      cardNumber.trim() !== "" &&
-        expiryDate.trim() !== "" &&
-        cvv.trim() !== "" &&
-        amount.trim() !== ""
-    );
   };
 
   return (
@@ -142,8 +160,8 @@ const PaymentsMode = ({ billingId }) => {
               style={{ flex: "1" }}
               label="Enter Mobile Number"
               variant="outlined"
-              value={mobileNumber}
-              onChange={handleMobileNumberChange}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
           <Button
@@ -157,7 +175,7 @@ const PaymentsMode = ({ billingId }) => {
               paddingBottom: "0",
             }}
             onClick={handleLipaNaMpesaClick}
-            disabled={!validateMobileNumber(mobileNumber)}
+            disabled={!validateMobileNumber(phoneNumber)}
           >
             Send
           </Button>
@@ -194,42 +212,23 @@ const PaymentsMode = ({ billingId }) => {
               label="Enter Card Number"
               variant="outlined"
               value={cardNumber}
-              onChange={(e) => {
-                setCardNumber(e.target.value);
-                handleCardInfoChange();
-              }}
+              onChange={(e) => setCardNumber(e.target.value)}
             />
             <TextField
               style={{ flex: "1" }}
               label="Expiry Date"
               variant="outlined"
               value={expiryDate}
-              onChange={(e) => {
-                setExpiryDate(e.target.value);
-                handleCardInfoChange();
-              }}
+              onChange={(e) => setExpiryDate(e.target.value)}
             />
           </div>
           <div style={{ display: "flex" }}>
             <TextField
-              style={{ flex: "1", marginRight: "20px" }}
+              style={{ flex: "1", marginRight: "52%" }}
               label="CVV"
               variant="outlined"
               value={cvv}
-              onChange={(e) => {
-                setCvv(e.target.value);
-                handleCardInfoChange();
-              }}
-            />
-            <TextField
-              style={{ flex: "1" }}
-              label="Amount"
-              variant="outlined"
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-                handleCardInfoChange();
-              }}
+              onChange={(e) => setCVV(e.target.value)}
             />
           </div>
           <Button
@@ -239,13 +238,14 @@ const PaymentsMode = ({ billingId }) => {
               borderRadius: "10px",
               width: "30%",
               marginLeft: "70%",
-              marginTop: "15px",
+              marginTop: "0",
             }}
             onClick={handleConfirmClick}
             disabled={!isCardInfoValid}
           >
             Confirm
           </Button>
+          {paymentError && <div>{paymentError}</div>}
         </Box>
       </Box>
     </ThemeProvider>
@@ -253,7 +253,7 @@ const PaymentsMode = ({ billingId }) => {
 };
 
 PaymentsMode.propTypes = {
-  billingId: PropTypes.string, // Allow string or undefined
+  billingId: PropTypes.string,
 };
 
 export default PaymentsMode;

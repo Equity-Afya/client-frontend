@@ -14,7 +14,7 @@ const Teleclinics = () => {
   const fetchTeleclinicsData = async () => {
     try {
       const response = await fetch(
-        "https://e96c-102-210-244-74.ngrok-free.app/api/teleclinic/viewallteleclinics"
+        "https://64ac-102-210-244-74.ngrok-free.app/api/facility"
       );
       if (!response.ok) {
         throw new Error("Failed to fetch teleclinics");
@@ -92,9 +92,7 @@ const Teleclinics = () => {
         alignItems: "center",
       }}
     >
-      <div
-        style={{ backgroundColor: "#E6F0F8", padding: "20px", width: "100%" }}
-      >
+      <div style={{ backgroundColor: "#E6F0F8", padding: "2%", width: "100%" }}>
         <h2 style={{ paddingLeft: "40%" }}>Our Teleclinics</h2>
         <Box
           sx={{
@@ -109,6 +107,7 @@ const Teleclinics = () => {
           }}
         >
           <TextField
+            style={{ backgroundColor: "#fff" }}
             fullWidth
             variant="outlined"
             placeholder="Search by teleclinic name or address"

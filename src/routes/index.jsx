@@ -22,11 +22,11 @@ import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ViewProfilePage from "../pages/ViewProfilePage";
 import LanguagePage from "../pages/languagePage";
-//import ProfilePage from "../pages/ProfilePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
-
+import DoctorLoginPage from "../pages/DoctorLoginPage";
+import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
 function AppRoutes() {
   return (
     <Router>
@@ -53,6 +53,8 @@ function AppRoutes() {
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
+        <Route path="/doctor-login" element={<DoctorLoginPage />} />
+        <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />

@@ -11,8 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 import confirmIcon from "../../assets/paymentStatus.png";
 import togetherIcon from "../../assets/together.jpeg";
 
-import Payments from "./PaymentsMode";
 import PaymentsMode from "./PaymentsMode";
+import { Elements } from "@stripe/react-stripe-js"; // Import Elements
+import { loadStripe } from "@stripe/stripe-js"; // Import loadStripe
 
 function PaymentDetails() {
   const [serviceCharge, setServiceCharge] = useState(0);
@@ -34,7 +35,7 @@ function PaymentDetails() {
       },
     })
   );
-
+  const stripePromise = loadStripe("your_stripe_public_key_here"); // Load Stripe.js
   const fetchBillingDetails = async () => {
     try {
       const response = await fetch(
@@ -95,7 +96,7 @@ function PaymentDetails() {
         style={{
           display: "flex",
           flexDirection: "row",
-          height: "100vh",
+          marginRight: "50px",
         }}
       >
         <ToastContainer />
@@ -128,40 +129,40 @@ function PaymentDetails() {
               >
                 Billing Information
               </h4>
-              <h4>Service: {serviceType}</h4>
-              <p
+              <h5>Services: {serviceType}</h5>
+              <h5
                 style={{
                   fontSize: "clamp(10px, 2vw, 12px)",
                   fontWeight: "bold",
                 }}
               >
                 Amount : {serviceCharge}
-              </p>
-              <p
+              </h5>
+              <h5
                 style={{
                   fontSize: "clamp(10px, 2vw, 12px)",
                   fontWeight: "bold",
                 }}
               >
-                PAYBILL : {payBill}
-              </p>
-              <p
+                Paybill : {payBill}
+              </h5>
+              <h5
                 style={{
                   fontSize: "clamp(10px, 2vw, 12px)",
                   fontWeight: "bold",
                 }}
               >
-                ACCOUNT NUMBER : {accountNumber}
-              </p>
+                Acc. Number : {accountNumber}
+              </h5>
               {/* Display billing ID */}
-              <p
+              <h5
                 style={{
                   fontSize: "clamp(10px, 2vw, 12px)",
                   fontWeight: "bold",
                 }}
               >
                 Billing ID : {billingId}
-              </p>
+              </h5>
               <TextField
                 style={{
                   width: "100%",
@@ -234,7 +235,7 @@ function PaymentDetails() {
                 marginTop: "10px",
               }}
             >
-              Check Status
+              Check Appointment Status
             </Button>
             <Button
               onClick={() => handleClosePopup(false)}
@@ -249,7 +250,9 @@ function PaymentDetails() {
             </Button>
           </div>
         </Modal>
-        <PaymentsMode billingId={billingId} />
+        <Elements stripe={stripePromise}>
+          <PaymentsMode billingId={billingId} />
+        </Elements>
       </div>
     </ThemeProvider>
   );
