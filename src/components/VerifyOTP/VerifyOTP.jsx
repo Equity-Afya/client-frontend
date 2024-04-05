@@ -32,7 +32,7 @@ function VerifyOtp() {
     try {
       const enteredOtp = otp.join("");
       const response = await api.post(
-        "https://eb76-102-210-244-74.ngrok-free.app/verifyotp",
+        "/verifyotp",
         { enteredOtp }
       );
       if (response.status === 200) {
@@ -54,7 +54,7 @@ function VerifyOtp() {
     try {
       setResendLoading(true);
       const response = await api.post(
-        "https://eb76-102-210-244-74.ngrok-free.app/resendotp",
+        "/resendotp",
         { email }
       );
 

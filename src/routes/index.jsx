@@ -33,6 +33,7 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
+import AdminDashboardPage from "../pages/AdminDashboardPage";
 
 
 function AppRoutes() {
@@ -63,7 +64,7 @@ function AppRoutes() {
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="*" element={<NotFoundPage />} />
         {/*<Route path="profile" element={<ProfilePage />} />*/}
-        <Route path="profile" element={<ProfilePage />} />
+        {/*<Route path="profile" element={<ProfilePage />} />*/}
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
@@ -77,6 +78,7 @@ function AppRoutes() {
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
       </Routes>
     </Router>
   );

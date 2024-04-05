@@ -26,18 +26,27 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://7776-102-210-244-74.ngrok-free.app/api/login",
+        "https://b87f-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
         }
       );
 
-      alert(response.data.message);
-
       if (response.status === 200) {
-        
-       navigate('/dashboard');
+        // Get access token and refresh token from the response
+        const { accessToken, refreshToken } = response.data;
+
+        // Store tokens in localStorage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+
+        // Include both access token and refresh token in the default headers for all subsequent requests
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        axios.defaults.headers.common['Refresh-Token'] = `Bearer ${refreshToken}`;
+
+        // Redirect to dashboard
+        navigate('/dashboard');
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
