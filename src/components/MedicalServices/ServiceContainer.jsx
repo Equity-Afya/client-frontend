@@ -31,7 +31,7 @@ const ServiceContainer = () => {
   const medicalServices = [
     { name: 'General consultation', image: 'src/assets/general_consultation.jpg', route: '/book-appointment' },
     { name: 'Modern lab', image: 'src/assets/modern_lab.jpg', route: '/modern-lab' },
-    { name: 'Pharmacy', image: 'src/assets/pharmacy_image.jpg', route: '/pharmacy' },
+    { name: 'Pharmacy', image: 'src/assets/pharmacy_image.jpg', route: '/e-pharmacy' },
     { name: 'Specialist services', image: 'src/assets/specialist_services.jpg', route: '/specialists' }
   ];
 

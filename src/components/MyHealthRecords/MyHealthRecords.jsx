@@ -6,14 +6,25 @@ import axios from 'axios'; // Import Axios
 
 const MyHealthRecords = () => {
  const [labResults, setLabResults] = useState([]);
+ const [showLabResults, setShowLabResults] = useState(false);
 
  const fetchLabResults = async () => {
     try {
       const response = await axios.get('YOUR_API_ENDPOINT'); // Use axios.get
       setLabResults(response.data); // Access data with response.data
+      setShowLabResults(true); // Show lab results after fetching
     } catch (error) {
       console.error('Failed to fetch lab results:', error);
     }
+ };
+
+ const downloadLabResults = () => {
+    const element = document.createElement("a");
+    const file = new Blob([JSON.stringify(labResults, null, 2)], {type: 'application/json'});
+    element.href = URL.createObjectURL(file);
+    element.download = "labResults.json";
+    document.body.appendChild(element); // Required for this to work in Firefox
+    element.click();
  };
 
  return (
@@ -31,6 +42,17 @@ const MyHealthRecords = () => {
           <RecordCard title="Lab Results" buttonText="View" icon={<Description />} onViewClick={fetchLabResults} />
         </div>
       </Paper>
+      {showLabResults && (
+        <div>
+          <Typography variant="h5" gutterBottom>
+            Lab Results
+          </Typography>
+          <pre>{JSON.stringify(labResults, null, 2)}</pre>
+          <Button variant="contained" style={{ backgroundColor: '#c00100', color: 'white' }} onClick={downloadLabResults}>
+            Download Lab Results
+          </Button>
+        </div>
+      )}
       <DataAnalyticsGraph />
     </Container>
  );

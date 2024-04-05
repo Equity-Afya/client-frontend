@@ -26,18 +26,32 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://b776-102-210-244-74.ngrok-free.app/api/login",
+        "https://164b-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
         }
       );
 
-      alert(response.data.message);
+      // Assuming the response includes user data with a 'role' field
+      const { role } = response.data;
 
       if (response.status === 200) {
-        
-       navigate('/dashboard');
+        // Redirect based on user's role
+        switch (role) {
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          case 'doctor':
+            navigate('/doctor-dashboard');
+            break;
+          case 'patient':
+            navigate('/patient-dashboard');
+            break;
+          default:
+            // If the role is not recognized, redirect to a generic dashboard
+            navigate('/dashboard');
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
