@@ -17,7 +17,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await api.post('https://eb76-102-210-244-74.ngrok-free.app/forgotpassword', 
+      const response = await api.post('/forgotpassword', 
         {email}
       );
 

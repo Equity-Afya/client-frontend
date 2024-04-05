@@ -26,6 +26,8 @@ const ProductsPage = () => {
       description: 'Description of Bisacodyl',
       category: 'Category 2'
     },
+    { name: 'Medicine A', price: '$10.00', image: 'https://via.placeholder.com/150' },
+    { name: 'Medicine B', price: '$15.00', image: 'https://via.placeholder.com/150' },
     // Add more products as needed
   ];
 
@@ -169,6 +171,7 @@ const ProductsPage = () => {
       <div className="products">
         {products.map((product, index) => (
           <Box sx={{ width: 200, margin: 2 }} key={index}>
+            {/* Adjust the width as needed */}
             <Card>
               <CardMedia
                 component="img"
@@ -188,6 +191,9 @@ const ProductsPage = () => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Category: {product.category}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {product.price}
                 </Typography>
               </CardContent>
               <Button
