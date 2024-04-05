@@ -12,8 +12,8 @@ const ProductsPage = () => {
   const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
 
   const products = [
-    { name: 'Baclofen', price: '$10.00', image: 'https://media.post.rvohealth.io/2U4nNZEf7jt4s7fWZRWXPcYsXyz/2023/08/22/2UM7Q8X8MCbyDneO1tpu6lmJxoq.jpg' },
-    { name: 'Bisacodyl', price: '$15.00', image: 'https://www.findatopdoc.com/var/fatd/storage/images/_aliases/article_main/healthy-living/what-is-bisacodyl-used-for/6978077-2-eng-US/What-Is-Bisacodyl-Used-For.jpg' },
+    { name: 'Medicine A', price: '$10.00', image: 'https://via.placeholder.com/150' },
+    { name: 'Medicine B', price: '$15.00', image: 'https://via.placeholder.com/150' },
     // Add more products as needed
   ];
 
