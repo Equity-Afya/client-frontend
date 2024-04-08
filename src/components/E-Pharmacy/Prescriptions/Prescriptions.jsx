@@ -1,150 +1,97 @@
 import React, { useState } from 'react';
-import { Container, Paper, Card, CardContent, Button, Grid, Modal, Typography} from '@mui/material';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { Paper, Card, Typography, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogContentText, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Done, Handshake } from '@mui/icons-material';
 
 const Prescriptions = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [cardHeight, setCardHeight] = useState('auto');
-  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+
   const handleFileInputChange = (event) => {
-    setSelectedFiles([...selectedFiles, ...event.target.files]);
-    setCardHeight('auto');
+    const files = event.target.files;
+    const newUploadedFiles = [...uploadedFiles];
+    for (let i = 0; i < files.length; i++) {
+      newUploadedFiles.push(files[i]);
+    }
+    setUploadedFiles(newUploadedFiles);
   };
 
-  const handleCameraCapture = () => {
-    console.log('Capture photo');
-  };
-
-  const handleUpload = () => {
-    openModalHandler();
-  };
-
-  const openModalHandler = () => {
-    setOpenModal(true);
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    navigate('/e-pharmacy');
   };
 
   const proceedToPayment = () => {
-    navigate('/payments');
+    setOpenDialog(true);
   };
 
   return (
-    <Container
-      maxWidth="lg"
+    <Paper
+      elevation={3}
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#b4b4b4',
         height: '100vh',
-        marginTop: '-20px',
-        marginBottom: '-20px',
-        marginLeft: '-20px',
+        width: '1000px',
+        backgroundColor: 'f0f0f0',
+        marginBottom: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
-      <Paper
-        elevation={3}
-        style={{
-          marginTop: '50px',
-          padding: '20px',
-          height: '500px',
-          width: '700px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <h2>Upload Prescription</h2>
-        <Card
-          variant="outlined"
-          style={{
-            height: cardHeight,
-            width: '70%',
-            paddingBottom: '0px',
-            marginBottom: '20px',
-            borderStyle: 'dotted',
-          }}
-        >
-          <CardContent
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              height: '100%',
-            }}
-          >
-            {selectedFiles.length > 0 && (
-              <div>
-                <h3>Selected Files:</h3>
-                <ul>
-                  {selectedFiles.map((file, index) => (
-                    <li key={index}>{file.name}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <input
-                    type="file"
-                    accept=".jpg,.jpeg,.png,.pdf"
-                    onChange={handleFileInputChange}
-                    style={{ display: 'none' }}
-                    multiple
-                  />
-                  <Button variant="contained" component="label" fullWidth>
-                    Choose Files
-                    <input
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.pdf"
-                      style={{ display: 'none' }}
-                      onChange={handleFileInputChange}
-                      multiple
-                    />
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button variant="contained" onClick={handleCameraCapture} fullWidth>
-                    <CameraAltIcon style={{ marginRight: '5px' }} />
-                    Take Photo
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: '#c00100', marginTop: '10px', marginLeft: '170px', marginRight: '170px' }}
-              onClick={handleUpload}
-            >
-              Upload
+      <Card style={{ flex: 1, width: '100%', backgroundColor: 'grey', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <CardContent>
+          <img
+            src="https://media.licdn.com/dms/image/D4E12AQFquFze83bWIw/article-cover_image-shrink_720_1280/0/1709291021977?e=2147483647&v=beta&t=sdPQ8q_XLFXW5CeFDRRbhy3BQ9WCNlRZAVyVzino_fs"
+            alt="Your photo"
+            style={{ width: '100%', objectFit: 'cover', height: '100%' }}
+          />
+        </CardContent>
+      </Card>
+      <Card style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+        <CardContent>
+          <Typography variant="h3" style={{ fontSize: '16px', color: 'maroon', fontWeight: 'bolder', marginBottom: '20px', marginTop: '1px' }}>Do you have your medical prescriptions? Please upload the images.</Typography>
+          {/* Upload button */}
+          <input type="file" style={{ display: 'none' }} id="file-input" onChange={handleFileInputChange} multiple />
+          <label htmlFor="file-input">
+            <Button variant="contained" component="span" style={{ marginTop: '10px', backgroundColor: 'maroon' }}>
+              Upload Photo
             </Button>
-          </CardContent>
-        </Card>
-      </Paper>
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <div
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: 'white',
-            borderRadius: '15px',
-            padding: '40px',
-            height: '70vh',
-            width: '270px',
-            textAlign: 'center',
-            fontSize: '24px'
-          }}
-        >
-          <img src="src/assets/checkmark.jpg" alt="checkmark" style={{ position: 'relative', height: '100px', borderRadius: '0px' }} />
-          <h3>Upload successful!</h3>
-          <Button style={{ backgroundColor: '#c00100', color: '#ffffff' }} onClick={proceedToPayment}>Proceed to payment</Button>
-        </div>
-      </Modal>
-    </Container>
+          </label>
+          {uploadedFiles.length > 0 && (
+            <div style={{ marginTop: '10px' }}>
+              {uploadedFiles.map((file, index) => (
+                <Typography key={index} variant="body1">Uploaded File {index + 1}: {file.name}</Typography>
+              ))}
+            </div>
+          )}
+          {uploadedFiles.length > 0 && (
+            <Button variant="contained" style={{ marginTop: '20px', backgroundColor: 'maroon' }} onClick={proceedToPayment}>
+              Submit
+            </Button>
+          )}
+        <Dialog open={openDialog} onClose={handleDialogClose}>
+            <DialogTitle style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Done style={{ fontSize: '40px', marginBottom: '10px', borderRadius: '50px', borderStyle: 'solid', color: 'maroon' }} />
+              <Typography variant="h3" style={{ color: 'maroon' }}>Submission Successful</Typography>
+            </DialogTitle>
+          <DialogContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <Divider style={{ backgroundColor: 'maroon', marginBottom: '20px', width: '100%' }} />
+              </div>
+            <DialogContentText style={{ marginBottom: '20px' }}>
+               Your prescription has been successfully submitted. Kindly wait as we check its validity and availability.
+            </DialogContentText>
+            <Handshake style={{ fontSize: '40px', marginTop: '20px', borderRadius: '50px', borderStyle: 'solid', color: 'maroon' }} />
+            <DialogContentText style={{ marginTop: '20px' }}>
+                Thank you for choosing our services.
+            </DialogContentText>
+            <Button variant="contained" onClick={handleDialogClose} style={{ marginTop: '20px', backgroundColor: 'maroon', color: 'white' }}>Back</Button>
+          </DialogContent>
+        </Dialog>
+        </CardContent>
+      </Card>
+    </Paper>
   );
 };
 

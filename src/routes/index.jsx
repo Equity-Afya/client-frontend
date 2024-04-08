@@ -65,7 +65,6 @@ function AppRoutes() {
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
-
         <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />}/>
         <Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
         <Route path="/products" element={<ProductsPage />} />
