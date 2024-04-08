@@ -169,6 +169,7 @@ const ProductsPage = () => {
       <div className="products">
         {products.map((product, index) => (
           <Box sx={{ width: 200, margin: 2 }} key={index}>
+            {/* Adjust the width as needed */}
             <Card>
               <CardMedia
                 component="img"

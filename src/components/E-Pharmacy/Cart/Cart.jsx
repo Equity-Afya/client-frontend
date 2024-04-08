@@ -207,7 +207,7 @@ const Cart = () => {
             <ArrowForwardIos />
           </IconButton>
         </Typography>
-        <Grid container spacing={2} >
+        <Grid container spacing={2}>
           {exampleProducts.map((product) => (
             <Grid item xs={4} key={product.id}>
               <Card sx={{ maxWidth: 345 }}>

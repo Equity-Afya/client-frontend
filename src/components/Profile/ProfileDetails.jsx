@@ -8,7 +8,7 @@ import { useAvatar } from './AvatarContext';
 
 function AvatarWithProfileDetails() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { avatarSrc, fullName } = useAvatar();
+  const { avatarSrc, name } = useAvatar();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,7 +46,7 @@ function AvatarWithProfileDetails() {
             src={avatarSrc}
             sx={{ width: 100, height: 100, margin: '0 auto' }}
           />
-          <p>{fullName}</p>
+          <p>{name}</p>
         </Box>
         <MenuItem component={Link} to="/view-profile" onClick={handleClose}> View Profile
           </MenuItem>
