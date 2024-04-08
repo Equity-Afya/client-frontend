@@ -18,10 +18,10 @@ const Cart = () => {
     { id: 3, name: 'Diclofenac Potassium', price: 20.00, imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgDI9D5tgYZFVnVWThTi1LDeERcoCT6pd172UoZRcF5g&s', description: 'Description of Diclofenac Potassium', category: 'Category 3' },
   ];
 
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const isMenuOpen = Boolean(anchorEl);
+ const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+ const isMenuOpen = Boolean(anchorEl);
 
-  const handleProfileMenuOpen = (event) => {
+ const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
