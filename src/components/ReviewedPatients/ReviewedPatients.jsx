@@ -68,6 +68,8 @@ function ReviewedPatients() {
           boxShadow: "0px 0px 2vw 0px rgba(0, 0, 0, 0.75)",
           margin: "1vw",
           padding: "2vw",
+          width: "20vw",
+          height: "auto",
         }}
       >
         <h3

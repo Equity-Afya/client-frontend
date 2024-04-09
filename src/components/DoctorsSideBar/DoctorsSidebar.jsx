@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   List,
   ListItem,
@@ -19,6 +19,13 @@ import {
 } from "@mui/icons-material";
 
 const DoctorsSideBar = () => {
+  const [darkMode, setDarkMode] = useState(true);
+  const location = useLocation();
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
     <div
       style={{
@@ -27,10 +34,10 @@ const DoctorsSideBar = () => {
         position: "fixed",
         left: 0,
         top: 0,
-        background: "#fff",
+        background: darkMode ? "#c00100" : "#fff",
+        color: darkMode ? "#fff" : "#c00100",
         zIndex: 1000,
-        backgroundColor: "#c00100",
-        color: "#fff",
+        outline: "1px solid #c00100", // Add outline to sidebar
       }}
     >
       <List>
@@ -38,58 +45,121 @@ const DoctorsSideBar = () => {
           <ListItemText primary="Teleafya" />
         </ListItem>
         <Divider />
-        <ListItem button component={Link} to="/home">
+        <ListItem
+          button
+          component={Link}
+          to="/doctor-dashboard"
+          style={{
+            backgroundColor:
+              location.pathname === "/doctor-dashboard"
+                ? "yellow"
+                : "transparent",
+          }}
+        >
           <ListItemIcon>
-            <Home color="white" />
+            <Home color={darkMode ? "white" : "black"} />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button component={Link} to="/profile">
+        <ListItem
+          button
+          component={Link}
+          to="/doctors-profile"
+          style={{
+            backgroundColor:
+              location.pathname === "/doctors-profile"
+                ? "yellow"
+                : "transparent",
+          }}
+        >
           <ListItemIcon>
-            <Person color="white" />
+            <Person color={darkMode ? "white" : "black"} />
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button component={Link} to="/reviewed-patients">
+        <ListItem
+          button
+          component={Link}
+          to="/reviewed-patients"
+          style={{
+            backgroundColor:
+              location.pathname === "/reviewed-patients"
+                ? "yellow"
+                : "transparent",
+          }}
+        >
           <ListItemIcon>
-            <ListAlt color="white" />
+            <ListAlt color={darkMode ? "white" : "black"} />
           </ListItemIcon>
           <ListItemText primary="Reviewed Patients" />
         </ListItem>
-        <ListItem button component={Link} to="/approved-bookings">
+        <ListItem
+          button
+          component={Link}
+          to="/approved-bookings"
+          style={{
+            backgroundColor:
+              location.pathname === "/approved-bookings"
+                ? "yellow"
+                : "transparent",
+          }}
+        >
           <ListItemIcon>
-            <Done color="white" />
+            <Done color={darkMode ? "white" : "black"} />
           </ListItemIcon>
           <ListItemText primary="Approved Bookings" />
         </ListItem>
-        <ListItem button component={Link} to="/pending-bookings">
+        <ListItem
+          button
+          component={Link}
+          to="/pending-bookings"
+          style={{
+            backgroundColor:
+              location.pathname === "/pending-bookings"
+                ? "yellow"
+                : "transparent",
+          }}
+        >
           <ListItemIcon>
-            <Notifications color="white" />
+            <Notifications color={darkMode ? "white" : "black"} />
           </ListItemIcon>
           <ListItemText primary="Pending Bookings" />
         </ListItem>
-        <ListItem button component={Link} to="/customer-care">
+        <ListItem
+          button
+          component={Link}
+          to="/doctors-customer-care"
+          style={{
+            backgroundColor:
+              location.pathname === "/doctors-customer-care"
+                ? "yellow"
+                : "transparent",
+          }}
+        >
           <ListItemIcon>
-            <ContactSupport color="white" />
+            <ContactSupport color={darkMode ? "white" : "black"} />
           </ListItemIcon>
           <ListItemText primary="Customer Care" />
         </ListItem>
       </List>
       <Divider />
-      <List>
-        <ListItem button>
-          <ListItemIcon>
-            <Brightness4 color="white" />
-          </ListItemIcon>
-          <ListItemText primary="Light Mode" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ExitToApp color="white" />
-          </ListItemIcon>
-          <ListItemText primary="Logout" />
-        </ListItem>
-      </List>
+
+      <div style={{ marginTop: "20vh", color: darkMode ? "#fff" : "#333" }}>
+        <List>
+          <ListItem button onClick={toggleTheme}>
+            <ListItemIcon>
+              <Brightness4 color={darkMode ? "white" : "black"} />
+            </ListItemIcon>
+            <ListItemText primary={darkMode ? "Light Mode" : "Dark Mode"} />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <ExitToApp color={darkMode ? "white" : "black"} />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
+      </div>
     </div>
   );
 };

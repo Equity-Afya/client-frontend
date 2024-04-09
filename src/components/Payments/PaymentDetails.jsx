@@ -12,8 +12,8 @@ import confirmIcon from "../../assets/paymentStatus.png";
 import togetherIcon from "../../assets/together.jpeg";
 
 import PaymentsMode from "./PaymentsMode";
-import { Elements } from "@stripe/react-stripe-js"; // Import Elements
-import { loadStripe } from "@stripe/stripe-js"; // Import loadStripe
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 function PaymentDetails() {
   const [serviceCharge, setServiceCharge] = useState(0);
@@ -35,7 +35,7 @@ function PaymentDetails() {
       },
     })
   );
-  const stripePromise = loadStripe("your_stripe_public_key_here"); // Load Stripe.js
+  const stripePromise = loadStripe("your_stripe_public_key_here");
   const fetchBillingDetails = async () => {
     try {
       const response = await fetch(
@@ -96,7 +96,7 @@ function PaymentDetails() {
         style={{
           display: "flex",
           flexDirection: "row",
-          marginRight: "50px",
+          marginRight: "3.125rem", // 50px
         }}
       >
         <ToastContainer />
@@ -112,9 +112,9 @@ function PaymentDetails() {
           <Card
             style={{
               backgroundColor: "#D9D9D9",
-              borderRadius: "15px",
-              padding: "20px",
-              width: "300px",
+              borderRadius: "1.875rem", // 30px
+              padding: "1.25rem", // 20px
+              width: "18.75rem", // 300px
               textAlign: "center",
             }}
           >
@@ -122,9 +122,9 @@ function PaymentDetails() {
               <h4
                 style={{
                   fontWeight: "bold",
-                  fontSize: "clamp(14px, 3vw, 18px)",
+                  fontSize: "clamp(0.875rem, 3vw, 1.125rem)", // 14px, 3vw, 18px
                   borderBottom: "1px solid #c00100",
-                  margin: "0 0 20px",
+                  margin: "0 0 1.25rem", // 0 0 20px
                 }}
               >
                 Billing Information
@@ -132,7 +132,7 @@ function PaymentDetails() {
               <h5>Services: {serviceType}</h5>
               <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
@@ -140,7 +140,7 @@ function PaymentDetails() {
               </h5>
               <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
@@ -148,7 +148,7 @@ function PaymentDetails() {
               </h5>
               <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
@@ -157,7 +157,7 @@ function PaymentDetails() {
               {/* Display billing ID */}
               <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
@@ -166,10 +166,10 @@ function PaymentDetails() {
               <TextField
                 style={{
                   width: "100%",
-                  padding: "5px 0",
+                  padding: "0.3125rem 0", // 5px 0
                   color: "#c00100",
-                  borderRadius: "15px",
-                  marginBottom: "10px",
+                  borderRadius: "1.875rem", // 15px
+                  marginBottom: "0.625rem", // 10px
                 }}
                 label="Enter Reference Code"
                 value={referenceCode}
@@ -179,10 +179,10 @@ function PaymentDetails() {
                 style={{
                   backgroundColor: "#c00100",
                   color: "white",
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   width: "100%",
-                  height: "40px",
-                  marginTop: "10px",
+                  height: "2.5rem", // 40px
+                  marginTop: "0.625rem", // 10px
                 }}
                 onClick={sendVerificationCode}
               >
@@ -204,35 +204,35 @@ function PaymentDetails() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               backgroundColor: "white",
-              borderRadius: "15px",
-              padding: "20px",
+              borderRadius: "1.875rem", // 30px
+              padding: "1.25rem", // 20px
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              width: "300px",
+              width: "18.75rem", // 300px
               textAlign: "center",
             }}
           >
             <img
               src={confirmIcon}
               alt="checkmark"
-              style={{ width: "75px", height: "100px" }}
+              style={{ width: "4.6875rem", height: "6.25rem" }} // 75px, 100px
             />
             <h3>Transaction successful!</h3>
             <h3>Thank you for choosing Equityafya</h3>
             <img
               src={togetherIcon}
               alt="Handshake image"
-              style={{ width: "75px", height: "75px" }}
+              style={{ width: "4.6875rem", height: "4.6875rem" }} // 75px, 75px
             />
             <Button
               onClick={() => handleClosePopup(true)}
               style={{
                 backgroundColor: "#c00100",
                 color: "#ffffff",
-                marginBottom: "10px",
-                marginTop: "10px",
+                marginBottom: "0.625rem", // 10px
+                marginTop: "0.625rem", // 10px
               }}
             >
               Check Appointment Status
@@ -242,8 +242,8 @@ function PaymentDetails() {
               style={{
                 backgroundColor: "#c00100",
                 color: "#ffffff",
-                width: "75px",
-                height: "35px",
+                width: "4.6875rem", // 75px
+                height: "2.1875rem", // 35px
               }}
             >
               Close
