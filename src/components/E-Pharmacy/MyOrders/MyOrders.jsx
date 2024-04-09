@@ -59,7 +59,7 @@ const MyOrders = () => {
   ];
 
   const RedButton = styled(Button)({
-    backgroundColor: '#c00100',
+    backgroundColor: '#800000',
     color: 'white',
     '&:hover': {
       backgroundColor: '#8e0000',

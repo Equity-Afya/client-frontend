@@ -254,15 +254,9 @@ const Cart = () => {
         </Box>
         {/* Gender selection buttons */}
       </Box>
+      
     </div>
   );
 };
 
 export default Cart;
-
-
-
-
-
-
-

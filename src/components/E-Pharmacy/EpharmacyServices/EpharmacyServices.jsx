@@ -3,7 +3,7 @@ import { Container, Typography, Card, CardContent, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 
-// Define styles
+
 const useStyles = makeStyles({
   header: {
     textAlign: 'center',
@@ -17,6 +17,11 @@ const useStyles = makeStyles({
     cursor: 'pointer',
   },
   pharmacyCard: {
+    marginTop: '50px',
+    height: '50%',
+  },
+  messageCard: {
+    marginTop: '50px',
     marginTop: '50px',
     height: '50%',
   },
@@ -46,8 +51,10 @@ const EpharmacyServices = () => {
   };
 
   return (
+
+    
     <Container>
-      <Typography variant="h2" className={classes.header}>
+      <Typography variant="h2" className={classes.header} style={{color: '#800000'}}>
         Welcome to our online pharmacy!
       </Typography>
       <Box display="flex" justifyContent="space-between">
@@ -70,6 +77,7 @@ const EpharmacyServices = () => {
         <CardContent>
           {/* Placeholder for the pharmacy image */}
           <img
+            src="https://media.licdn.com/dms/image/D4E12AQFquFze83bWIw/article-cover_image-shrink_720_1280/0/1709291021977?e=2147483647&v=beta&t=sdPQ8q_XLFXW5CeFDRRbhy3BQ9WCNlRZAVyVzino_fs"
             src="https://th.bing.com/th/id/OIP.WlJbV7gUKCc9uScL9ICyaQHaE8?rs=1&pid=ImgDetMain"
             alt="Pharmacy"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -78,7 +86,7 @@ const EpharmacyServices = () => {
       </Card>
       <Card className={classes.messageCard} sx={{ height: '40%' }}>
         <CardContent>
-          <Typography variant="body1" className={classes.message}>
+          <Typography variant="body1" className={classes.message} style={{color: '#800000'}}>
             Our pharmacy is equipped with quality, affordable medication provided by professional, highly qualified and certified Pharmacists. Guidance is always provided on accurate usage including age-based dosage.
           </Typography>
         </CardContent>

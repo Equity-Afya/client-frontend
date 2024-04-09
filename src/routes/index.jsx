@@ -22,7 +22,6 @@ import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ViewProfilePage from "../pages/ViewProfilePage";
 import LanguagePage from "../pages/languagePage";
-//import ProfilePage from "../pages/ProfilePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
@@ -33,6 +32,7 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
+import DeliveryInfoPage from "../pages/DeliveryInfoPage";
 
 
 function AppRoutes() {
@@ -74,6 +74,7 @@ function AppRoutes() {
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
+        <Route path="/delivery-info" element={<DeliveryInfoPage />} />
       </Routes>
     </Router>
   );

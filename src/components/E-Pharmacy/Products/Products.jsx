@@ -197,7 +197,7 @@ const ProductsPage = () => {
                 startIcon={<ShoppingCart />}
                 onClick={() => addToCart(product)}
                 size="small"
-                sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}
+                sx={{ backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}
               >
                 Add to Cart
               </Button>
