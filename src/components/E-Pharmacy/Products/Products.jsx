@@ -26,8 +26,6 @@ const ProductsPage = () => {
       description: 'Description of Bisacodyl',
       category: 'Category 2'
     },
-    { name: 'Medicine A', price: '$10.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine B', price: '$15.00', image: 'https://via.placeholder.com/150' },
     // Add more products as needed
   ];
 
@@ -191,9 +189,6 @@ const ProductsPage = () => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Category: {product.category}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {product.price}
                 </Typography>
               </CardContent>
               <Button

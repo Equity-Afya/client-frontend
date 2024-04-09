@@ -22,6 +22,11 @@ const useStyles = makeStyles({
   },
   messageCard: {
     marginTop: '50px',
+    marginTop: '50px',
+    height: '50%',
+  },
+  messageCard: {
+    marginTop: '50px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,6 +51,7 @@ const EpharmacyServices = () => {
   };
 
   return (
+
     
     <Container>
       <Typography variant="h2" className={classes.header} style={{color: '#800000'}}>
@@ -72,6 +78,7 @@ const EpharmacyServices = () => {
           {/* Placeholder for the pharmacy image */}
           <img
             src="https://media.licdn.com/dms/image/D4E12AQFquFze83bWIw/article-cover_image-shrink_720_1280/0/1709291021977?e=2147483647&v=beta&t=sdPQ8q_XLFXW5CeFDRRbhy3BQ9WCNlRZAVyVzino_fs"
+            src="https://th.bing.com/th/id/OIP.WlJbV7gUKCc9uScL9ICyaQHaE8?rs=1&pid=ImgDetMain"
             alt="Pharmacy"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
