@@ -6,10 +6,10 @@ const servicesData = [
   { id: 1, name: 'Consultation', image:'src/assets/consultation.jpg', route: '/book-appointment' },
   { id: 2, name: 'Dental', image: 'src/assets/dental.jpg', route: '/dental' },
   { id: 3, name: 'Surgical', image: 'src/assets/surgical.jpg', route: '/surgical' },
-  { id: 4, name: 'Family Planning', image: 'src/assets/family_planning.jpg', route: '/family-planning' },
+  { id: 4, name: 'Ob-Gyn', image: 'src/assets/ob_gyn.jpg', route: '/ob_gyn' },
   { id: 5, name: 'ENT', image: 'src/assets/ent.jpg', route: '/ent' },
   { id: 6, name: 'Orthopedics', image: 'src/assets/orthopedic.jpg', route: '/orthopedics' },
-  { id: 7, name: 'MCH', image: 'src/assets/mch.jpg', route: '/mch' },
+  { id: 7, name: 'Paediatrics', image: 'src/assets/paediatric.jpg', route: '/paediatric' },
 ];
 
 const SpecialistServices = () => {
@@ -27,15 +27,14 @@ const SpecialistServices = () => {
   return (
     <>
       <CssBaseline />
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '10px' }}>
+      <div style={{ textAlign: 'start', marginRight: '20px', marginLeft: '0px'}}>
+        <div style={{ display: 'flex', position: 'sticky', top: '0', backgroundColor: '#ffffff', zIndex: '999', padding: '10px', marginBottom: '10px',marginRight: '70px', marginLeft: '-8px' }}>
           <TextField
             label="Search Services"
             variant="outlined"
-            fullWidth
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '70%', marginRight: '10px'}}
+            style={{ width: '100%'}}
           />
           <Button variant="contained" sx={{backgroundColor:'#c00100'}} onClick={handleSearch} style={{ height: '55px' }}>
             Search

@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../components/SideBar/SideBar";
-import AppointmentHistory from "../components/Appointments/AppointmentsHistory";
+import AppointmentHistory from "../components/Appointments/MyAppointments";
 import { Box } from "@mui/system";
 
 const AppointmentsHistoryPage = () => {

@@ -30,16 +30,13 @@ function VerifyOtp() {
     setVerifyLoading(true);
 
     try {
-      const enteredOtp = otp.join("");
-      const response = await api.post(
-        "https://eb76-102-210-244-74.ngrok-free.app/verifyotp",
-        { enteredOtp }
-      );
-      if (response.status === 200) {
-        navigate("/login");
-      } else {
-        alert(response.data.message);
-      }
+        const enteredOtp = otp.join('');
+        const response = await api.post("/verifyotp",{ enteredOtp });
+        if (response.status === 200) {
+            navigate('/login');
+        } else {
+            alert(response.data.message);
+        }
     } catch (error) {
       console.error("Error verifying OTP:", error);
       alert(
@@ -54,7 +51,7 @@ function VerifyOtp() {
     try {
       setResendLoading(true);
       const response = await api.post(
-        "https://eb76-102-210-244-74.ngrok-free.app/resendotp",
+        "/resendotp",
         { email }
       );
 

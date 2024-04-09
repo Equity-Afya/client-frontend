@@ -15,7 +15,7 @@ import {
 
 const services = ["Dentist", "General Checkup", "Other Service"];
 
-const AppointmentForm = () => {
+const BookAppointment = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -47,12 +47,16 @@ const AppointmentForm = () => {
       <Box
         sx={{
           border: "2px solid #C00100",
-          borderRadius: "15px",
-          padding: "20px", 
+          borderRadius: "1px",
+          padding: "20px",
         }}
       >
-        <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold'}}> 
-          Book Appointment
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ textAlign: "center", fontWeight: "bold" }}
+        >
+          Book Now
         </Typography>
         <TextField
           select
@@ -134,7 +138,7 @@ const AppointmentForm = () => {
             !formData.appointmentType ||
             loading
           }
-          sx={{ mb: 2, borderRadius: '20px'}}
+          sx={{ mb: 2, borderRadius: "10px" }}
         >
           {loading ? <CircularProgress size={24} /> : "Next"}
         </Button>
@@ -144,4 +148,4 @@ const AppointmentForm = () => {
   );
 };
 
-export default AppointmentForm;
+export default BookAppointment;
