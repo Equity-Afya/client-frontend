@@ -32,6 +32,9 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
+import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
+import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
+import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
 
 function AppRoutes() {
   return (
@@ -45,6 +48,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
+        <Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
         <Route path="/health-records" element={<MyhealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
@@ -59,7 +63,6 @@ function AppRoutes() {
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
-        <Route path="/doctor-login" element={<DoctorLoginPage />} />
         <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
         <Route
           path="/doctors-customer-care"

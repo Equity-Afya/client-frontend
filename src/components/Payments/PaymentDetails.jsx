@@ -18,11 +18,13 @@ import { loadStripe } from "@stripe/stripe-js";
 function PaymentDetails() {
   const [serviceCharge, setServiceCharge] = useState(0);
   const [referenceCode, setReferenceCode] = useState("");
-  const [serviceType, setServiceType] = useState("Consultation");
+  const [serviceType, setServiceType] = useState("");
   const [payBill, setPayBill] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [billingId, setBillingId] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
+  const [isBookingAppointment, setIsBookingAppointment] = useState(false);
+  const [isBuyingDrugs, setIsBuyingDrugs] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,15 +37,18 @@ function PaymentDetails() {
       },
     })
   );
+
   const stripePromise = loadStripe("your_stripe_public_key_here");
+
   const fetchBillingDetails = async () => {
     try {
-      const response = await fetch(
-        `backend_api_endpoint_here?service=${serviceType}`
-      );
+      const response = await fetch("backend_api_endpoint_here");
       const data = await response.json();
       setServiceCharge(data.charge);
-      setBillingId(data.billingId); // Fetch and set billing ID
+      setBillingId(data.billingId);
+      setServiceType(data.serviceType); // Fetch and set service type
+      setPayBill(data.payBill);
+      setAccountNumber(data.accountNumber);
     } catch (error) {
       console.error("Error fetching billing details:", error);
     }
@@ -75,20 +80,26 @@ function PaymentDetails() {
   const handleTransactionComplete = () => {
     console.log("Transaction completed with reference code:", referenceCode);
     setOpenPopup(true);
+    setIsBookingAppointment(serviceType === "Appointment"); // Set booking appointment state based on service type
+    setIsBuyingDrugs(serviceType === "Pharmacy Drugs"); // Set buying drugs state based on service type
   };
 
   const handleClosePopup = (shouldNavigate) => {
     setOpenPopup(false);
     if (shouldNavigate) {
-      navigate("/appointment-status");
+      if (isBookingAppointment) {
+        navigate("/appointment-status");
+      } else if (isBuyingDrugs) {
+        navigate("/delivery-information");
+      } else {
+        // Only close popup button is displayed, no navigation needed
+      }
     }
   };
 
   useEffect(() => {
-    setPayBill("123456");
-    setAccountNumber("7891011");
     fetchBillingDetails();
-  }, [serviceType]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -226,17 +237,21 @@ function PaymentDetails() {
               alt="Handshake image"
               style={{ width: "4.6875rem", height: "4.6875rem" }} // 75px, 75px
             />
-            <Button
-              onClick={() => handleClosePopup(true)}
-              style={{
-                backgroundColor: "#c00100",
-                color: "#ffffff",
-                marginBottom: "0.625rem", // 10px
-                marginTop: "0.625rem", // 10px
-              }}
-            >
-              Check Appointment Status
-            </Button>
+            {(isBookingAppointment || isBuyingDrugs) && (
+              <Button
+                onClick={() => handleClosePopup(true)}
+                style={{
+                  backgroundColor: "#c00100",
+                  color: "#ffffff",
+                  marginBottom: "0.625rem", // 10px
+                  marginTop: "0.625rem", // 10px
+                }}
+              >
+                {isBookingAppointment
+                  ? "Check Appointment Status"
+                  : "Fill Delivery Information"}
+              </Button>
+            )}
             <Button
               onClick={() => handleClosePopup(false)}
               style={{

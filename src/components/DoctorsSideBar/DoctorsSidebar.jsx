@@ -17,6 +17,7 @@ import {
   Brightness4,
   ExitToApp,
 } from "@mui/icons-material";
+import logo from "../../assets/equityafia_logo.png";
 
 const DoctorsSideBar = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -29,21 +30,36 @@ const DoctorsSideBar = () => {
   return (
     <div
       style={{
-        width: "20%",
-        height: "100vh",
+        width: "18%",
+        minHeight: "100vh",
         position: "fixed",
         left: 0,
         top: 0,
         background: darkMode ? "#c00100" : "#fff",
         color: darkMode ? "#fff" : "#c00100",
         zIndex: 1000,
-        outline: "1px solid #c00100", // Add outline to sidebar
+        outline: "1px solid #c00100",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          padding: "2vh 0",
+        }}
+      >
+        <img
+          src={logo}
+          alt="EquityAfia Logo"
+          style={{ width: "40%", marginRight: "2vw" }}
+        />
+        <h2 style={{ margin: 0 }}>Teleafya</h2>
+      </div>
+
       <List>
-        <ListItem>
-          <ListItemText primary="Teleafya" />
-        </ListItem>
         <Divider />
         <ListItem
           button
@@ -51,8 +67,8 @@ const DoctorsSideBar = () => {
           to="/doctor-dashboard"
           style={{
             backgroundColor:
-              location.pathname === "/doctor-dashboard"
-                ? "yellow"
+              location.pathname === "/doctors-dashboard"
+                ? "#ccc480"
                 : "transparent",
           }}
         >
@@ -68,7 +84,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/doctors-profile"
-                ? "yellow"
+                ? "#ccc480"
                 : "transparent",
           }}
         >
@@ -84,7 +100,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/reviewed-patients"
-                ? "yellow"
+                ? "#ccc480"
                 : "transparent",
           }}
         >
@@ -100,7 +116,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/approved-bookings"
-                ? "yellow"
+                ? "#ccc480"
                 : "transparent",
           }}
         >
@@ -116,7 +132,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/pending-bookings"
-                ? "yellow"
+                ? "#ccc480"
                 : "transparent",
           }}
         >
@@ -132,7 +148,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/doctors-customer-care"
-                ? "yellow"
+                ? "#ccc480"
                 : "transparent",
           }}
         >
@@ -144,7 +160,7 @@ const DoctorsSideBar = () => {
       </List>
       <Divider />
 
-      <div style={{ marginTop: "20vh", color: darkMode ? "#fff" : "#333" }}>
+      <div style={{ marginTop: "auto", color: darkMode ? "#fff" : "#333" }}>
         <List>
           <ListItem button onClick={toggleTheme}>
             <ListItemIcon>
