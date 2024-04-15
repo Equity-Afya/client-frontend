@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
-const Teleclinics = () => {
+const Teleclinics = ({ facilities }) => {
   const [teleclinics, setTeleclinics] = useState([]);
   const [facilitiesPerPage, setFacilitiesPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,27 +14,11 @@ const Teleclinics = () => {
   const [noMatchError, setNoMatchError] = useState(false);
   const [services, setServices] = useState([]);
 
-  const fetchTeleclinicsData = async () => {
-    try {
-      const response = await fetch(
-        "https://e96c-102-210-244-74.ngrok-free.app/api/teleclinic/viewallteleclinics"
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch teleclinics");
-      }
-      const data = await response.json();
-      const sortedTeleclinics = data.sort((a, b) =>
-        a.facility.localeCompare(b.facility)
-      );
-      setTeleclinics(sortedTeleclinics);
-    } catch (error) {
-      console.error("Error fetching teleclinics data:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchTeleclinicsData();
-  }, []);
+    if (facilities && facilities.length > 0) {
+      setTeleclinics(facilities);
+    }
+  }, [facilities]);
 
   const handleShowMore = () => {
     setFacilitiesPerPage(facilitiesPerPage + 5);
@@ -48,17 +32,11 @@ const Teleclinics = () => {
 
   const handleViewServices = async (facility) => {
     setSelectedFacility(facility);
-    try {
-      const response = await fetch(
-        `https://your-backend-api.com/services?facility=${facility}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch services for facility");
-      }
-      const data = await response.json();
-      setServices(data.services);
-    } catch (error) {
-      console.error("Error fetching services:", error);
+    const selectedFacilityData = teleclinics.find(
+      (item) => item.facility === facility
+    );
+    if (selectedFacilityData) {
+      setServices(selectedFacilityData.services);
     }
   };
 
@@ -95,9 +73,7 @@ const Teleclinics = () => {
         alignItems: "center",
       }}
     >
-      <div
-        style={{ backgroundColor: "#E6F0F8", padding: "20px", width: "100%" }}
-      >
+      <div style={{ backgroundColor: "#E6F0F8", padding: "2%", width: "100%" }}>
         <h2 style={{ paddingLeft: "40%" }}>Our Teleclinics</h2>
         <Box
           sx={{
@@ -112,6 +88,7 @@ const Teleclinics = () => {
           }}
         >
           <TextField
+            style={{ backgroundColor: "#fff" }}
             fullWidth
             variant="outlined"
             placeholder="Search by teleclinic name or address"
