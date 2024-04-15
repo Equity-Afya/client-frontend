@@ -81,6 +81,7 @@ function AppRoutes() {
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
+        <Route path="/delivery-info" element={<DeliveryInfoPage />} />
       </Routes>
     </Router>
   );

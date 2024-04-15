@@ -30,6 +30,16 @@ function VerifyOtp() {
     setVerifyLoading(true);
 
     try {
+      const enteredOtp = otp.join("");
+      const response = await api.post(
+        "/verifyotp",
+        { enteredOtp }
+      );
+      if (response.status === 200) {
+        navigate("/login");
+      } else {
+        alert(response.data.message);
+      }
         const enteredOtp = otp.join('');
         const response = await api.post("/verifyotp",{ enteredOtp });
         if (response.status === 200) {
