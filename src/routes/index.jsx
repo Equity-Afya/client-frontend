@@ -35,6 +35,7 @@ import MyOrdersPage from "../pages/MyOrdersPage";
 import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
 import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
 import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
+import DeliveryInfoPage from "../pages/DeliveryInfoPage";
 
 function AppRoutes() {
   return (
