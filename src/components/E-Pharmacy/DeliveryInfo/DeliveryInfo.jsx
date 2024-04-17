@@ -50,11 +50,42 @@ const useStyles = makeStyles((theme) => ({
 const DeliveryInformation = () => {
   const classes = useStyles();
   const [openDialog, setOpenDialog] = useState(false);
+  const [formData, setFormData] = useState({
+    county: '',
+    subCounty: '',
+    town: '',
+    street: '',
+    house: '',
+    contact: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
 
-  const handleCompleteOrder = () => {
-    setOpenDialog(true);
+  const handleChange = (event) => {
+    const { id, value } = event.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
   };
 
+  const validateForm = () => {
+    const errors = {};
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key] && key !== 'house') {
+        errors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+      }
+    });
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleCompleteOrder = () => {
+    const isValid = validateForm();
+    if (isValid) {
+      console.log("Form is valid:", isValid);
+      setOpenDialog(true);
+    }
+  };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -63,42 +94,60 @@ const DeliveryInformation = () => {
     <ThemeProvider theme={theme}>
       <Paper className={classes.paper}>
         <h1>Delivery Information</h1>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel id="county-label">County</InputLabel>
-          <Select
-            labelId="county-label"
-            id="county"
-            defaultValue=""
-          >
+        <FormControl className={classes.formControl} fullWidth >
+          <InputLabel id="county-label"> County</InputLabel>
+          <Select labelId="county-label" id="county" value={formData.county} onChange={handleChange} fullWidth>
+            <MenuItem value="">Select County</MenuItem>
             <MenuItem value="county1">County 1</MenuItem>
             <MenuItem value="county2">County 2</MenuItem>
           </Select>
         </FormControl>
         <FormControl className={classes.formControl} fullWidth>
-          <InputLabel id="subCounty-label">Sub-County</InputLabel>
-          <Select
-            labelId="subCounty-label"
-            id="subCounty"
-            defaultValue=""
-          >
+          <InputLabel id="subCounty-label"> Sub-County</InputLabel>
+          <Select labelId="subCounty-label" id="subCounty" value={formData.subCounty} onChange={handleChange} fullWidth>
+            <MenuItem value="">Select Sub-County</MenuItem>
             <MenuItem value="subCounty1">Sub-County 1</MenuItem>
             <MenuItem value="subCounty2">Sub-County 2</MenuItem>
           </Select>
         </FormControl>
         <FormControl className={classes.formControl} fullWidth>
           <InputLabel id="town-label">Town</InputLabel>
-          <Select
-            labelId="town-label"
-            id="town"
-            defaultValue=""
-          >
+          <Select labelId="town-label" id="town" value={formData.town} onChange={handleChange} fullWidth>
+            <MenuItem value="">Select Town</MenuItem>
             <MenuItem value="town1">Town 1</MenuItem>
             <MenuItem value="town2">Town 2</MenuItem>
           </Select>
         </FormControl>
-        <TextField id="street" label="Street Name" fullWidth className={classes.textField} />
-        <TextField id="house" label="House/Apartment Name" fullWidth className={classes.textField} />
-        <TextField id="contact" label="Contact Number" fullWidth className={classes.textField} />
+        <TextField 
+          id="street" 
+          label="Street Name" 
+          fullWidth 
+          className={classes.textField} 
+          required
+          value={formData.street}
+          onChange={handleChange}
+          error={Boolean(formErrors.street)}
+          helperText={formErrors.street}
+        />
+        <TextField 
+         id="house" 
+         label="House/Apartment Name" 
+         fullWidth 
+         className={classes.textField}
+         value={formData.house}
+         onChange={handleChange}
+        />
+        <TextField 
+          id="contact" 
+          label="Contact Number" 
+          fullWidth 
+          className={classes.textField} 
+          required
+          value={formData.contact}
+          onChange={handleChange}
+          error={Boolean(formErrors.contact)}
+          helperText={formErrors.contact}
+        />
         <Button className={classes.button} variant="contained" color="primary" fullWidth onClick={handleCompleteOrder}>
           Complete Order
         </Button>
