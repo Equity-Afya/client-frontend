@@ -22,15 +22,7 @@ const useStyles = makeStyles({
   },
   messageCard: {
     marginTop: '50px',
-    marginTop: '50px',
     height: '50%',
-  },
-  messageCard: {
-    marginTop: '50px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '20%',
   },
   message: {
     color: '#c00100',
