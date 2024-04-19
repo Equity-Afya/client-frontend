@@ -25,6 +25,9 @@ import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+import PatientDetailsPage from "../pages/PatientDetailsPage";
+import ApprovedBookingsPage from  "../pages/ApprovedBookingsPage";
+import DoctorProfilePage from "../pages/DoctorProfilePage";
 
 
 
@@ -59,6 +62,9 @@ function AppRoutes() {
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
+        <Route path="/patient-file" element={<PatientDetailsPage/>}/>
+        <Route path="/approved-bookings" element={<ApprovedBookingsPage/>}/>
+        <Route path="/doctor-profile" element={<DoctorProfilePage/>}/>
       </Routes>
     </Router>
   );
