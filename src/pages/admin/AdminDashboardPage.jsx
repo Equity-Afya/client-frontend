@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import AdminSidebar from '../components/Admin/AdminSidebar'
+import AdminSidebar from '../../components/Admin/AdminSidebar'
 
 function AdminDashboardPage() {
   return (
