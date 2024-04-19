@@ -35,7 +35,8 @@ import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
 import AdminDashboardPage from "../pages/AdminDashboardPage";
 import AdminServicesPage from "../pages/AdminServicesPage";
-
+import AdminBookingPage from "../pages/AdminBookingPage";
+import DoctorRegistrationPage from "../pages/DoctorRegistrationPage";
 function AppRoutes() {
   return (
     <Router>
@@ -78,7 +79,9 @@ function AppRoutes() {
         <Route path="/dental" element={<DentalPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
-
+        <Route path="/admin-bookings" element={<AdminBookingPage />} />
+        <Route path="/register-user" element={<DoctorRegistrationPage />} />
+       
       </Routes>
     </Router>
   );
