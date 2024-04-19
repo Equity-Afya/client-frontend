@@ -32,9 +32,9 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
-import AdminDashboardPage from "../pages/AdminDashboardPage"
-import AdminServicesPage from "../pages/AdminServicesPage";
-import AdminBookingPage from "../pages/AdminBookingPage";
+import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+import AdminServicesPage from "../pages/admin/AdminServicesPage";
+import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import DoctorRegistrationPage from "../pages/DoctorRegistrationPage";
 import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
 import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";

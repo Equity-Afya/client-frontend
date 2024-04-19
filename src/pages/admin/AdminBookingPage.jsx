@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import AdminBookings from '../components/Admin/AdminBookings'
+import AdminBookings from '../../components/Admin/AdminBookings'
 
 function AdminBookingPage() {
   return (

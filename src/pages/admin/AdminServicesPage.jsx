@@ -1,7 +1,7 @@
 import React from 'react'
-import AdminServiceManagement from '../components/Admin/AdminServiceManagement'
+import AdminServiceManagement from '../../components/Admin/AdminServiceManagement'
 import { Box } from '@mui/material'
-import AdminSidebar from '../components/Admin/AdminSidebar'
+import AdminSidebar from '../../components/Admin/AdminSidebar'
 
 function AdminServicesPage() {
   return (
