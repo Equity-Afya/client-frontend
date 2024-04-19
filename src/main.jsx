@@ -2,12 +2,17 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
 import App from "./App";
-import { AvatarProvider } from "./components/Profile/AvatarContext"
+import { QueryClient, QueryClientProvider } from 'react-query'; // Import QueryClient and QueryClientProvider
+import { AvatarProvider } from "./components/Profile/AvatarContext";
+
+const queryClient = new QueryClient(); // Create a new instance of QueryClient
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AvatarProvider>
-    <App />
-    </AvatarProvider>
+    <QueryClientProvider client={queryClient}>
+      <AvatarProvider>
+        <App />
+      </AvatarProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

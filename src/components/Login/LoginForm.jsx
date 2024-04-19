@@ -26,7 +26,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://b87f-102-210-244-74.ngrok-free.app/api/login",
+        "https://b1f7-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
@@ -39,7 +39,7 @@ function Login() {
 
         // Store tokens in localStorage
         localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('Refresh-Token', refreshToken);
 
         // Include both access token and refresh token in the default headers for all subsequent requests
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
