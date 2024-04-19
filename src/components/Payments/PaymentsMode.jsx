@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, CircularProgress } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-import React, { useState } from "react";
-import { Box, Button, TextField, CircularProgress } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/Lipanampesa.png";
 import myImage from "../../assets/CardImage.png";
-import PropTypes from "prop-types";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
@@ -26,16 +22,6 @@ const PaymentsMode = ({ billingId }) => {
   const [amount, setAmount] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [isCardInfoValid, setIsCardInfoValid] = useState(false);
-
-  // Function to retrieve tokens from local storage
-  const getTokensFromStorage = () => {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('Refresh-Token');
-    return { accessToken, refreshToken };
-  };
-
-  const handleLipaNaMpesaClick = () => {
-  const [mobileNumber, setMobileNumber] = useState("");
   const [paymentError, setPaymentError] = useState(null);
   const [loadingMpesa, setLoadingMpesa] = useState(false);
   const [loadingCard, setLoadingCard] = useState(false);
@@ -54,6 +40,11 @@ const PaymentsMode = ({ billingId }) => {
     return { accessToken, refreshToken };
   };
 
+  const validateMobileNumber = (value) => {
+    const regex = /^[0-9]{10}$/;
+    return regex.test(value);
+  };
+
   const handleLipaNaMpesaClick = async () => {
     setLoadingMpesa(true);
     if (validateMobileNumber(mobileNumber)) {
@@ -64,58 +55,9 @@ const PaymentsMode = ({ billingId }) => {
 
       const { accessToken, refreshToken } = getTokensFromStorage();
 
-      fetch('https://b87f-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-          'Refresh-Token': `Bearer ${refreshToken}`,
-        },
-        body: JSON.stringify(mpesaData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Response from backend:', data);
-          // Further processing if needed
-        })
-        .catch((error) => {
-          console.error('Error sending mobile number to backend:', error);
-        });
-    } else {
-      console.error('Invalid mobile number');
-    }
-  };
-
-  const handleConfirmClick = () => {
-    const cardData = {
-      cardNumber: cardNumber,
-      expiryDate: expiryDate,
-      cvv: cvv,
-      amount: amount,
-      billingId: billingId,
-    };
-
-    const { accessToken, refreshToken } = getTokensFromStorage();
-
-    fetch('https://eb76-102-210-244-74.ngrok-free.app/api/cardpayment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-        'Refresh-Token': `Bearer ${refreshToken}`,
-      },
-      body: JSON.stringify(cardData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Response from card payment backend:', data);
-        // Further processing if needed
-      })
-      .catch((error) => {
-        console.error('Error sending card data to backend:', error);
       try {
         const response = await fetch(
-          "https://557b-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
+          "https://b87f-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
           {
             method: "POST",
             headers: {
@@ -193,16 +135,6 @@ const PaymentsMode = ({ billingId }) => {
     }
   };
 
-  const validateMobileNumber = (value) => {
-    const regex = /^[0-9]{10}$/;
-    return regex.test(value);
-  };
-
-  const handleMobileNumberChange = (e) => {
-    const value = e.target.value;
-    setMobileNumber(value);
-  };
-
   const handleCardInfoChange = () => {
     setIsCardInfoValid(
       cardNumber.trim() !== '' &&
@@ -210,6 +142,11 @@ const PaymentsMode = ({ billingId }) => {
         cvv.trim() !== '' &&
         amount.trim() !== ''
     );
+  };
+
+  const handleMobileNumberChange = (e) => {
+    const value = e.target.value;
+    setMobileNumber(value);
   };
 
   return (
@@ -256,15 +193,6 @@ const PaymentsMode = ({ billingId }) => {
         >
           <h4 style={{ marginTop: '0', textAlign: 'left' }}>Lipa na M-Pesa</h4>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            outline: "1px solid #600100",
-            borderRadius: "0.625rem",
-            padding: "1.25rem",
-            marginBottom: "0.625rem",
-            marginTop: "0.625rem",
-          }}
-        >
-          <h4 style={{ marginTop: "0", textAlign: "left" }}>Lipa na M-Pesa</h4>
-          <div style={{ display: "flex", alignItems: "center" }}>
             <img
               src={logo}
               alt="Lipa na M-Pesa image"
@@ -333,6 +261,15 @@ const PaymentsMode = ({ billingId }) => {
             <h4 style={{ marginTop: '0', flex: '1', textAlign: 'left' }}>
               Pay with card
             </h4>
+            <img
+              src={myImage}
+              alt="Card payment image"
+              style={{
+                width: "5rem",
+                height: "auto",
+                marginLeft: "1.25rem",
+              }}
+            />
           </div>
           <div
             style={{ marginTop: '15px', marginBottom: '20px', display: 'flex' }}
@@ -377,13 +314,6 @@ const PaymentsMode = ({ billingId }) => {
               onChange={(e) => {
                 setAmount(e.target.value);
                 handleCardInfoChange();
-            <img
-              src={myImage}
-              alt="Card payment image"
-              style={{
-                width: "5rem",
-                height: "auto",
-                marginLeft: "1.25rem",
               }}
             />
           </div>

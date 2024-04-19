@@ -35,7 +35,7 @@ function Login() {
 
       if (response.status === 200) {
         // Get access token and refresh token from the response
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken, role } = response.data;
 
         // Store tokens in localStorage
         localStorage.setItem('accessToken', accessToken);
@@ -45,12 +45,6 @@ function Login() {
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         axios.defaults.headers.common['Refresh-Token'] = `Bearer ${refreshToken}`;
 
-        // Redirect to dashboard
-        navigate('/dashboard');
-      // Assuming the response includes user data with a 'role' field
-      const { role } = response.data;
-
-      if (response.status === 200) {
         // Redirect based on user's role
         switch (role) {
           case 'admin':
