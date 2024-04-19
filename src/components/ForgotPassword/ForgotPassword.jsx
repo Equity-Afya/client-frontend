@@ -17,7 +17,9 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await api.post("/forgotpassword", { email });
+      const response = await api.post('/forgotpassword', 
+        {email}
+      );
 
       alert(response.data.message);
 

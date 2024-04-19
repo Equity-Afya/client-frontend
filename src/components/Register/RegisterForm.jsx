@@ -34,7 +34,8 @@ function RegisterForm() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showLoginLink = location.pathname !== "/login";
+  const showLoginLink =
+    location.pathname !== "https://eb76-102-210-244-74.ngrok-free.app/login";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +46,7 @@ function RegisterForm() {
   const [formErrors, setFormErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   // Function to check if all fields are filled
   const areFieldsFilled = () => {
@@ -122,8 +123,8 @@ function RegisterForm() {
         //Show success message
         toast.success("Registration successful!", {
           position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
+          autoClose: 2000,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,

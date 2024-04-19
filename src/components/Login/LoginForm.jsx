@@ -17,7 +17,7 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State variable to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -26,19 +26,46 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://abc2-102-210-244-74.ngrok-free.app/api/login",
+        "https://b1f7-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
         }
       );
 
-      alert(response.data.message); // Display login status message
-      // Redirect to Home page on successful login
+      if (response.status === 200) {
+        // Get access token and refresh token from the response
+        const { accessToken, refreshToken } = response.data;
+
+        // Store tokens in localStorage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('Refresh-Token', refreshToken);
+
+        // Include both access token and refresh token in the default headers for all subsequent requests
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        axios.defaults.headers.common['Refresh-Token'] = `Bearer ${refreshToken}`;
+
+        // Redirect to dashboard
+        navigate('/dashboard');
+      // Assuming the response includes user data with a 'role' field
+      const { role } = response.data;
 
       if (response.status === 200) {
-        
-       navigate('/dashboard');
+        // Redirect based on user's role
+        switch (role) {
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          case 'doctor':
+            navigate('/doctor-dashboard');
+            break;
+          case 'patient':
+            navigate('/patient-dashboard');
+            break;
+          default:
+            // If the role is not recognized, redirect to a generic dashboard
+            navigate('/dashboard');
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {

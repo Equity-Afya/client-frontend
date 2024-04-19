@@ -30,20 +30,51 @@ function Sidebar() {
   const [brightnessMode, setBrightnessMode] = useState(false);
   const [fullscreenMode, setFullscreenMode] = useState(false); // Define fullscreen mode state
 
-  const handleLogout = async () => {
-    try {
-      const response = await axios.post('/logout');
-      console.log('Logout response:', response); // Add this line for debugging
-      if (response.status === 200) {
-        navigate('/login');
-      } else {
-        console.error('Logout failed');
+
+  // Function to store tokens in localStorage
+const storeTokens = (accessToken, refreshToken) => {
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('Refresh-Token', refreshToken);
+};
+
+// Function to retrieve access token from localStorage
+const getAccessToken = () => {
+  return localStorage.getItem('accessToken');
+};
+
+// Function to retrieve refresh token from localStorage
+const getRefreshToken = () => {
+  return localStorage.getItem('Refresh-Token');
+};
+
+// Function to perform logout
+const handleLogout = async () => {
+  try {
+    const accessToken = getAccessToken(); 
+    const refreshToken = getRefreshToken();
+    const response = await axios.post(
+      'https://b87f-102-210-244-74.ngrok-free.app/api/logout',
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Refresh-Token': `Bearer ${refreshToken}`
+        }
       }
-    } catch (error) {
-      console.error('Logout failed:', error);
+    );
+    if (response.status === 200) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      navigate('/login');
+    } else {
+      console.error('Logout failed');
     }
-  };
-  
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
+
+
 
   const handleNavigation = (route) => {
     if (route === '/light-mode') {
@@ -90,7 +121,7 @@ function Sidebar() {
               {fullscreenMode ? <FullscreenExit /> : <Fullscreen />}
             </IconButton>
         </ListItem>
-        <ListItem button onClick={() => handleNavigation("/appointments")}>
+        <ListItem button onClick={() => handleNavigation("/appointments-history")}>
           <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
             <EventNote />
           </ListItemIcon>

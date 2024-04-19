@@ -24,10 +24,10 @@ const AppointmentHistory = () => {
 
     const fetchIdNumber = async () => {
       try {
-        const response = await api.get("/idNumberEndpoint"); // Replace with your actual endpoint
+        const response = await api.get("/idNumberEndpoint"); 
 
         if (response.status === 200) {
-          setIdNumber(response.data.idNumber); // Set ID number in state
+          setIdNumber(response.data.idNumber); 
         } else {
           throw new Error("Failed to fetch ID number");
         }
@@ -64,7 +64,7 @@ const AppointmentHistory = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
-        Appointments History
+        My Appointments
       </Typography>
       <TableContainer component={Paper}>
         <Table>
@@ -110,7 +110,7 @@ const AppointmentHistory = () => {
         variant="contained"
         color="primary"
         component={Link}
-        to="/payments-page"
+        to="/payments"
         sx={{ mt: 2 }}
       >
         Proceed to Payments

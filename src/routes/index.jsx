@@ -8,7 +8,7 @@ import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import MedicalServicesPage from "../pages/MedicalServicesPage";
 import SpecialistsPage from "../pages/SpecialistsPage";
-import MyHealthRecordsPage from "../pages/MyhealthRecordsPage";
+import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
 import PaymentsPage from "../pages/PaymentsPage";
 import CustomerCarePage from "../pages/CustomerCarePage";
 import TeleclinicsPage from "../pages/TeleclinicsPage";
@@ -20,14 +20,11 @@ import PasswordReset from "../components/PasswordReset/passwordReset";
 import AppointmentStatusPage from "../pages/AppointmentStatusPage";
 import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import ProfilePage from "../pages/ProfilePage";
-import MyhealthRecordsPage from "../pages/MyhealthRecordsPage";
+import ViewProfilePage from "../pages/ViewProfilePage";
+import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
-import PatientDetailsPage from "../pages/PatientDetailsPage";
-import ApprovedBookingsPage from  "../pages/ApprovedBookingsPage";
-import DoctorProfilePage from "../pages/DoctorProfilePage";
 
 
 
@@ -43,7 +40,8 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
-        <Route path="/health-records" element={<MyHealthRecordsPage />} />
+        <Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
+        <Route path="/health-records" element={<MyhealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
         <Route path="/customer-care" element={<CustomerCarePage />} />
@@ -57,18 +55,18 @@ function AppRoutes() {
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
+        <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
+        <Route
+          path="/doctors-customer-care"
+          element={<DoctorsCustomerCarePage />}
+        />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="profile" element={<ProfilePage />} />
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
-        <Route path="/patient-file" element={<PatientDetailsPage/>}/>
-        <Route path="/approved-bookings" element={<ApprovedBookingsPage/>}/>
-        <Route path="/doctor-profile" element={<DoctorProfilePage/>}/>
       </Routes>
     </Router>
   );
 }
 
 export default AppRoutes;
-

@@ -18,7 +18,7 @@ function  CustomerCare()  {
             
            <div>
             <div style={{ display:'flex', flexDirection:'row'}}>
-            <Card style={{ width:300, height:600, marginLeft:50 }}>
+            <Card style={{ width:300, height:600, marginLeft:50, marginTop:30 }}>
                <CardContent>
             <CardMedia
               component="img"
@@ -38,7 +38,7 @@ function  CustomerCare()  {
                <Typography style={{marginTop:40, marginLeft:10, color:'#F1BB31'}}>Your listening caring health partner</Typography>
               </CardContent>
             </Card>
-            <Card style={{ width:300, height: 600, marginLeft:50}}>
+            <Card style={{ width:300, height: 600, marginLeft:50, marginTop:30}}>
              <CardContent>
               <CardMedia    
               
@@ -56,7 +56,7 @@ function  CustomerCare()  {
              </CardContent>
            </Card>
 
-           <Card style={{ width:300, height: 600, marginLeft:50}} >
+           <Card style={{ width:300, height: 600, marginLeft:50, marginTop:30}} >
             <CardContent>
             <CardMedia
             component="img"
