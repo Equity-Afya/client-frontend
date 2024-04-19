@@ -47,6 +47,25 @@ function Login() {
 
         // Redirect to dashboard
         navigate('/dashboard');
+      // Assuming the response includes user data with a 'role' field
+      const { role } = response.data;
+
+      if (response.status === 200) {
+        // Redirect based on user's role
+        switch (role) {
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          case 'doctor':
+            navigate('/doctor-dashboard');
+            break;
+          case 'patient':
+            navigate('/patient-dashboard');
+            break;
+          default:
+            // If the role is not recognized, redirect to a generic dashboard
+            navigate('/dashboard');
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {

@@ -47,7 +47,7 @@ function EpharmacySidebar() {
         sx={{
           width: 240,
           height: "100%",
-          backgroundColor: "#c00100",
+          backgroundColor: "#800000",
           color: "#FFFFFF",
           paddingTop: 0,
         }}
@@ -88,11 +88,11 @@ function EpharmacySidebar() {
           </ListItemIcon>
           <ListItemText primary="Prescriptions" />
         </ListItem>
-        <ListItem button onClick={() => handleNavigation("/shipping-information")}>
+        <ListItem button onClick={() => handleNavigation("/delivery-info")}>
           <ListItemIcon sx={{ color: "#FFFFFF", marginRight: -3 }}>
             <LocalPharmacy />
           </ListItemIcon>
-          <ListItemText primary="Shipping Information" />
+          <ListItemText primary="Delivery Information" />
         </ListItem>
         <ListItem button sx={{ paddingTop: 20 }} onClick={() => setBrightnessMode(!brightnessMode)}>
           <ListItemIcon sx={{ color: "#FFFFFF", marginRight: -3 }}>
