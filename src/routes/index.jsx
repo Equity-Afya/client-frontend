@@ -22,21 +22,26 @@ import OtpPasswordPage from "../pages/OtpPasswordPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ViewProfilePage from "../pages/ViewProfilePage";
 import LanguagePage from "../pages/languagePage";
-//import ProfilePage from "../pages/ProfilePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
-import DentalPage from "../pages/DentalPage"
+import DentalPage from "../pages/DentalPage";
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
 import EpharmacyLandingPage from "../pages/EpharmacyLandingPage";
 import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
-import AdminDashboardPage from "../pages/AdminDashboardPage";
+import AdminDashboardPage from "../pages/AdminDashboardPage"
 import AdminServicesPage from "../pages/AdminServicesPage";
 import AdminBookingPage from "../pages/AdminBookingPage";
 import DoctorRegistrationPage from "../pages/DoctorRegistrationPage";
+import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
+import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
+import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
+import DeliveryInfoPage from "../pages/DeliveryInfoPage";
+
+
 function AppRoutes() {
   return (
     <Router>
@@ -49,6 +54,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/medical-services" element={<MedicalServicesPage />} />
         <Route path="/specialists" element={<SpecialistsPage />} />
+        <Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
         <Route path="/health-records" element={<MyhealthRecordsPage />} />
         <Route path="/teleclinics" element={<TeleclinicsPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
@@ -63,12 +69,16 @@ function AppRoutes() {
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
+        <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
+        <Route
+          path="/doctors-customer-care"
+          element={<DoctorsCustomerCarePage />}
+        />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
-
-        <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />}/>
+        <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />} />
         <Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/prescriptions" element={<PrescriptionsPage />} />
@@ -81,7 +91,7 @@ function AppRoutes() {
         <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
         <Route path="/admin-bookings" element={<AdminBookingPage />} />
         <Route path="/register-user" element={<DoctorRegistrationPage />} />
-       
+        <Route path="/delivery-info" element={<DeliveryInfoPage />} />
       </Routes>
     </Router>
   );

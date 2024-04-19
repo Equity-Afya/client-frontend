@@ -11,17 +11,20 @@ import "react-toastify/dist/ReactToastify.css";
 import confirmIcon from "../../assets/paymentStatus.png";
 import togetherIcon from "../../assets/together.jpeg";
 
-import Payments from "./PaymentsMode";
 import PaymentsMode from "./PaymentsMode";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 function PaymentDetails() {
   const [serviceCharge, setServiceCharge] = useState(0);
   const [referenceCode, setReferenceCode] = useState("");
-  const [serviceType, setServiceType] = useState("Consultation");
+  const [serviceType, setServiceType] = useState("");
   const [payBill, setPayBill] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [billingId, setBillingId] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
+  const [isBookingAppointment, setIsBookingAppointment] = useState(false);
+  const [isBuyingDrugs, setIsBuyingDrugs] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,14 +38,17 @@ function PaymentDetails() {
     })
   );
 
+  const stripePromise = loadStripe("your_stripe_public_key_here");
+
   const fetchBillingDetails = async () => {
     try {
-      const response = await fetch(
-        `backend_api_endpoint_here?service=${serviceType}`
-      );
+      const response = await fetch("backend_api_endpoint_here");
       const data = await response.json();
       setServiceCharge(data.charge);
-      setBillingId(data.billingId); // Fetch and set billing ID
+      setBillingId(data.billingId);
+      setServiceType(data.serviceType); // Fetch and set service type
+      setPayBill(data.payBill);
+      setAccountNumber(data.accountNumber);
     } catch (error) {
       console.error("Error fetching billing details:", error);
     }
@@ -74,20 +80,26 @@ function PaymentDetails() {
   const handleTransactionComplete = () => {
     console.log("Transaction completed with reference code:", referenceCode);
     setOpenPopup(true);
+    setIsBookingAppointment(serviceType === "Appointment"); // Set booking appointment state based on service type
+    setIsBuyingDrugs(serviceType === "Pharmacy Drugs"); // Set buying drugs state based on service type
   };
 
   const handleClosePopup = (shouldNavigate) => {
     setOpenPopup(false);
     if (shouldNavigate) {
-      navigate("/appointment-status");
+      if (isBookingAppointment) {
+        navigate("/appointment-status");
+      } else if (isBuyingDrugs) {
+        navigate("/delivery-information");
+      } else {
+        // Only close popup button is displayed, no navigation needed
+      }
     }
   };
 
   useEffect(() => {
-    setPayBill("123456");
-    setAccountNumber("7891011");
     fetchBillingDetails();
-  }, [serviceType]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,7 +107,7 @@ function PaymentDetails() {
         style={{
           display: "flex",
           flexDirection: "row",
-          height: "100vh",
+          marginRight: "3.125rem", // 50px
         }}
       >
         <ToastContainer />
@@ -111,9 +123,9 @@ function PaymentDetails() {
           <Card
             style={{
               backgroundColor: "#D9D9D9",
-              borderRadius: "15px",
-              padding: "20px",
-              width: "300px",
+              borderRadius: "1.875rem", // 30px
+              padding: "1.25rem", // 20px
+              width: "18.75rem", // 300px
               textAlign: "center",
             }}
           >
@@ -121,54 +133,54 @@ function PaymentDetails() {
               <h4
                 style={{
                   fontWeight: "bold",
-                  fontSize: "clamp(14px, 3vw, 18px)",
+                  fontSize: "clamp(0.875rem, 3vw, 1.125rem)", // 14px, 3vw, 18px
                   borderBottom: "1px solid #c00100",
-                  margin: "0 0 20px",
+                  margin: "0 0 1.25rem", // 0 0 20px
                 }}
               >
                 Billing Information
               </h4>
-              <h4>Service: {serviceType}</h4>
-              <p
+              <h5>Services: {serviceType}</h5>
+              <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
                 Amount : {serviceCharge}
-              </p>
-              <p
+              </h5>
+              <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
-                PAYBILL : {payBill}
-              </p>
-              <p
+                Paybill : {payBill}
+              </h5>
+              <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
-                ACCOUNT NUMBER : {accountNumber}
-              </p>
+                Acc. Number : {accountNumber}
+              </h5>
               {/* Display billing ID */}
-              <p
+              <h5
                 style={{
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   fontWeight: "bold",
                 }}
               >
                 Billing ID : {billingId}
-              </p>
+              </h5>
               <TextField
                 style={{
                   width: "100%",
-                  padding: "5px 0",
+                  padding: "0.3125rem 0", // 5px 0
                   color: "#c00100",
-                  borderRadius: "15px",
-                  marginBottom: "10px",
+                  borderRadius: "1.875rem", // 15px
+                  marginBottom: "0.625rem", // 10px
                 }}
                 label="Enter Reference Code"
                 value={referenceCode}
@@ -178,10 +190,10 @@ function PaymentDetails() {
                 style={{
                   backgroundColor: "#c00100",
                   color: "white",
-                  fontSize: "clamp(10px, 2vw, 12px)",
+                  fontSize: "clamp(0.625rem, 2vw, 0.75rem)", // 10px, 2vw, 12px
                   width: "100%",
-                  height: "40px",
-                  marginTop: "10px",
+                  height: "2.5rem", // 40px
+                  marginTop: "0.625rem", // 10px
                 }}
                 onClick={sendVerificationCode}
               >
@@ -203,53 +215,59 @@ function PaymentDetails() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               backgroundColor: "white",
-              borderRadius: "15px",
-              padding: "20px",
+              borderRadius: "1.875rem", // 30px
+              padding: "1.25rem", // 20px
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              width: "300px",
+              width: "18.75rem", // 300px
               textAlign: "center",
             }}
           >
             <img
               src={confirmIcon}
               alt="checkmark"
-              style={{ width: "75px", height: "100px" }}
+              style={{ width: "4.6875rem", height: "6.25rem" }} // 75px, 100px
             />
             <h3>Transaction successful!</h3>
             <h3>Thank you for choosing Equityafya</h3>
             <img
               src={togetherIcon}
               alt="Handshake image"
-              style={{ width: "75px", height: "75px" }}
+              style={{ width: "4.6875rem", height: "4.6875rem" }} // 75px, 75px
             />
-            <Button
-              onClick={() => handleClosePopup(true)}
-              style={{
-                backgroundColor: "#c00100",
-                color: "#ffffff",
-                marginBottom: "10px",
-                marginTop: "10px",
-              }}
-            >
-              Check Status
-            </Button>
+            {(isBookingAppointment || isBuyingDrugs) && (
+              <Button
+                onClick={() => handleClosePopup(true)}
+                style={{
+                  backgroundColor: "#c00100",
+                  color: "#ffffff",
+                  marginBottom: "0.625rem", // 10px
+                  marginTop: "0.625rem", // 10px
+                }}
+              >
+                {isBookingAppointment
+                  ? "Check Appointment Status"
+                  : "Fill Delivery Information"}
+              </Button>
+            )}
             <Button
               onClick={() => handleClosePopup(false)}
               style={{
                 backgroundColor: "#c00100",
                 color: "#ffffff",
-                width: "75px",
-                height: "35px",
+                width: "4.6875rem", // 75px
+                height: "2.1875rem", // 35px
               }}
             >
               Close
             </Button>
           </div>
         </Modal>
-        <PaymentsMode billingId={billingId} />
+        <Elements stripe={stripePromise}>
+          <PaymentsMode billingId={billingId} />
+        </Elements>
       </div>
     </ThemeProvider>
   );

@@ -12,8 +12,20 @@ const ProductsPage = () => {
   const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
 
   const products = [
-    { name: 'Medicine A', price: '$10.00', image: 'https://via.placeholder.com/150' },
-    { name: 'Medicine B', price: '$15.00', image: 'https://via.placeholder.com/150' },
+    { 
+      name: 'Baclofen',
+      price: '$10.00',
+      image: 'https://media.post.rvohealth.io/2U4nNZEf7jt4s7fWZRWXPcYsXyz/2023/08/22/2UM7Q8X8MCbyDneO1tpu6lmJxoq.jpg',
+      description: 'Description of Baclofen',
+      category: 'Category 1'
+    },
+    { 
+      name: 'Bisacodyl',
+      price: '$15.00',
+      image: 'https://www.findatopdoc.com/var/fatd/storage/images/_aliases/article_main/healthy-living/what-is-bisacodyl-used-for/6978077-2-eng-US/What-Is-Bisacodyl-Used-For.jpg',
+      description: 'Description of Bisacodyl',
+      category: 'Category 2'
+    },
     // Add more products as needed
   ];
 
@@ -172,6 +184,12 @@ const ProductsPage = () => {
                 <Typography variant="body2" color="text.secondary">
                   {product.price}
                 </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {product.description}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Category: {product.category}
+                </Typography>
               </CardContent>
               <Button
                 variant="contained"
@@ -179,7 +197,7 @@ const ProductsPage = () => {
                 startIcon={<ShoppingCart />}
                 onClick={() => addToCart(product)}
                 size="small"
-                sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}
+                sx={{ backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}
               >
                 Add to Cart
               </Button>

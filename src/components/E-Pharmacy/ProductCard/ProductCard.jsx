@@ -2,11 +2,11 @@ import React from 'react';
 import { Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
 
 const ProductCard = ({ product, onAddToCart }) => {
-  const handleAddToCart = () => {
+ const handleAddToCart = () => {
     onAddToCart(product);
-  };
+ };
 
-  return (
+ return (
     <Card sx={{ width: 150 }}>
       <CardMedia
         component="img"
@@ -22,9 +22,20 @@ const ProductCard = ({ product, onAddToCart }) => {
           ${product.price}
         </Typography>
       </CardContent>
-      <Button onClick={handleAddToCart}>Add to Cart</Button>
+      <Button
+        onClick={handleAddToCart}
+        sx={{
+          backgroundColor: '#c00100',
+          color: 'white', // Set the text color to white
+          '&:hover': {
+            backgroundColor: '#c00100', // Ensure the hover state matches the active state
+          },
+        }}
+      >
+        Add to Cart
+      </Button>
     </Card>
-  );
+ );
 };
 
 export default ProductCard;

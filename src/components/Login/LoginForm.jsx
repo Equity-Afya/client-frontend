@@ -35,7 +35,7 @@ function Login() {
 
       if (response.status === 200) {
         // Get access token and refresh token from the response
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken, role } = response.data;
 
         // Store tokens in localStorage
         localStorage.setItem('accessToken', accessToken);
@@ -45,8 +45,21 @@ function Login() {
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         axios.defaults.headers.common['Refresh-Token'] = `Bearer ${refreshToken}`;
 
-        // Redirect to dashboard
-        navigate('/dashboard');
+        // Redirect based on user's role
+        switch (role) {
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          case 'doctor':
+            navigate('/doctor-dashboard');
+            break;
+          case 'patient':
+            navigate('/patient-dashboard');
+            break;
+          default:
+            // If the role is not recognized, redirect to a generic dashboard
+            navigate('/dashboard');
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
