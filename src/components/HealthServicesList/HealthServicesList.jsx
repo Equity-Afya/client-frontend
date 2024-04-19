@@ -12,8 +12,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import axios from "axios";
-import Teleclinics from "../Teleclinics/Teleclinics"; // Import Teleclinics page here
 
 const Notification = ({ message }) => {
   return <div>{message}</div>;
@@ -24,7 +22,6 @@ const HealthServicesList = () => {
   const [notifications, setNotifications] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredServices, setFilteredServices] = useState([]);
-  const [facilities, setFacilities] = useState([]);
 
   const serviceRequestsData = [
     { name: "Medical services", requests: 65 },
@@ -90,26 +87,6 @@ const HealthServicesList = () => {
 
     fetchNotifications();
   }, []);
-
-  useEffect(() => {
-    const fetchTeleclinicsFacilities = async () => {
-      try {
-        const response = await axios.get(
-          "https://9235-102-210-244-74.ngrok-free.app/api/teleclinics/facilities"
-        );
-        setFacilities(response.data);
-      } catch (error) {
-        console.error("Error fetching teleclinics facilities:", error);
-      }
-    };
-
-    fetchTeleclinicsFacilities();
-  }, []);
-
-  const handleTeleclinicsClick = () => {
-    // Navigate to the Teleclinics page with facilities data passed as props
-    navigate("/teleclinics", { state: { facilities: facilities } });
-  };
 
   const handleSearch = () => {
     const filtered = healthServices.filter((service) =>
@@ -193,17 +170,6 @@ const HealthServicesList = () => {
             </IconButton>
             <AvatarWithProfileDetails />
           </Box>
-          <Button
-            variant="contained"
-            sx={{
-              height: "40px",
-              backgroundColor: "#C00100",
-              marginRight: "20px",
-            }}
-            onClick={handleTeleclinicsClick}
-          >
-            Teleclinics
-          </Button>
         </Box>
 
         <Box
