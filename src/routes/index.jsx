@@ -32,10 +32,13 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
+import AdminDashboardPage from "../pages/AdminDashboardPage";
+import AdminServicesPage from "../pages/AdminServicesPage";
 import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
 import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
 import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
 import DeliveryInfoPage from "../pages/DeliveryInfoPage";
+
 
 function AppRoutes() {
   return (
@@ -82,6 +85,8 @@ function AppRoutes() {
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
         <Route path="/delivery-info" element={<DeliveryInfoPage />} />
       </Routes>
     </Router>

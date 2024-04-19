@@ -26,13 +26,27 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://b776-102-210-244-74.ngrok-free.app/api/login",
+        "https://b1f7-102-210-244-74.ngrok-free.app/api/login",
         {
           email,
           password,
         }
       );
 
+      if (response.status === 200) {
+        // Get access token and refresh token from the response
+        const { accessToken, refreshToken } = response.data;
+
+        // Store tokens in localStorage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('Refresh-Token', refreshToken);
+
+        // Include both access token and refresh token in the default headers for all subsequent requests
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        axios.defaults.headers.common['Refresh-Token'] = `Bearer ${refreshToken}`;
+
+        // Redirect to dashboard
+        navigate('/dashboard');
       // Assuming the response includes user data with a 'role' field
       const { role } = response.data;
 
