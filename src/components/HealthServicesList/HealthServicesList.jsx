@@ -4,20 +4,6 @@ import { List, Box, Typography, Button, IconButton, Avatar } from '@mui/material
 import { ArrowForward, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import React, { useState, useEffect } from "react";
-import AvatarWithProfileDetails from "../Profile/ProfileDetails";
-import { List, Box, Typography, Button, IconButton } from "@mui/material";
-import { ArrowForward, Notifications } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
 
 const Notification = ({ message }) => {
   return <div>{message}</div>;
