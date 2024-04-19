@@ -37,7 +37,7 @@ function VerifyOtp() {
         navigate("/login");
       } else {
         alert(response.data.message);
-      }
+      } 
     } catch (error) {
       console.error("Error verifying OTP:", error);
       alert(

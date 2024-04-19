@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Paper, Card, Typography, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogContentText, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Done, Handshake } from '@mui/icons-material';
+import "./Prescription.css";
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -44,7 +45,8 @@ const Prescriptions = () => {
           <img
             src="https://media.licdn.com/dms/image/D4E12AQFquFze83bWIw/article-cover_image-shrink_720_1280/0/1709291021977?e=2147483647&v=beta&t=sdPQ8q_XLFXW5CeFDRRbhy3BQ9WCNlRZAVyVzino_fs"
             alt="Your photo"
-            style={{ width: '100%', objectFit: 'cover', height: '100%' }}
+            style={{ width: '100%', objectFit: 'cover', height: 'auto' }}
+            className="responsive-image"
           />
         </CardContent>
       </Card>
