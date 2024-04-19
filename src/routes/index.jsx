@@ -26,6 +26,18 @@ import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
 
+import DentalPage from "../pages/DentalPage";
+import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
+import EpharmacyLandingPage from "../pages/EpharmacyLandingPage";
+import ProductsPage from "../pages/ProductsPage";
+import PrescriptionsPage from "../pages/PrescriptionsPage";
+import CartPage from "../pages/CartPage";
+import MyOrdersPage from "../pages/MyOrdersPage";
+import AdminDashboardPage from "../pages/AdminDashboardPage";
+import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
+import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
+import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
+import DeliveryInfoPage from "../pages/DeliveryInfoPage";
 
 
 function AppRoutes() {
@@ -64,6 +76,17 @@ function AppRoutes() {
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
         <Route path="/reset-password" element={PasswordReset} />
+        <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />} />
+        <Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/prescriptions" element={<PrescriptionsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/my-orders" element={<MyOrdersPage />} />
+        <Route path="/view-profile" element={<ViewProfilePage />} />
+        <Route path="/language" element={<LanguagePage />} />
+        <Route path="/dental" element={<DentalPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+        <Route path="/delivery-info" element={<DeliveryInfoPage />} />
       </Routes>
     </Router>
   );
