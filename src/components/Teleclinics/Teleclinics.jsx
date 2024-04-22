@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, CircularProgress } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
-const Teleclinics = ({ facilities }) => {
+const Teleclinics = () => {
   const [teleclinics, setTeleclinics] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [facilitiesPerPage, setFacilitiesPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFacility, setSelectedFacility] = useState(null);
@@ -12,13 +13,35 @@ const Teleclinics = ({ facilities }) => {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    if (facilities && facilities.length > 0) {
-      setTeleclinics(facilities);
-    }
-  }, [facilities]);
+    const fetchTeleclinicsData = async () => {
+      try {
+        const response = await fetch(
+          "https://9235-102-210-244-74.ngrok-free.app/api/facility"
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Response is not JSON");
+        }
+
+        const data = await response.json();
+        setTeleclinics(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchTeleclinicsData();
+  }, []);
 
   const handleShowMore = () => {
-    setFacilitiesPerPage(facilitiesPerPage + 5);
+    setFacilitiesPerPage((prev) => prev + 5);
   };
 
   const totalPages = Math.ceil(teleclinics.length / facilitiesPerPage);
@@ -27,7 +50,7 @@ const Teleclinics = ({ facilities }) => {
     setCurrentPage(page);
   };
 
-  const handleViewServices = async (facility) => {
+  const handleViewServices = (facility) => {
     setSelectedFacility(facility);
     const selectedFacilityData = teleclinics.find(
       (item) => item.facility === facility
@@ -58,6 +81,21 @@ const Teleclinics = ({ facilities }) => {
   useEffect(() => {
     setNoMatchError(filteredTeleclinics.length === 0 && searchQuery !== "");
   }, [filteredTeleclinics, searchQuery]);
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -155,7 +193,13 @@ const Teleclinics = ({ facilities }) => {
         </Box>
       </div>
       {facilitiesPerPage < teleclinics.length && (
-        <button onClick={handleShowMore}>Show More</button>
+        <Button
+          variant="outlined"
+          onClick={handleShowMore}
+          style={{ marginTop: "10px" }}
+        >
+          Show More
+        </Button>
       )}
       {selectedFacility && (
         <div
@@ -187,7 +231,9 @@ const Teleclinics = ({ facilities }) => {
                 <li key={index}>{service}</li>
               ))}
             </ul>
-            <button onClick={handleCloseServices}>Close</button>
+            <Button variant="outlined" onClick={handleCloseServices}>
+              Close
+            </Button>
           </div>
         </div>
       )}
