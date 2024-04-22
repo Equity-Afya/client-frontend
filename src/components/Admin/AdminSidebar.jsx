@@ -140,7 +140,7 @@ function AdminSidebar() {
             paddingTop: 0,
           }}
         >
-          <StyledListItem button onClick={() => handleNavigation("/admin-dash")}>
+          <StyledListItem button onClick={() => handleNavigation("/admin-dashboard")}>
             <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
               <Dashboard />
             </ListItemIcon>
