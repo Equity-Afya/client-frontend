@@ -152,7 +152,7 @@ function AdminSidebar() {
                 {fullscreenMode ? <FullscreenExit /> : <Fullscreen />}
               </IconButton>
           </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/users")}>
+          <StyledListItem button onClick={() => handleNavigation("/active-users")}>
             <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
               <PeopleAlt />
             </ListItemIcon>

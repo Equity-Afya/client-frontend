@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-function RegisterForm() {
+function CreateUsers() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -190,4 +190,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default CreateUsers;
