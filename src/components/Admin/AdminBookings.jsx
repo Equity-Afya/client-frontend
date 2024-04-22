@@ -20,7 +20,7 @@ function AdminBookings() {
 
   return (
     <Box sx={{ textAlign: 'center', marginTop: '20px' }}>
-      <Typography variant="h5" gutterBottom sx={{ color: 'blue', fontWeight: 'bold' }}>Admin Dashboard - Appointments</Typography>
+      <Typography variant="h5" gutterBottom sx={{ color: 'blue', fontWeight: 'bold' }}>All Appointments</Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
         {appointments.length === 0 ? (
           <Typography>No appointments found.</Typography>
