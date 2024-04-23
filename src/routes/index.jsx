@@ -25,6 +25,7 @@ import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+//clients Routes
 import DentalPage from "../pages/DentalPage";
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
 import EpharmacyLandingPage from "../pages/EpharmacyLandingPage";
@@ -32,11 +33,15 @@ import ProductsPage from "../pages/ProductsPage";
 import PrescriptionsPage from "../pages/PrescriptionsPage";
 import CartPage from "../pages/CartPage";
 import MyOrdersPage from "../pages/MyOrdersPage";
-import AdminDashboardPage from "../pages/AdminDashboardPage";
 import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
 import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
 import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
 import DeliveryInfoPage from "../pages/DeliveryInfoPage";
+//Admin Routes
+import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+import AdminServicesPage from "../pages/admin/AdminServicesPage";
+import AdminBookingPage from "../pages/admin/AdminBookingPage";
+import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
 
 
@@ -68,10 +73,7 @@ function AppRoutes() {
         <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
-        <Route
-          path="/doctors-customer-care"
-          element={<DoctorsCustomerCarePage />}
-        />
+        <Route path="/doctors-customer-care"element={<DoctorsCustomerCarePage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="health-records" element={<MyhealthRecordsPage />} />
         <Route path="/forgot-password" element={ForgotPassword} />
@@ -86,7 +88,11 @@ function AppRoutes() {
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
+        <Route path="/admin-bookings" element={<AdminBookingPage />} />
         <Route path="/delivery-info" element={<DeliveryInfoPage />} />
+        <Route path="/active-users" element={<ActiveUsersPage />} />
+
         <Route path="/pending-bookings" element={<PendingBookingsPage />} />
       </Routes>
     </Router>

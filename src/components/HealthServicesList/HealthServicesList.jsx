@@ -5,7 +5,7 @@ import { ArrowForward, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import axios from "axios";
-import Teleclinics from "../Teleclinics/Teleclinics"; // Import Teleclinics page here
+//import Teleclinics from "../Teleclinics/Teleclinics"; // Import Teleclinics page here
 
 const Notification = ({ message }) => {
   return <div>{message}</div>;
