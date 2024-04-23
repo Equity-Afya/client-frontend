@@ -64,7 +64,7 @@ const DoctorsSideBar = () => {
         <ListItem
           button
           component={Link}
-          to="/doctor-dashboard"
+          to="/doctors-dashboard"
           style={{
             backgroundColor:
               location.pathname === "/doctors-dashboard"

@@ -5,7 +5,7 @@ import { Card, CardContent, Container, Typography, Button } from "@mui/material"
 
 const YourAppointments = () => {
   // Define colors corresponding to the theme
-  const colors = ["#c00100", "#00ff00", "#4682b4", "#d9d9"]; // Added a variety of colors to match the theme
+  const colors = [ "#fcc", "#cff", "#cbf", "#d9d9"]; // Added a variety of colors to match the theme
 
   const handleViewAppointments = () => {
     // Add logic to navigate to appointments page
@@ -15,7 +15,7 @@ const YourAppointments = () => {
   return (
     <Container style={{ width: "25vw", marginTop: "1vh", marginLeft: "0"}}>
       <div>
-        <div style={{ backgroundColor: colors[0], color: "#fff", borderRadius: "10px" }}>
+        <div style={{ backgroundColor: "#c00100", color: "#fff", borderRadius: "10px" }}>
           <h3 style={{textAlign: "center"}}>Your Appointments</h3>
         </div>
         

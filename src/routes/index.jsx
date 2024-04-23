@@ -41,6 +41,7 @@ import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
+import PendingBookingsPage from "../pages/PendingBookingsPage";
 
 
 function AppRoutes() {
@@ -89,7 +90,7 @@ function AppRoutes() {
         <Route path="/admin-bookings" element={<AdminBookingPage />} />
         <Route path="/delivery-info" element={<DeliveryInfoPage />} />
         <Route path="/active-users" element={<ActiveUsersPage />} />
-
+        <Route path="/pending-bookings" element={<PendingBookingsPage />} />
       </Routes>
     </Router>
   );
