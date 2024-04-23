@@ -92,7 +92,6 @@ function AppRoutes() {
         <Route path="/admin-bookings" element={<AdminBookingPage />} />
         <Route path="/delivery-info" element={<DeliveryInfoPage />} />
         <Route path="/active-users" element={<ActiveUsersPage />} />
-
         <Route path="/pending-bookings" element={<PendingBookingsPage />} />
       </Routes>
     </Router>
