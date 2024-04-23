@@ -37,6 +37,7 @@ import DoctorsCustomerCarePage from "../pages/DoctorsCustomerCarePage";
 import ReviewedPatientsPage from "../pages/ReviewedPatientsPage";
 import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
 import DeliveryInfoPage from "../pages/DeliveryInfoPage";
+import PendingBookingsPage from "../pages/PendingBookingsPage";
 
 
 function AppRoutes() {
@@ -86,6 +87,7 @@ function AppRoutes() {
         <Route path="/dental" element={<DentalPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
         <Route path="/delivery-info" element={<DeliveryInfoPage />} />
+        <Route path="/pending-bookings" element={<PendingBookingsPage />} />
       </Routes>
     </Router>
   );
