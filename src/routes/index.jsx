@@ -23,7 +23,6 @@ import NotFoundPage from "../pages/NotFoundPage";
 import ViewProfilePage from "../pages/ViewProfilePage";
 import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
-import SubmitAppointmentPage from "../pages/SubmitAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
 //clients Routes
 import DentalPage from "../pages/DentalPage";
@@ -70,7 +69,6 @@ function AppRoutes() {
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/otp-password" element={<OtpPasswordPage />} />
         <Route path="/book-appointment" element={<BookAppointmentPage />} />
-        <Route path="/submit-appointment" element={<SubmitAppointmentPage />} />
         <Route path="/appointments-history" element={<AppointmentsHistory />} />
         <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
         <Route path="/doctors-customer-care"element={<DoctorsCustomerCarePage />} />
