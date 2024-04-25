@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Container, Avatar, IconButton, Typography, Card, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -6,21 +6,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useAvatar } from './AvatarContext';
 
 const ViewProfile = () => {
-    const [backgroundImage, setBackgroundImage] = useState('');
-    const { avatarSrc, setAvatarSrc, name, setName } = useAvatar();
-    const [openDialog, setOpenDialog] = useState(false);
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [idNumber, setIdNumber] = useState('');
-    const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        fetchProfileDetails();
-    }, []);
+    const { avatarSrc, setAvatarSrc, name, setName, handleAvatarChange } = useAvatar();
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [email, setEmail] = React.useState('');
+    const [phoneNumber, setPhoneNumber] = React.useState('');
+    const [idNumber, setIdNumber] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [backgroundImage, setBackgroundImage] = React.useState('');
 
     const fetchProfileDetails = async () => {
         try {
-            const response = await axios.get('https://b776-102-210-244-74.ngrok-free.app/user/viewProfile'); // Adjust the endpoint based on your backend API
+            const response = await axios.get('https://0ec8-102-210-244-74.ngrok-free.app/api/patient/viewProfile/37449211');
             const { email, phoneNumber, idNumber, password, backgroundImage, avatarSrc, name } = response.data;
             setEmail(email);
             setPhoneNumber(phoneNumber);
@@ -29,29 +25,23 @@ const ViewProfile = () => {
             setBackgroundImage(backgroundImage);
             setAvatarSrc(avatarSrc);
             setName(name);
+            console.log("Fetched profile details successfully:", response.data);
         } catch (error) {
             console.error('Error fetching profile details:', error);
         }
     };
+
+    useEffect(() => {
+        console.log("Fetching updated profile details:");
+        fetchProfileDetails();
+    }, [avatarSrc]);
 
     const handleBackgroundChange = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
 
         reader.onload = () => {
-            setAvatarSrc(reader.result);
             setBackgroundImage(reader.result);
-        };
-
-        reader.readAsDataURL(file);
-    };
-
-    const handleAvatarChange = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            setAvatarSrc(reader.result);
         };
 
         reader.readAsDataURL(file);
@@ -71,11 +61,11 @@ const ViewProfile = () => {
     };
 
     return (
-        <Container maxWidth='sm' sx={{ backgroundColor: '#b4b4b4', padding: '50px', borderRadius: '10px', marginTop: '-45px' }}>
-            <Box display="flex" flexDirection="column" height="100vh">
+        <Container maxWidth='lg' sx={{ backgroundColor: '#d0d0d0', padding: '50px', borderRadius: '10px', marginTop: '-45px', display: "flex", justifyContent: "center", Maxwidth: "100px"}}>
+            <Box display="flex" flexDirection="column" height="100vh" width="50%">
                 <Box
                     flex="1"
-                    bgcolor="#b00000"
+                    bgcolor="#b0b0b0"
                     position="relative"
                     sx={{
                         backgroundImage: `url(${backgroundImage})`,
@@ -109,21 +99,23 @@ const ViewProfile = () => {
                         overflow="hidden"
                         zIndex={1}
                     >
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleAvatarChange}
+                            id="avatar-input"
+                        />
                         <label htmlFor="avatar-input">
                             <Avatar
                                 alt="Profile Picture"
                                 src={avatarSrc}
                                 sx={{ width: '90%', height: '90%', cursor: 'pointer' }}
-                            />
+                            >
+                                
+                                {avatarSrc && <img src={avatarSrc} alt="Avatar" />}
+                            </Avatar>
                         </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            capture="camera"
-                            style={{ display: 'none' }}
-                            onChange={handleAvatarChange}
-                            id="avatar-input"
-                        />
                     </Box>
 
                     <Typography variant="subtitle1" color="textSecondary" sx={{ position: 'absolute', bottom: -70, left: 10, color: '#000000', fontWeight: 'bold' }}>

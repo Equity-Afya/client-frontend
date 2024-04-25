@@ -40,7 +40,7 @@ const Prescriptions = () => {
         alignItems: 'center',
       }}
     >
-      <Card style={{ flex: 1, width: '100%', backgroundColor: 'grey', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Card style={{ flex: 1, width: '100%', backgroundColor: 'grey', height: '300px'}}>
         <CardContent>
           <img
             src="https://media.licdn.com/dms/image/D4E12AQFquFze83bWIw/article-cover_image-shrink_720_1280/0/1709291021977?e=2147483647&v=beta&t=sdPQ8q_XLFXW5CeFDRRbhy3BQ9WCNlRZAVyVzino_fs"

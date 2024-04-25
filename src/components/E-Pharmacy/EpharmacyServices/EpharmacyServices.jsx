@@ -22,11 +22,6 @@ const useStyles = makeStyles({
   },
   messageCard: {
     marginTop: '50px',
-    marginTop: '50px',
-    height: '50%',
-  },
-  messageCard: {
-    marginTop: '50px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,7 +46,6 @@ const EpharmacyServices = () => {
   };
 
   return (
-
     
     <Container>
       <Typography variant="h2" className={classes.header} style={{color: '#800000'}}>
