@@ -3,7 +3,6 @@ import { Container, Typography, Card, CardContent, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 
-
 const useStyles = makeStyles({
   header: {
     textAlign: 'center',
