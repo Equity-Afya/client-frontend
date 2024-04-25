@@ -37,7 +37,7 @@ function ReviewedPatients() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#fff",
+          backgroundColor: "#cff",
           borderRadius: "2vw",
           boxShadow: "0px 0px 2vw 0px rgba(0, 0, 0, 0.75)",
           margin: "1vw",

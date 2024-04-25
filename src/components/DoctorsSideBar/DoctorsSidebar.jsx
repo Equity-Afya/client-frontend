@@ -30,7 +30,7 @@ const DoctorsSideBar = () => {
   return (
     <div
       style={{
-        width: "18%",
+        width: "17vw",
         minHeight: "100vh",
         position: "fixed",
         left: 0,
@@ -64,11 +64,11 @@ const DoctorsSideBar = () => {
         <ListItem
           button
           component={Link}
-          to="/doctor-dashboard"
+          to="/doctors-dashboard"
           style={{
             backgroundColor:
               location.pathname === "/doctors-dashboard"
-                ? "#ccc480"
+                ? "#670909"
                 : "transparent",
           }}
         >
@@ -84,7 +84,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/doctors-profile"
-                ? "#ccc480"
+                ? "#670909"
                 : "transparent",
           }}
         >
@@ -100,7 +100,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/reviewed-patients"
-                ? "#ccc480"
+                ? "#670909"
                 : "transparent",
           }}
         >
@@ -116,7 +116,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/approved-bookings"
-                ? "#ccc480"
+                ? "#670909"
                 : "transparent",
           }}
         >
@@ -132,7 +132,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/pending-bookings"
-                ? "#ccc480"
+                ? "#670909"
                 : "transparent",
           }}
         >
@@ -148,7 +148,7 @@ const DoctorsSideBar = () => {
           style={{
             backgroundColor:
               location.pathname === "/doctors-customer-care"
-                ? "#ccc480"
+                ? "#670909"
                 : "transparent",
           }}
         >

@@ -2,12 +2,13 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
 import App from "./App";
-import { AvatarProvider } from "./components/Profile/AvatarContext"
+import { AvatarProvider } from "./components/Profile/AvatarContext";
+
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AvatarProvider>
-    <App />
-    </AvatarProvider>
+      <AvatarProvider>
+        <App />
+      </AvatarProvider>
   </React.StrictMode>
 );

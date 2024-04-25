@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
-import api from "../../services/api";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import api from "../../services/api";
 
 function VerifyOtp() {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -31,10 +31,8 @@ function VerifyOtp() {
 
     try {
       const enteredOtp = otp.join("");
-      const response = await api.post(
-        "/verifyotp",
-        { enteredOtp }
-      );
+      const response = await api.post("/verifyotp", { enteredOtp });
+
       if (response.status === 200) {
         navigate("/login");
       } else {
@@ -53,10 +51,7 @@ function VerifyOtp() {
   const handleResendOTP = async () => {
     try {
       setResendLoading(true);
-      const response = await api.post(
-        "/resendotp",
-        { email }
-      );
+      const response = await api.post("/resendotp", { email });
 
       if (response.status === 200) {
         alert(response.data.message);
@@ -106,7 +101,7 @@ function VerifyOtp() {
         </Typography>
         <Typography gutterBottom>
           A verification code has been sent to{" "}
-          <span style={{ color: "blue" }}>{email}.</span> If the email address
+          <span style={{ color: "blue" }}>{email}</span>. If the email address
           is incorrect, you can go back and change it.
         </Typography>
         <Typography gutterBottom>Enter OTP sent to your device here</Typography>
@@ -144,7 +139,6 @@ function VerifyOtp() {
             border: "1px solid black",
           }}
         >
-          {" "}
           {resendLoading ? "Resending..." : "RESEND OTP"}
         </Button>
       </Box>

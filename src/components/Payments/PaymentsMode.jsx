@@ -1,22 +1,27 @@
-import React, { useState } from "react";
-import { Box, Button, TextField, CircularProgress } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useState } from 'react';
+import { Box, Button, TextField, CircularProgress } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import logo from "../../assets/Lipanampesa.png";
 import myImage from "../../assets/CardImage.png";
-import PropTypes from "prop-types";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#c00100",
+      main: '#c00100',
     },
   },
 });
 
 const PaymentsMode = ({ billingId }) => {
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [amount, setAmount] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [isCardInfoValid, setIsCardInfoValid] = useState(false);
   const [paymentError, setPaymentError] = useState(null);
   const [loadingMpesa, setLoadingMpesa] = useState(false);
   const [loadingCard, setLoadingCard] = useState(false);
@@ -35,6 +40,11 @@ const PaymentsMode = ({ billingId }) => {
     return { accessToken, refreshToken };
   };
 
+  const validateMobileNumber = (value) => {
+    const regex = /^[0-9]{10}$/;
+    return regex.test(value);
+  };
+
   const handleLipaNaMpesaClick = async () => {
     setLoadingMpesa(true);
     if (validateMobileNumber(mobileNumber)) {
@@ -47,7 +57,7 @@ const PaymentsMode = ({ billingId }) => {
 
       try {
         const response = await fetch(
-          "https://557b-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
+          "https://b87f-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
           {
             method: "POST",
             headers: {
@@ -125,15 +135,28 @@ const PaymentsMode = ({ billingId }) => {
     }
   };
 
-  const validateMobileNumber = (value) => {
-    const regex = /^[0-9]{10}$/;
-    return regex.test(value);
+  const handleCardInfoChange = () => {
+    setIsCardInfoValid(
+      cardNumber.trim() !== '' &&
+        expiryDate.trim() !== '' &&
+        cvv.trim() !== '' &&
+        amount.trim() !== ''
+    );
+  };
+
+  const handleMobileNumberChange = (e) => {
+    const value = e.target.value;
+    setMobileNumber(value);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Box
         style={{
+          height: '450px',
+          width: '500px',
+          borderRadius: '20px',
+          padding: '20px',
           height: "28.125rem",
           marginTop: "4rem",
           width: "31.25rem",
@@ -144,10 +167,10 @@ const PaymentsMode = ({ billingId }) => {
       >
         <h4
           style={{
-            margin: "0",
+            margin: '0',
+            outline: '1px solid #600100',
+            textAlign: 'center',
             padding: "0.3125rem 11.25rem",
-            outline: "1px solid #600100",
-            textAlign: "center",
           }}
         >
           Pay Via
@@ -155,15 +178,15 @@ const PaymentsMode = ({ billingId }) => {
 
         <Box
           style={{
-            outline: "1px solid #600100",
-            borderRadius: "0.625rem",
-            padding: "1.25rem",
-            marginBottom: "0.625rem",
-            marginTop: "0.625rem",
+            outline: '1px solid #600100',
+            borderRadius: '10px',
+            padding: '20px',
+            marginBottom: '10px',
+            marginTop: '10px',
           }}
         >
-          <h4 style={{ marginTop: "0", textAlign: "left" }}>Lipa na M-Pesa</h4>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <h4 style={{ marginTop: '0', textAlign: 'left' }}>Lipa na M-Pesa</h4>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <img
               src={logo}
               alt="Lipa na M-Pesa image"
@@ -175,7 +198,7 @@ const PaymentsMode = ({ billingId }) => {
               }}
             />
             <TextField
-              style={{ flex: "1" }}
+              style={{ flex: '1' }}
               label="Enter Mobile Number"
               variant="outlined"
               value={mobileNumber}
@@ -184,13 +207,13 @@ const PaymentsMode = ({ billingId }) => {
           </div>
           <Button
             style={{
-              backgroundColor: "#c00100",
-              color: "white",
+              backgroundColor: '#c00100',
+              color: 'white',
+              width: '25%',
+              marginLeft: '75%',
+              paddingBottom: '0',
               borderRadius: "0.625rem",
-              width: "25%",
-              marginLeft: "75%",
-              marginTop: "0.125rem",
-              paddingBottom: "0",
+              marginTop: "0.125rem"
             }}
             onClick={handleLipaNaMpesaClick}
             disabled={
@@ -210,15 +233,16 @@ const PaymentsMode = ({ billingId }) => {
 
         <Box
           style={{
-            outline: "1px solid #600100",
+            outline: '1px solid #600100',
+            marginBottom: '30px',
             borderRadius: "0.625rem",
             padding: "1.25rem",
             marginBottom: "1.875rem",
             marginTop: "1.875rem",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <h4 style={{ marginTop: "0", flex: "1", textAlign: "left" }}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <h4 style={{ marginTop: '0', flex: '1', textAlign: 'left' }}>
               Pay with card
             </h4>
             <img
@@ -228,6 +252,52 @@ const PaymentsMode = ({ billingId }) => {
                 width: "5rem",
                 height: "auto",
                 marginLeft: "1.25rem",
+              }}
+            />
+          </div>
+          <div
+            style={{ marginTop: '15px', marginBottom: '20px', display: 'flex' }}
+          >
+            <TextField
+              style={{ flex: '1', marginRight: '20px' }}
+              label="Enter Card Number"
+              variant="outlined"
+              value={cardNumber}
+              onChange={(e) => {
+                setCardNumber(e.target.value);
+                handleCardInfoChange();
+              }}
+            />
+            <TextField
+              style={{ flex: '1' }}
+              label="Expiry Date"
+              variant="outlined"
+              value={expiryDate}
+              onChange={(e) => {
+                setExpiryDate(e.target.value);
+                handleCardInfoChange();
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex' }}>
+            <TextField
+              style={{ flex: '1', marginRight: '20px' }}
+              label="CVV"
+              variant="outlined"
+              value={cvv}
+              onChange={(e) => {
+                setCvv(e.target.value);
+                handleCardInfoChange();
+              }}
+            />
+            <TextField
+              style={{ flex: '1' }}
+              label="Amount"
+              variant="outlined"
+              value={amount}
+              onChange={(e) => {
+                setAmount(e.target.value);
+                handleCardInfoChange();
               }}
             />
           </div>
@@ -251,8 +321,9 @@ const PaymentsMode = ({ billingId }) => {
           />
           <Button
             style={{
-              backgroundColor: "#c00100",
-              color: "white",
+              backgroundColor: '#c00100',
+              color: 'white',
+              marginLeft: '70%',
               borderRadius: "0.625rem",
               width: "100%",
               marginTop: "0.625rem",

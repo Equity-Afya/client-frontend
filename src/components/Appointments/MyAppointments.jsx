@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -13,53 +13,40 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import api from "../../services/api";
+import axios from "axios";
 
 const AppointmentHistory = () => {
-  const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState([]);
-  const [idNumber, setIdNumber] = useState("");
-
+  const location = useLocation();
+  const appointmentId = location.state ? location.state.appointmentId : '';
+  const [appointments, setAppointmentHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); // State for error handling
+  
   useEffect(() => {
+    fetchData(); // Fetch data from the server
+  }, [appointmentId]);
 
-    const fetchIdNumber = async () => {
+  const fetchData = async () => {
+    if (appointmentId) {
+      setLoading(true); // Turn on loading indicator
       try {
-        const response = await api.get("/idNumberEndpoint"); 
-
+        const response = await axios.get(`http://192.168.88.44:5500/api/appointments/appointmentStatus/${appointmentId}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         if (response.status === 200) {
-          setIdNumber(response.data.idNumber); 
-        } else {
-          throw new Error("Failed to fetch ID number");
-        }
-      } catch (error) {
-        console.error("Error fetching ID number:", error);
-      }
-    };
-
-    fetchIdNumber(); // Call the fetchIdNumber function when the component mounts
-  }, []);
-
-  useEffect(() => {
-    // Function to fetch form data from the database
-    const fetchFormData = async () => {
-      try {
-        const response = await api.get(`/appointmenthistory/${idNumber}`);
-
-        if (response.status === 200) {
-          setFormData(response.data); // Store fetched data in state
+          setAppointmentHistory([response.data]); // Store fetched data in state
           setLoading(false); // Turn off loading indicator
         } else {
           throw new Error("Internal Server error");
         }
       } catch (error) {
-        console.error("Error fetching form data:", error);
+        setError("Error fetching data"); // Set error state
+        setLoading(false); // Turn off loading indicator
       }
-    };
-
-    if (idNumber) {
-      fetchFormData(); // Call the fetchFormData function only if idNumber is truthy
     }
-  }, [idNumber]);
+  };
 
   return (
     <Container maxWidth="md">
@@ -75,31 +62,37 @@ const AppointmentHistory = () => {
               <TableCell>Service</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Time</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {loading ? (
-              // Display loading indicator if data is being fetched
               <TableRow>
-                <TableCell colSpan={5} align="center">
+                <TableCell colSpan={6} align="center">
                   <CircularProgress />
                 </TableCell>
               </TableRow>
-            ) : formData.length === 0 ? ( // Display a message if no data is available
+            ) : error ? (
               <TableRow>
-                <TableCell colSpan={5} align="center">
+                <TableCell colSpan={6} align="center">
+                  {error}
+                </TableCell>
+              </TableRow>
+            ) : appointments.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
                   No data available
                 </TableCell>
               </TableRow>
             ) : (
-              // Map over fetched data and render rows
-              formData.map((data) => (
-                <TableRow key={data.id}>
-                  <TableCell>{data.fullName}</TableCell>
-                  <TableCell>{data.phoneNumber}</TableCell>
-                  <TableCell>{data.service}</TableCell>
-                  <TableCell>{data.date}</TableCell>
-                  <TableCell>{data.time}</TableCell>
+              appointments.map((appointment) => (
+                <TableRow key={appointment.appointmentId}>
+                  <TableCell>{appointment.fullName}</TableCell>
+                  <TableCell>{appointment.phoneNumber}</TableCell>
+                  <TableCell>{appointment.service}</TableCell>
+                  <TableCell>{appointment.date}</TableCell>
+                  <TableCell>{appointment.time}</TableCell>
+                  <TableCell>{appointment.status}</TableCell>
                 </TableRow>
               ))
             )}
