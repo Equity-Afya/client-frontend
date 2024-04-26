@@ -5,7 +5,6 @@ import { ArrowForward, Notifications } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import axios from "axios";
-//import Teleclinics from "../Teleclinics/Teleclinics"; // Import Teleclinics page here
 
 const Notification = ({ message }) => {
   return <div>{message}</div>;
@@ -113,7 +112,6 @@ const HealthServicesList = () => {
             </IconButton>
             <AvatarWithProfileDetails />
           </Box>
-          <Button variant="contained" sx={{ height: '40px', backgroundColor: '#C00100', marginRight: '20px' }} onClick={handleTeleclinicsClick}>Teleclinics</Button>
         </Box>
 
         <Box style={{ marginBottom: '30px', width: '100%', margin: '0 auto', border: '1px solid #ccc', borderRadius: '0px', marginTop: '20px', maxWidth: '1500px' }}>
