@@ -1,18 +1,21 @@
 import React from 'react';
+import ProductsPage from '../Products/Products';
 import { Container, Typography, Card, CardContent, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   header: {
     textAlign: 'center',
-    color: '#c00100',
+    color: '#800000',
     marginBottom: '20px',
   },
   subheading: {
     textDecoration: 'underline',
     fontWeight: 'bold',
-    color: 'brown',
+    color: '#800000',
     cursor: 'pointer',
   },
   pharmacyCard: {
@@ -27,7 +30,7 @@ const useStyles = makeStyles({
     height: '20%',
   },
   message: {
-    color: '#c00100',
+    color: '#800000',
     fontWeight: 700,
   },
 });
@@ -35,6 +38,8 @@ const useStyles = makeStyles({
 const EpharmacyServices = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+
 
   const navigateToMedicines = () => {
     navigate('/products');
@@ -43,11 +48,10 @@ const EpharmacyServices = () => {
   const navigateToPrescriptions = () => {
     navigate('/prescriptions');
   };
-
   return (
     
     <Container>
-      <Typography variant="h2" className={classes.header} style={{color: '#800000'}}>
+      <Typography variant="h2" className={classes.header}>
         Welcome to our online pharmacy!
       </Typography>
       <Box display="flex" justifyContent="space-between">
@@ -78,7 +82,7 @@ const EpharmacyServices = () => {
       </Card>
       <Card className={classes.messageCard} sx={{ height: '40%' }}>
         <CardContent>
-          <Typography variant="body1" className={classes.message} style={{color: '#800000'}}>
+          <Typography variant="body1" className={classes.message} >
             Our pharmacy is equipped with quality, affordable medication provided by professional, highly qualified and certified Pharmacists. Guidance is always provided on accurate usage including age-based dosage.
           </Typography>
         </CardContent>

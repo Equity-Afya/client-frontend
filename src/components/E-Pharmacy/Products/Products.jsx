@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
 import { Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -6,33 +6,34 @@ import { useNavigate } from 'react-router-dom';
 const ProductsPage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
-  const [cartNotification, setCartNotification] = useState(false);
+  const [products, setProducts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoryDropdownAnchorEl, setCategoryDropdownAnchorEl] = useState(null);
   const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
 
-  const products = [
-    { 
-      name: 'Baclofen',
-      price: '$10.00',
-      image: 'https://media.post.rvohealth.io/2U4nNZEf7jt4s7fWZRWXPcYsXyz/2023/08/22/2UM7Q8X8MCbyDneO1tpu6lmJxoq.jpg',
-      description: 'Description of Baclofen',
-      category: 'Category 1'
-    },
-    { 
-      name: 'Bisacodyl',
-      price: '$15.00',
-      image: 'https://www.findatopdoc.com/var/fatd/storage/images/_aliases/article_main/healthy-living/what-is-bisacodyl-used-for/6978077-2-eng-US/What-Is-Bisacodyl-Used-For.jpg',
-      description: 'Description of Bisacodyl',
-      category: 'Category 2'
-    },
-    // Add more products as needed
-  ];
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('https://1542-102-210-244-74.ngrok-free.app/api/product/viewallproducts'); // Replace with your actual endpoint
+
+      console.log(response.json)
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      const data = await response.json();
+      setProducts(data.slice(0, 4)); // Fetching only the first four products
+      console.log(data)
+    } catch (error) {
+      console.error('Error fetching products:');
+    }
+  };
 
   const addToCart = (product) => {
     setCart([...cart, product]);
-    setCartNotification(true); // Show notification
-    navigate('/cart'); // Navigate to the cart tab
+    navigate('/cart');
   };
 
   const handleMenuOpen = (event) => {
@@ -46,12 +47,12 @@ const ProductsPage = () => {
   };
 
   const handleSubmitPrescription = () => {
-    navigate('/prescriptions'); // Navigate to the prescriptions tab
+    navigate('/prescriptions');
     handleMenuClose();
   };
 
   const handleMyHealthRecords = () => {
-    navigate('/health-records'); // Navigate to the my health records tab
+    navigate('/health-records');
     handleMenuClose();
   };
 
@@ -64,7 +65,7 @@ const ProductsPage = () => {
   };
 
   const handleNavigateToMedicalServices = () => {
-    navigate('/medical-services'); // Navigate to the medical services tab
+    navigate('/medical-services');
     handleMenuClose();
     handleCategoryDropdownClose();
   };
@@ -167,14 +168,13 @@ const ProductsPage = () => {
 
       <h1>Products</h1>
       <div className="products">
-        {products.map((product, index) => (
-          <Box sx={{ width: 200, margin: 2 }} key={index}>
-            {/* Adjust the width as needed */}
+        {products.map((product) => (
+          <Box sx={{ width: 200, margin: 2 }} key={product.id}>
             <Card>
               <CardMedia
                 component="img"
                 height="140"
-                image={product.image}
+                image={product.imageUrl}
                 alt={product.name}
               />
               <CardContent>
@@ -182,13 +182,10 @@ const ProductsPage = () => {
                   {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {product.price}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
                   {product.description}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Category: {product.category}
+                  ${product.price}
                 </Typography>
               </CardContent>
               <Button
