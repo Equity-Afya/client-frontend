@@ -144,10 +144,10 @@ const PaymentsMode = ({ billingId }) => {
       >
         <h4
           style={{
-            margin: "0",
+            margin: '0',
+            outline: '1px solid #600100',
+            textAlign: 'center',
             padding: "0.3125rem 11.25rem",
-            outline: "1px solid #600100",
-            textAlign: "center",
           }}
         >
           Pay Via
@@ -184,13 +184,13 @@ const PaymentsMode = ({ billingId }) => {
           </div>
           <Button
             style={{
-              backgroundColor: "#c00100",
-              color: "white",
+              backgroundColor: '#c00100',
+              color: 'white',
+              width: '25%',
+              marginLeft: '75%',
+              paddingBottom: '0',
               borderRadius: "0.625rem",
-              width: "25%",
-              marginLeft: "75%",
-              marginTop: "0.125rem",
-              paddingBottom: "0",
+              marginTop: "0.125rem"
             }}
             onClick={handleLipaNaMpesaClick}
             disabled={
@@ -210,7 +210,8 @@ const PaymentsMode = ({ billingId }) => {
 
         <Box
           style={{
-            outline: "1px solid #600100",
+
+            outline: '1px solid #600100',
             borderRadius: "0.625rem",
             padding: "1.25rem",
             marginBottom: "1.875rem",
@@ -251,8 +252,9 @@ const PaymentsMode = ({ billingId }) => {
           />
           <Button
             style={{
-              backgroundColor: "#c00100",
-              color: "white",
+              backgroundColor: '#c00100',
+              color: 'white',
+              marginLeft: '70%',
               borderRadius: "0.625rem",
               width: "100%",
               marginTop: "0.625rem",

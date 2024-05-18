@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Button, Grid, TextField, CssBaseline } from '@mui/material';
+import { Card, CardContent, Typography, Grid, TextField, CssBaseline, InputAdornment, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search'
 import { Link } from 'react-router-dom';
 
 const servicesData = [
@@ -16,13 +17,20 @@ const SpecialistServices = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredServices, setFilteredServices] = useState([]);
 
-  const handleSearch = () => {
+  const handleSearch = (value) => {
     const filtered = servicesData.filter(
       (service) =>
-        service.name.toLowerCase().includes(searchQuery.toLowerCase())
+        service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        service.route.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredServices(filtered);
   };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearchQuery(value);
+    handleSearch(value);
+  }
 
   return (
     <>
@@ -33,12 +41,18 @@ const SpecialistServices = () => {
             label="Search Services"
             variant="outlined"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '100%'}}
+            onChange={handleChange}
+            style={{ width: '50%', borderRadius: '50px' }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
-          <Button variant="contained" sx={{backgroundColor:'#c00100'}} onClick={handleSearch} style={{ height: '55px' }}>
-            Search
-          </Button>
         </div>
         <Grid container spacing={2}>
           {(filteredServices.length > 0 ? filteredServices : servicesData).map((service) => (
