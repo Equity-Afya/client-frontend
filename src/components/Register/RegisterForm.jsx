@@ -281,7 +281,7 @@ function RegisterForm() {
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
                   autoComplete="off" // Turn off autocomplete
-                  InputProps={field.InputProps} // Pass input properties including the visibility toggle
+                  InputProps={field.InputProps} 
                 />
               ))}
               <Button

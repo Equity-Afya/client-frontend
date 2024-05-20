@@ -15,6 +15,38 @@ const theme = createTheme({
   },
 });
 
+const commonStyles = {
+  container: {
+    height: "28.125rem",
+    marginTop: "4rem",
+    width: "25.25rem",
+    backgroundColor: "#ffffff",
+    borderRadius: "1.25rem",
+    padding: "1.25rem",
+  },
+  borderedBox: {
+    outline: "1px solid #600100",
+    borderRadius: "0.625rem",
+    padding: "1.25rem",
+  },
+  sendButton: {
+    backgroundColor: "#c00100",
+    color: "white",
+    borderRadius: "0.625rem",
+    width: "25%",
+    marginLeft: "75%",
+    marginTop: "0.125rem",
+    paddingBottom: "0",
+  },
+  confirmButton: {
+    backgroundColor: "#c00100",
+    color: "white",
+    borderRadius: "0.625rem",
+    width: "100%",
+    marginTop: "0.625rem",
+  },
+};
+
 const PaymentsMode = ({ billingId }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [paymentError, setPaymentError] = useState(null);
@@ -28,7 +60,6 @@ const PaymentsMode = ({ billingId }) => {
     "pk_test_51OyFrWRuEfqcYjyYRpY3UtADfKTeMjLRWHlLLdWEZ0vw7BwVzGwgIVoFZkF1rrQgILiLafzoSTYBgkqF0oFJrM7H00qYzKsf98"
   );
 
-  // Function to retrieve tokens from local storage
   const getTokensFromStorage = () => {
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("Refresh-Token");
@@ -132,141 +163,31 @@ const PaymentsMode = ({ billingId }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        style={{
-          height: "28.125rem",
-          marginTop: "4rem",
-          width: "31.25rem",
-          backgroundColor: "#ffffff",
-          borderRadius: "1.25rem",
-          padding: "1.25rem",
-        }}
-      >
-        <h4
-          style={{
-            margin: "0",
-            padding: "0.3125rem 11.25rem",
-            outline: "1px solid #600100",
-            textAlign: "center",
-          }}
-        >
-          Pay Via
-        </h4>
+      <Box style={commonStyles.container}>
+        <h4 style={{ ...commonStyles.borderedBox, padding: "0.3125rem 11.25rem", textAlign: "center" }}>Pay Via</h4>
 
-        <Box
-          style={{
-            outline: "1px solid #600100",
-            borderRadius: "0.625rem",
-            padding: "1.25rem",
-            marginBottom: "0.625rem",
-            marginTop: "0.625rem",
-          }}
-        >
+        <Box style={{ ...commonStyles.borderedBox, ...{ marginBottom: "0.625rem", marginTop: "0.625rem" } }}>
           <h4 style={{ marginTop: "0", textAlign: "left" }}>Lipa na M-Pesa</h4>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={logo}
-              alt="Lipa na M-Pesa image"
-              style={{
-                width: "7.5rem",
-                height: "auto",
-                marginRight: "1.25rem",
-                marginTop: "0",
-              }}
-            />
-            <TextField
-              style={{ flex: "1" }}
-              label="Enter Mobile Number"
-              variant="outlined"
-              value={mobileNumber}
-              onChange={(e) => setMobileNumber(e.target.value)}
-            />
+            <img src={logo} alt="Lipa na M-Pesa image" style={{ width: "7.5rem", height: "auto", marginRight: "1.25rem", marginTop: "0" }} />
+            <TextField style={{ flex: "1" }} label="Enter Mobile Number" variant="outlined" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
           </div>
-          <Button
-            style={{
-              backgroundColor: "#c00100",
-              color: "white",
-              borderRadius: "0.625rem",
-              width: "25%",
-              marginLeft: "75%",
-              marginTop: "0.125rem",
-              paddingBottom: "0",
-            }}
-            onClick={handleLipaNaMpesaClick}
-            disabled={
-              !mobileNumber ||
-              mobileNumber.length !== 10 ||
-              isNaN(mobileNumber) ||
-              loadingMpesa
-            }
-          >
-            {loadingMpesa ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Send"
-            )}
-          </Button>
-        </Box>
-
-        <Box
-          style={{
-            outline: "1px solid #600100",
-            borderRadius: "0.625rem",
-            padding: "1.25rem",
-            marginBottom: "1.875rem",
-            marginTop: "1.875rem",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <h4 style={{ marginTop: "0", flex: "1", textAlign: "left" }}>
-              Pay with card
-            </h4>
-            <img
-              src={myImage}
-              alt="Card payment image"
-              style={{
-                width: "5rem",
-                height: "auto",
-                marginLeft: "1.25rem",
-              }}
-            />
-          </div>
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: "16px",
-                  marginTop: "1.25rem",
-                  color: "#000",
-                  "::placeholder": {
-                    color: "#aab7c4",
-                  },
-                },
-                invalid: {
-                  color: "#9e2146",
-                },
-              },
-              hidePostalCode: true, // This will hide the postal code field
-            }}
-          />
-          <Button
-            style={{
-              backgroundColor: "#c00100",
-              color: "white",
-              borderRadius: "0.625rem",
-              width: "100%",
-              marginTop: "0.625rem",
-            }}
-            onClick={handleConfirmClick}
-            disabled={loadingCard}
-          >
-            {loadingCard ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Confirm"
-            )}
+          <Button style={commonStyles.sendButton} onClick={handleLipaNaMpesaClick} disabled={!mobileNumber || mobileNumber.length !== 10 || isNaN(mobileNumber) || loadingMpesa}>
+            {loadingMpesa ? (<CircularProgress size={24} color="inherit" />) : ("Send")}
           </Button>
           {paymentError && <div>{paymentError}</div>}
+        </Box>
+
+        <Box style={{ ...commonStyles.borderedBox, ...{ marginBottom: "1.875rem", marginTop: "1.875rem" } }}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <h4 style={{ marginTop: "0", flex: "1", textAlign: "left" }}>Pay with card</h4>
+            <img src={myImage} alt="Card payment image" style={{ width: "5rem", height: "auto", marginLeft: "1.25rem" }} />
+          </div>
+          <CardElement options={{ style: { base: { fontSize: "16px", marginTop: "1.25rem", color: "#000", "::placeholder": { color: "#aab7c4" }, }, invalid: { color: "#9e2146", }, }, hidePostalCode: true, }} />
+          <Button style={commonStyles.confirmButton} onClick={handleConfirmClick} disabled={loadingCard}>
+            {loadingCard ? (<CircularProgress size={24} color="inherit" />) : ("Confirm")}
+          </Button>
+          
         </Box>
       </Box>
     </ThemeProvider>
