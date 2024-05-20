@@ -10,6 +10,7 @@ import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
 import { Link, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
+import AvatarSection from '../Profile/Avatar'; // Import AvatarSection component
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,7 +19,35 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [avatarSrcImageUrl, setAvatarSrcImageUrl] = useState(''); // Define avatar URL state
   const navigate = useNavigate();
+
+  const fetchAvatar = async (userToken) => {
+    try {
+      const response = await axios.get(
+        "http://192.168.90.89:5500/api/patient/getProfileImage/37449211",
+        {
+          headers: {
+            Authorization: 'Bearer ' + userToken,
+          },
+        }
+      );
+
+      console.log('Response from API:', response); // Log the entire response object
+
+      if (response.data && response.data.avatarSrcImageUrl) {
+        setAvatarSrcImageUrl(response.data.avatarSrcImageUrl);
+        console.log(
+          'Avatar source fetched successfully:',
+          response.data.avatarSrcImageUrl
+        );
+      } else {
+        console.error('avatarSrcImageUrl not found in response:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching avatar:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +55,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://b1f7-102-210-244-74.ngrok-free.app/api/login",
+        "http://192.168.90.89:5500/api/login",
         {
           email,
           password,
@@ -34,6 +63,8 @@ function Login() {
       );
 
       if (response.status === 200) {
+        // Call fetchAvatar after successful login
+
         // Get access token and refresh token from the response
         const { accessToken, refreshToken, role } = response.data;
 
@@ -45,6 +76,7 @@ function Login() {
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         axios.defaults.headers.common['Refresh-Token'] = `Bearer ${refreshToken}`;
 
+        await fetchAvatar(accessToken);
         // Redirect based on user's role
         switch (role) {
           case 'admin':
@@ -146,8 +178,8 @@ function Login() {
           {errorMessage && <div className="error-message">{errorMessage}</div>}
         </form><br />
         <div>
-          <Typography variant='body1' sx={{ textAlign: 'center', marginTop: 1}}>  Don't have an account?
-          <Link to='/register' style={{ textDecoration: 'none', color: '#c00100' }}> Sign Up </Link>
+          <Typography variant='body1' sx={{ textAlign: 'center', marginTop: 1 }}>  Don't have an account?
+            <Link to='/register' style={{ textDecoration: 'none', color: '#c00100' }}> Sign Up </Link>
           </Typography>
         </div>
       </Box>
@@ -156,3 +188,4 @@ function Login() {
 }
 
 export default Login;
+

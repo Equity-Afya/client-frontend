@@ -8,7 +8,7 @@ import { useAvatar } from './AvatarContext';
 
 function AvatarWithProfileDetails() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { avatarSrc, name } = useAvatar();
+  const { avatarSrcImageUrl, name } = useAvatar();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,7 +22,7 @@ function AvatarWithProfileDetails() {
     <div>
       <Avatar
         alt="Profile Avatar"
-        src={avatarSrc}
+        src={avatarSrcImageUrl}
         sx={{ width: 50, height: 50, cursor: 'pointer' }}
         onClick={handleClick}
       />
@@ -43,13 +43,13 @@ function AvatarWithProfileDetails() {
         <Box sx={{ textAlign: 'center', padding: 2 }}>
           <Avatar
             alt="Profile Avatar"
-            src={avatarSrc}
+            src={avatarSrcImageUrl}
             sx={{ width: 100, height: 100, margin: '0 auto' }}
           />
           <p>{name}</p>
         </Box>
         <MenuItem component={Link} to="/view-profile" onClick={handleClose}> View Profile
-          </MenuItem>
+        </MenuItem>
         <MenuItem component={Link} to="/language" onClick={handleClose}>Language</MenuItem>
         <MenuItem component={Link} to="/settings" onClick={handleClose}>Settings & Privacy</MenuItem>
         <MenuItem component={Link} to="/help" onClick={handleClose}>Help</MenuItem>

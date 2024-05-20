@@ -97,7 +97,6 @@ const DeliveryInformation = () => {
         <FormControl className={classes.formControl} fullWidth >
           <InputLabel id="county-label"> County</InputLabel>
           <Select labelId="county-label" id="county" value={formData.county} onChange={handleChange} fullWidth>
-            <MenuItem value="">Select County</MenuItem>
             <MenuItem value="county1">County 1</MenuItem>
             <MenuItem value="county2">County 2</MenuItem>
           </Select>
@@ -126,8 +125,7 @@ const DeliveryInformation = () => {
           required
           value={formData.street}
           onChange={handleChange}
-          error={Boolean(formErrors.street)}
-          helperText={formErrors.street}
+          
         />
         <TextField 
          id="house" 
@@ -145,8 +143,7 @@ const DeliveryInformation = () => {
           required
           value={formData.contact}
           onChange={handleChange}
-          error={Boolean(formErrors.contact)}
-          helperText={formErrors.contact}
+          
         />
         <Button className={classes.button} variant="contained" color="primary" fullWidth onClick={handleCompleteOrder}>
           Complete Order

@@ -1,57 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import AvatarSection from './Avatar';
 import axios from 'axios';
-import { Box, Container, Avatar, IconButton, Typography, Card, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Box, Container, IconButton, Typography, Card, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAvatar } from './AvatarContext';
 
 const ViewProfile = () => {
-    const [backgroundImage, setBackgroundImage] = useState('');
-    const { avatarSrc, setAvatarSrc, name, setName } = useAvatar();
-    const [openDialog, setOpenDialog] = useState(false);
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [idNumber, setIdNumber] = useState('');
-    const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        fetchProfileDetails();
-    }, []);
+    const { avatarSrcImageUrl, setAvatarSrcImageUrl, name, setName } = useAvatar();
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [email, setEmail] = React.useState('');
+    const [phoneNumber, setPhoneNumber] = React.useState('');
+    const [idNumber, setIdNumber] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [backgroundImage, setBackgroundImage] = React.useState('');
 
     const fetchProfileDetails = async () => {
         try {
-            const response = await axios.get('https://b776-102-210-244-74.ngrok-free.app/user/viewProfile'); // Adjust the endpoint based on your backend API
-            const { email, phoneNumber, idNumber, password, backgroundImage, avatarSrc, name } = response.data;
+            const response = await axios.get('http://192.168.90.89:5500/api/patient/viewProfile/37449211');
+            const { email, phoneNumber, idNumber, password, avatarSrc, backgroundImage, name } = response.data;
             setEmail(email);
             setPhoneNumber(phoneNumber);
             setIdNumber(idNumber);
             setPassword(password);
+            setAvatarSrcImageUrl(avatarSrc);
             setBackgroundImage(backgroundImage);
-            setAvatarSrc(avatarSrc);
             setName(name);
+            console.log("Fetched profile details successfully:", response.data);
         } catch (error) {
             console.error('Error fetching profile details:', error);
         }
     };
+
+    useEffect(() => {
+        console.log("Fetching updated profile details:");
+        fetchProfileDetails();
+    }, []);
 
     const handleBackgroundChange = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
 
         reader.onload = () => {
-            setAvatarSrc(reader.result);
             setBackgroundImage(reader.result);
-        };
-
-        reader.readAsDataURL(file);
-    };
-
-    const handleAvatarChange = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            setAvatarSrc(reader.result);
         };
 
         reader.readAsDataURL(file);
@@ -71,11 +62,11 @@ const ViewProfile = () => {
     };
 
     return (
-        <Container maxWidth='sm' sx={{ backgroundColor: '#b4b4b4', padding: '50px', borderRadius: '10px', marginTop: '-45px' }}>
-            <Box display="flex" flexDirection="column" height="100vh">
+        <Container maxWidth='lg' sx={{ backgroundColor: '#d0d0d0', padding: '50px', borderRadius: '10px', marginTop: '-45px', display: "flex", justifyContent: "center", Maxwidth: "100px" }}>
+            <Box display="flex" flexDirection="column" height="100vh" width="50%">
                 <Box
                     flex="1"
-                    bgcolor="#b00000"
+                    bgcolor="#b0b0b0"
                     position="relative"
                     sx={{
                         backgroundImage: `url(${backgroundImage})`,
@@ -99,37 +90,9 @@ const ViewProfile = () => {
                             <CameraAltIcon />
                         </IconButton>
                     </label>
-                    <Box
-                        position="absolute"
-                        bottom={-50}
-                        left={10}
-                        width={100}
-                        height={100}
-                        borderRadius="40%"
-                        overflow="hidden"
-                        zIndex={1}
-                    >
-                        <label htmlFor="avatar-input">
-                            <Avatar
-                                alt="Profile Picture"
-                                src={avatarSrc}
-                                sx={{ width: '90%', height: '90%', cursor: 'pointer' }}
-                            />
-                        </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            capture="camera"
-                            style={{ display: 'none' }}
-                            onChange={handleAvatarChange}
-                            id="avatar-input"
-                        />
-                    </Box>
-
-                    <Typography variant="subtitle1" color="textSecondary" sx={{ position: 'absolute', bottom: -70, left: 10, color: '#000000', fontWeight: 'bold' }}>
-                        {name}
-                    </Typography>
+                    <AvatarSection />
                 </Box>
+
                 <Box flex="2" flexShrink="10" bgcolor="#f0f0f0" display="flex" justifyContent="flex-end" alignItems="flex-start" sx={{ marginBottom: '10px' }}>
                     <IconButton aria-label="edit-profile" onClick={handleEditProfileClick}>
                         <EditIcon />
@@ -159,7 +122,7 @@ const ViewProfile = () => {
                 {/* Edit profile dialog */}
                 <Dialog open={openDialog} onClose={handleCloseDialog}>
                     <DialogTitle>Edit Profile</DialogTitle>
-                    <br/>
+                    <br />
                     <DialogContent>
                         {/* Full name input */}
                         <TextField
@@ -169,7 +132,7 @@ const ViewProfile = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            sx={{mb: 2}}
+                            sx={{ mb: 2 }}
                         />
                         {/* Email input */}
                         <TextField
@@ -179,7 +142,7 @@ const ViewProfile = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            sx={{mb: 2}}
+                            sx={{ mb: 2 }}
                         />
                         {/* Phone number input */}
                         <TextField
@@ -199,7 +162,7 @@ const ViewProfile = () => {
                             value={idNumber}
                             onChange={(e) => setIdNumber(e.target.value)}
                             required
-                            sx={{mb: 2}}
+                            sx={{ mb: 2 }}
                         />
                         {/* Password input */}
                         <TextField
@@ -210,13 +173,13 @@ const ViewProfile = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            sx={{mb: 2}}
+                            sx={{ mb: 2 }}
                         />
-                     </DialogContent>
-                     <DialogActions>
-                     <Button onClick={handleCloseDialog}>Cancel</Button>
-                     <Button onClick={handleSaveChanges}>Save</Button>
-                     </DialogActions>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog}>Cancel</Button>
+                        <Button onClick={handleSaveChanges}>Save</Button>
+                    </DialogActions>
                 </Dialog>
             </Box>
         </Container>
