@@ -19,7 +19,7 @@ const commonStyles = {
   container: {
     height: "28.125rem",
     marginTop: "4rem",
-    width: "25.25rem",
+    width: "27.25rem",
     backgroundColor: "#ffffff",
     borderRadius: "1.25rem",
     padding: "1.25rem",
@@ -47,7 +47,7 @@ const commonStyles = {
   },
 };
 
-const PaymentsMode = ({ billingId }) => {
+const PaymentsMode = ({  billingId }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [paymentError, setPaymentError] = useState(null);
   const [loadingMpesa, setLoadingMpesa] = useState(false);
@@ -56,9 +56,9 @@ const PaymentsMode = ({ billingId }) => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const stripePromise = loadStripe(
+  /*const stripePromise = loadStripe(
     "pk_test_51OyFrWRuEfqcYjyYRpY3UtADfKTeMjLRWHlLLdWEZ0vw7BwVzGwgIVoFZkF1rrQgILiLafzoSTYBgkqF0oFJrM7H00qYzKsf98"
-  );
+  );*/
 
   const getTokensFromStorage = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -164,7 +164,7 @@ const PaymentsMode = ({ billingId }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box style={commonStyles.container}>
-        <h4 style={{ ...commonStyles.borderedBox, padding: "0.3125rem 11.25rem", textAlign: "center" }}>Pay Via</h4>
+        <h4 style={{ ...commonStyles.borderedBox, padding: "0.3125rem 8.25rem", textAlign: "center" }}>Pay Via</h4>
 
         <Box style={{ ...commonStyles.borderedBox, ...{ marginBottom: "0.625rem", marginTop: "0.625rem" } }}>
           <h4 style={{ marginTop: "0", textAlign: "left" }}>Lipa na M-Pesa</h4>

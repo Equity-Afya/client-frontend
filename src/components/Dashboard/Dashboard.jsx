@@ -10,7 +10,7 @@ const Notification = ({ message }) => {
   return <div>{message}</div>;
 };
 
-const HealthServicesList = () => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -168,4 +168,4 @@ const HealthServicesList = () => {
   );
 };
 
-export default HealthServicesList;
+export default Dashboard;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from "../components/SideBar/SideBar";
 {/*import SearchBar from "../components/SearchBar/SearchBar";*/}
-import HealthServicesList from "../components/HealthServicesList/HealthServicesList";
+
 import { Box } from '@mui/material';
 
 const DashboardPage = () => {
@@ -13,7 +13,7 @@ const DashboardPage = () => {
       
         {/* Health services list with margin-left */}
         <Box sx={{display: 'flex', flexDirection: 'column', flex: '1', overflowY: 'auto', marginTop: '10px', marginLeft: '32px'}}>
-          <HealthServicesList/>
+          
         </Box>
       </Box>
   
