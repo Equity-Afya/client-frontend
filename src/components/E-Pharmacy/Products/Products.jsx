@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
-import { Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-
+import {
+  AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button, Grid
+} from '@mui/material';
+import {
+  Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight
+} from '@mui/icons-material';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from '../Cart/CartContext';
 const ProductsPage = () => {
   const navigate = useNavigate();
-  const [cart, setCart] = useState([]);
+  const { cart, addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoryDropdownAnchorEl, setCategoryDropdownAnchorEl] = useState(null);
@@ -17,23 +21,15 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://1542-102-210-244-74.ngrok-free.app/api/product/viewallproducts'); // Replace with your actual endpoint
-
-      console.log(response.json)
+      const response = await fetch('http://192.168.89.145:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
       const data = await response.json();
       setProducts(data.slice(0, 4)); // Fetching only the first four products
-      console.log(data)
     } catch (error) {
-      console.error('Error fetching products:');
+      console.error('Error fetching products:', error);
     }
-  };
-
-  const addToCart = (product) => {
-    setCart([...cart, product]);
-    navigate('/cart');
   };
 
   const handleMenuOpen = (event) => {
@@ -167,9 +163,9 @@ const ProductsPage = () => {
       </AppBar>
 
       <h1>Products</h1>
-      <div className="products">
+      <Grid container spacing={4}>
         {products.map((product) => (
-          <Box sx={{ width: 200, margin: 2 }} key={product.id}>
+          <Grid item xs={12} sm={6} md={3} key={product.id}>
             <Card>
               <CardMedia
                 component="img"
@@ -199,9 +195,9 @@ const ProductsPage = () => {
                 Add to Cart
               </Button>
             </Card>
-          </Box>
+          </Grid>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 };
