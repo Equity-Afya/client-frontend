@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import { useState, useEffect} from 'react'
 import { Card, CardContent} from '@mui/material';
 
 
@@ -43,7 +43,7 @@ const PendingBookings = () => {
         <p style={{color: '#c00100', fontWeight: "bold", fontSize: "25px", paddingLeft: "20VW"}}>{currentDate.toLocaleString()}</p>
       </div>
     
-      <Card style={{ width: "90%", backgroundColor: "#cff", boxShadow: "0px 0px 2vw 0px rgba(0, 0, 0, 0.75)",}}>
+      <Card style={{ width: "90%", backgroundColor: "#E6F0F8", boxShadow: "0px 0px 1vw 0px rgba(0, 0, 0, 0.75)",}}>
         <CardContent>
            <table style={{ width: '100%', tableLayout: 'auto'}}>
             <thead>

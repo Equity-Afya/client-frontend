@@ -190,6 +190,7 @@ function RegisterForm() {
           alignItems: "center",
           minHeight: "100vh",
           padding: { xs: "10px", md: "20px" },
+         
         }}
       >
         <ToastContainer />
@@ -281,7 +282,7 @@ function RegisterForm() {
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
                   autoComplete="off" // Turn off autocomplete
-                  InputProps={field.InputProps} // Pass input properties including the visibility toggle
+                  InputProps={field.InputProps} 
                 />
               ))}
               <Button

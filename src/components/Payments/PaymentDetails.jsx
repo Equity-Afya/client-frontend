@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, CardContent, TextField, Modal } from "@mui/material";
 import {
   createTheme,
@@ -274,5 +274,3 @@ function PaymentDetails() {
 }
 
 export default PaymentDetails;
-
-
