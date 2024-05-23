@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {
-  AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button, Grid
+  AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField
 } from '@mui/material';
 import {
   Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
+
 const ProductsPage = () => {
   const navigate = useNavigate();
   const { cart, addToCart } = useCart();
   const [products, setProducts] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productQuantity, setProductQuantity] = useState(1);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoryDropdownAnchorEl, setCategoryDropdownAnchorEl] = useState(null);
   const [conditionsDropdownAnchorEl, setConditionsDropdownAnchorEl] = useState(null);
@@ -30,6 +34,28 @@ const ProductsPage = () => {
     } catch (error) {
       console.error('Error fetching products:', error);
     }
+  };
+
+  const handleAddToCart = (product) => {
+    setSelectedProduct(product);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setProductQuantity(1); // Reset quantity
+  };
+
+  const handleProceedWithOrder = () => {
+    if (selectedProduct && productQuantity > 0) {
+      addToCart({ ...selectedProduct, quantity: productQuantity });
+      navigate('/cart');
+      handleCloseDialog();
+    }
+  };
+
+  const handleQuantityChange = (event) => {
+    setProductQuantity(parseInt(event.target.value));
   };
 
   const handleMenuOpen = (event) => {
@@ -155,7 +181,7 @@ const ProductsPage = () => {
             color="inherit"
             onClick={() => navigate('/cart')}
           >
-            <Badge badgeContent={cart.length} color="error">
+            <Badge badgeContent={cart.reduce((acc, item) => acc + item.quantity, 0)} color="error">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -188,7 +214,7 @@ const ProductsPage = () => {
                 variant="contained"
                 color="primary"
                 startIcon={<ShoppingCart />}
-                onClick={() => addToCart(product)}
+                onClick={() => handleAddToCart(product)}
                 size="small"
                 sx={{ backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}
               >
@@ -198,6 +224,27 @@ const ProductsPage = () => {
           </Grid>
         ))}
       </Grid>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Select Quantity</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Quantity"
+            type="number"
+            value={productQuantity}
+            onChange={handleQuantityChange}
+            InputProps={{ inputProps: { min: 1 } }}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleProceedWithOrder} color="primary">
+            Proceed with order
+          </Button>
+          <Button onClick={handleCloseDialog} color="primary">
+            Continue Shopping
+          </Button>
+        </DialogActions>
+      </Dialog> 
     </div>
   );
 };
