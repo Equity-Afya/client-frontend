@@ -3,6 +3,7 @@ import Sidebar from "../components/SideBar/SideBar";
 {/*import SearchBar from "../components/SearchBar/SearchBar";*/}
 
 import { Box } from '@mui/material';
+import Dashboard from '../components/Dashboard/Dashboard';
 
 const DashboardPage = () => {
   return (
@@ -13,7 +14,7 @@ const DashboardPage = () => {
       
         {/* Health services list with margin-left */}
         <Box sx={{display: 'flex', flexDirection: 'column', flex: '1', overflowY: 'auto', marginTop: '10px', marginLeft: '32px'}}>
-          
+          <Dashboard/>
         </Box>
       </Box>
   

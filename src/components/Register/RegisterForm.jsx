@@ -190,6 +190,7 @@ function RegisterForm() {
           alignItems: "center",
           minHeight: "100vh",
           padding: { xs: "10px", md: "20px" },
+         
         }}
       >
         <ToastContainer />
