@@ -17,7 +17,7 @@ const Teleclinics = () => {
     const fetchTeleclinicsData = async () => {
       try {
         const response = await fetch(
-          "https://9235-102-210-244-74.ngrok-free.app/api/facility"
+          "http://192.168.91.222:5500/api/teleclinic/viewallteleclinics"
         );
 
         if (!response.ok) {
@@ -246,4 +246,5 @@ const Teleclinics = () => {
 };
 
 export default Teleclinics;
+
 
