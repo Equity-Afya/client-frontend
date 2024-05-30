@@ -42,6 +42,8 @@ import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
+import ApprovedBookingsPage from "../pages/ApprovedBookingsPage";
+import PatientDetailsPage from "../pages/PatientDetailsPage";
 
 function AppRoutes() {
 	return (
@@ -96,6 +98,8 @@ function AppRoutes() {
 				<Route path="/delivery-info" element={<DeliveryInfoPage />} />
 				<Route path="/active-users" element={<ActiveUsersPage />} />
 				<Route path="/pending-bookings" element={<PendingBookingsPage />} />
+        <Route path="/approved-bookings" element={<ApprovedBookingsPage/>}/>
+        <Route path="patient-details" element ={<PatientDetailsPage/>}/>
 			</Routes>
 		</Router>
 	);
