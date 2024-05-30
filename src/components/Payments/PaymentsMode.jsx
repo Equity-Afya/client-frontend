@@ -6,6 +6,7 @@ import myImage from "../../assets/CardImage.png";
 import PropTypes from "prop-types";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -16,6 +17,7 @@ const theme = createTheme({
 });
 
 const PaymentsMode = ({ billingId }) => {
+  const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
   const [paymentError, setPaymentError] = useState(null);
   const [loadingMpesa, setLoadingMpesa] = useState(false);
@@ -47,7 +49,7 @@ const PaymentsMode = ({ billingId }) => {
 
       try {
         const response = await fetch(
-          "https://557b-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
+          "https:/3eaa-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
           {
             method: "POST",
             headers: {
@@ -66,6 +68,7 @@ const PaymentsMode = ({ billingId }) => {
         const data = await response.json();
         console.log("Response from M-Pesa backend:", data);
         // Further processing if needed
+        navigate("/dashboard");
       } catch (error) {
         console.error("Error making M-Pesa payment:", error.message);
         setPaymentError("Failed to make M-Pesa payment");
@@ -98,7 +101,7 @@ const PaymentsMode = ({ billingId }) => {
       const { accessToken, refreshToken } = getTokensFromStorage();
 
       const response = await fetch(
-        "https://557b-102-210-244-74.ngrok-free.app/api/payments/makecardpayments/B00001",
+        "https://192.168.89.43:5500/api/payments/makecardpayments/B00001",
         {
           method: "POST",
           headers: {
@@ -254,7 +257,7 @@ const PaymentsMode = ({ billingId }) => {
             style={{
               backgroundColor: '#c00100',
               color: 'white',
-              marginLeft: '70%',
+              margin: '1%',
               borderRadius: "0.625rem",
               width: "100%",
               marginTop: "0.625rem",

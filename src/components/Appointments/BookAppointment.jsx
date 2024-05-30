@@ -50,7 +50,7 @@ const BookAppointment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://192.168.88.44:5500/api/appointments/bookappointment', formData);
+      const response = await axios.post('http://192.168.89.43:5500/api/appointments/bookappointment', formData);
       if (response.status === 201) {
         const { appointmentId } = response.data; // Extract appointmentId from response data
         setSuccessMessage('Appointment booked successfully');

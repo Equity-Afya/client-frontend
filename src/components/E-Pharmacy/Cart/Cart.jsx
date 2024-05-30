@@ -20,7 +20,7 @@ const Cart = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.89.145:5500/api/product/viewallproducts'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.89.43:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -169,11 +169,11 @@ const Cart = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={() => handleRemoveItem(item.id)} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>REMOVE</Button>
+                  <Button size="small" onClick={() => handleRemoveItem(item.id)} sx={{ color:'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>REMOVE</Button>
                 </CardActions>
               </Box>
             ))}
-            <Button onClick={handleCheckout} sx={{ marginTop: 2, backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>CHECKOUT ({totalAmount} Ksh)</Button>
+            <Button onClick={handleCheckout} sx={{ marginTop: 2, color: 'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>CHECKOUT ({totalAmount} Ksh)</Button>
           </>
         ) : (
           <>
@@ -217,7 +217,7 @@ const Cart = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={() => handleAddToCart(product)} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Add to Cart</Button>
+                  <Button size="small" onClick={() => handleAddToCart(product)} sx={{ color: 'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Add to Cart</Button>
                 </CardActions>
               </Card>
             </Grid>

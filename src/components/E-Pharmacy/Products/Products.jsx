@@ -3,7 +3,7 @@ import {
   AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField
 } from '@mui/material';
 import {
-  Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight
+  Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight, ChevronLeft, ChevronRight
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
@@ -25,7 +25,7 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.89.145:5500/api/product/viewallproducts'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.89.43:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -43,7 +43,7 @@ const ProductsPage = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setProductQuantity(1); // Reset quantity
+    setProductQuantity(0); // Reset quantity
   };
 
   const handleProceedWithOrder = () => {
@@ -180,8 +180,8 @@ const ProductsPage = () => {
             aria-label="cart"
             color="inherit"
             onClick={() => navigate('/cart')}
-          >
-            <Badge badgeContent={cart.reduce((acc, item) => acc + item.quantity, 0)} color="error">
+            >
+            <Badge badgeContent={cart.length} color="error">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -241,7 +241,7 @@ const ProductsPage = () => {
             Proceed with order
           </Button>
           <Button onClick={handleCloseDialog} color="primary">
-            Continue Shopping
+            Cancel
           </Button>
         </DialogActions>
       </Dialog> 

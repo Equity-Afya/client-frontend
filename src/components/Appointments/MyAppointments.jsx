@@ -30,7 +30,7 @@ const AppointmentHistory = () => {
     if (appointmentId) {
       setLoading(true); // Turn on loading indicator
       try {
-        const response = await axios.get(`http://192.168.88.44:5500/api/appointments/appointmentStatus/${appointmentId}`, {
+        const response = await axios.get(`http://192.168.89.43:5500/api/appointments/appointmentStatus/${appointmentId}`, {
           headers: {
             'Content-Type': 'application/json'
           }
