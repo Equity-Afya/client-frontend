@@ -39,7 +39,7 @@ const LineCharts = () => {
     <Card style={{ width: '25vw', height: '45vh', outline: '#930100 solid 1px', borderRadius: '15px', marginTop: '5vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1rem'}}>
         <div>
-          <h5 style={{ paddingLeft: '1vw', marginTop: '2vh'}}>Patients</h5>
+          <h5 style={{ paddingLeft: '1vw', marginTop: '2vh'}}>Patients Trends</h5>
         </div>
         <div>
           <FormControl style={{ width: '45%', marginTop: '1vh', marginLeft: '11vw'}}>

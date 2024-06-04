@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { List, ListItem, ListItemIcon, ListItemText, CssBaseline, IconButton } from "@mui/material";
-import { Dashboard, PeopleAlt, LocalHospital, MedicalServices, AssignmentInd, Assessment, Business, LocalHospitalOutlined, Fullscreen, FullscreenExit } from "@mui/icons-material";
+import { List, ListItem, ListItemIcon, ListItemText, CssBaseline, IconButton, Box } from "@mui/material";
+import { Dashboard, PeopleAlt, LocalHospital, MedicalServices, AssignmentInd, Assessment, Business, LocalHospitalOutlined, Fullscreen, FullscreenExit, Brightness4, Logout } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import axios from "axios";
 
 const StyledListItem = styled(ListItem)`
@@ -131,70 +130,89 @@ function AdminSidebar() {
     return (
       <>
         <CssBaseline />
-        <List
+        <Box
           sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
             width: 240,
-            height: "100%",
+            height: "100vh",
             backgroundColor: brightnessMode ? "#FFFFFF" : "#7B0100",
             color: brightnessMode ? "#000000" : "white",
-            paddingTop: 0,
+            border: brightnessMode ? "1px solid #c00100" : "none"
           }}
         >
-          <StyledListItem button onClick={() => handleNavigation("/admin-dashboard")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <Dashboard />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-            <IconButton
+          <List sx={{ paddingTop: 0 }}>
+            <StyledListItem button onClick={() => handleNavigation("/admin-dashboard")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <Dashboard />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+              <IconButton
                 onClick={toggleFullscreen}
                 sx={{ color: brightnessMode ? "#000000" : "white" }}
               >
                 {fullscreenMode ? <FullscreenExit /> : <Fullscreen />}
               </IconButton>
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/active-users")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <PeopleAlt />
-            </ListItemIcon>
-            <ListItemText primary={`Users (${loggedInUsersCount})`} />
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/admin-servicemanagement")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <MedicalServices />
-            </ListItemIcon>
-            <ListItemText primary={`Services (${services.length})`} />
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/chps")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <LocalHospital />
-            </ListItemIcon>
-            <ListItemText primary={`CHPS (${chps.length})`} />
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/doctors")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <AssignmentInd />
-            </ListItemIcon>
-            <ListItemText primary={`Doctors (${doctors.length})`} />
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/reports")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <Assessment />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/clinics")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <Business />
-            </ListItemIcon>
-            <ListItemText primary={`Clinics (${clinics.length})`} />
-          </StyledListItem>
-          <StyledListItem button onClick={() => handleNavigation("/roles")}>
-            <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-              <LocalHospitalOutlined />
-            </ListItemIcon>
-            <ListItemText primary={`Roles (${roles.length})`} />
-          </StyledListItem>
-        </List>
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/active-users")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <PeopleAlt />
+              </ListItemIcon>
+              <ListItemText primary={`Users (${loggedInUsersCount})`} />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/admin-servicemanagement")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <MedicalServices />
+              </ListItemIcon>
+              <ListItemText primary={`Services (${services.length})`} />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/manage-chps")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <LocalHospital />
+              </ListItemIcon>
+              <ListItemText primary={`CHPS (${chps.length})`} />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/doctors")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <AssignmentInd />
+              </ListItemIcon>
+              <ListItemText primary={`Doctors (${doctors.length})`} />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/reports")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <Assessment />
+              </ListItemIcon>
+              <ListItemText primary="Reports" />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/clinics")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <Business />
+              </ListItemIcon>
+              <ListItemText primary={`Clinics (${clinics.length})`} />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/roles")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <LocalHospitalOutlined />
+              </ListItemIcon>
+              <ListItemText primary={`Roles (${roles.length})`} />
+            </StyledListItem>
+          </List>
+          <List sx={{ paddingBottom: 2 }}>
+            <StyledListItem button onClick={() => handleNavigation("/light-mode")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <Brightness4 />
+              </ListItemIcon>
+              <ListItemText primary="Theme" />
+            </StyledListItem>
+            <StyledListItem button onClick={() => handleNavigation("/logout")}>
+              <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </StyledListItem>
+          </List>
+        </Box>
       </>
     );
 }

@@ -35,7 +35,7 @@ const DoctorsSideBar = () => {
         position: "fixed",
         left: 0,
         top: 0,
-        background: darkMode ? "#c00100" : "#fff",
+        background: darkMode ? "#7b0100" : "#fff",
         color: darkMode ? "#fff" : "#c00100",
         zIndex: 1000,
         outline: "1px solid #c00100",

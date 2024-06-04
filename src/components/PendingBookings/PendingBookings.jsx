@@ -1,82 +1,175 @@
-import { useState, useEffect} from 'react'
-import { Card, CardContent} from '@mui/material';
-
+import React, { useState, useEffect } from 'react';
 
 const PendingBookings = () => {
-  const [ pendingBookings, setPendingBookings ] = useState([]);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDateTime, setCurrentDateTime] = useState('');
+  const [bookings, setBookings] = useState([]);
+  const [visibleBookings, setVisibleBookings] = useState([]);
+  const [selectedDates, setSelectedDates] = useState({});
+  const [showAll, setShowAll] = useState(false);
+  const [approvedBookings, setApprovedBookings] = useState([]);
 
   useEffect(() => {
-    //Fetching pending bookings from the backend
-    const fetchPendingBookings = async () => {
-      try{
-       const response = await fetch('backend_endpoint_to_fetch_pending_b00kings');
-       if (response.ok) {
-         const data = await response.json();
-         setPendingBookings(data);  //update state with the fetched pending bookings
-       } else{
-         console.error('Failed to fetch pending bookings');
-       }
-      } catch (error) {
-      console.error('Error fetching pending bookings:', error);
-    }
+    // Simulated data for demonstration purposes
+    const mockBookings = [
+      {
+        id: 1,
+        patient: {
+          name: 'John Doe',
+          age: 35,
+          gender: 'Male',
+          address: '123 Main St, City, Country',
+          residence: 'Apartment 4B',
+          contact: '123-456-7890',
+        },
+        service: 'General Checkup',
+        consultationType: 'In-person',
+        paymentStatus: 'Pending',
+        bookingStatus: 'Pending',
+      },
+      {
+        id: 2,
+        patient: {
+          name: 'Jane Smith',
+          age: 28,
+          gender: 'Female',
+          address: '456 Elm St, City, Country',
+          residence: 'House 5',
+          contact: '987-654-3210',
+        },
+        service: 'Dental Cleaning',
+        consultationType: 'Virtual',
+        paymentStatus: 'Paid',
+        bookingStatus: 'Confirmed',
+      },
+      {
+        id: 3,
+        patient: {
+          name: 'Alice Johnson',
+          age: 42,
+          gender: 'Female',
+          address: '789 Maple Ave, City, Country',
+          residence: 'Condo 12C',
+          contact: '555-123-4567',
+        },
+        service: 'Eye Exam',
+        consultationType: 'In-person',
+        paymentStatus: 'Paid',
+        bookingStatus: 'Pending',
+      },
+      // Add more bookings as needed
+    ];
+
+    const initialDates = {};
+    mockBookings.forEach(booking => {
+      initialDates[booking.id] = null;
+    });
+
+    setBookings(mockBookings);
+    setVisibleBookings(mockBookings.slice(0, 3)); // Display only the first three patients
+    setSelectedDates(initialDates);
+
+    const intervalId = setInterval(updateTime, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const updateTime = () => {
+    const date = new Date();
+    setCurrentDateTime(date.toLocaleString());
   };
 
-  fetchPendingBookings();
-}, []);
+  const handleApproveBooking = (id) => {
+    // Handle booking approval logic here
+    setApprovedBookings(prevState => [...prevState, id]);
+    console.log(`Booking with id ${id} approved.`);
+  };
 
-  useEffect(() => {
+  const handleDateChange = (id, date) => {
+    setSelectedDates(prevState => ({
+      ...prevState,
+      [id]: date,
+    }));
+  };
 
-    //Function to update current date every second
-    const interval = setInterval(() => {
-      setCurrentDate(new Date());
-    }, 1000);
-    
-    return() => clearInterval(interval); //Clear the interval when the componemt unmounts
-  }, []);  //empty dependency array to ensure this effect runs only once when component mounts
-
+  const handleShowMore = () => {
+    setShowAll(true);
+    setVisibleBookings(bookings);
+  };
 
   return (
-    <div style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
-      <div  style={{display: "flex", flexDirection: "row", alignItems:"center"}}>
-        <h2 style={{ color: "#c00100", }}>Pending Bookings</h2>
-        <p style={{color: '#c00100', fontWeight: "bold", fontSize: "25px", paddingLeft: "20VW"}}>{currentDate.toLocaleString()}</p>
+    <div style={{ fontSize: '16px' }}> {/* Set the font size here */}
+      <div style={{ display: 'flex', flexDirection: 'row', color: '#c55177' }}>
+        <h2>Pending Bookings</h2>
+        <h2 style={{ marginLeft: '50vw' }}>{currentDateTime}</h2>
       </div>
-    
-      <Card style={{ width: "90%", backgroundColor: "#E6F0F8", boxShadow: "0px 0px 1vw 0px rgba(0, 0, 0, 0.75)",}}>
-        <CardContent>
-           <table style={{ width: '100%', tableLayout: 'auto'}}>
-            <thead>
-              <tr>
-                <th style={{color: "#c00100"}}>Patient Details</th>
-                <th style={{color: "green"}}>Service</th>
-                <th style={{color: "blue"}}>Mode of service delivery</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pendingBookings.map((booking) => (
-                <tr key={booking.id}>
-                  <td>
-                    <div>
-                      <p>Name: {`${booking.patientFirstName} ${booking.patientLastName}`}</p>
-                      <p>Age: {booking.age}</p>
-                      <p>Phone: {booking.phoneNumber}</p>
-                      <p>Email: {booking.email}</p>
-                      <p>Residence: {booking.residence}</p>
-
-                    </div>
-                  </td>
-                  <td>{booking.service}</td>
-                  <td style={{color: '#c00100'}}>{booking.modeOfServiceDelivery}</td>
-                </tr>
-              ))}
-            </tbody>
-           </table>
-        </CardContent>
-      </Card>
+      <table style={{ width: '85%', marginLeft: '5vw' }}>
+        <thead style={{ backgroundColor: '#2d0000', color: 'white' }}>
+          <tr>
+            <th style={{ width: '30%' }}>Patient Details</th>
+            <th style={{ width: '15%' }}>Service</th>
+            <th style={{ width: '15%' }}>Consultation Type</th>
+            <th style={{ width: '15%' }}>Payment Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {visibleBookings.map(booking => (
+            <tr key={booking.id}>
+              <td style={{ width: '30%' }}>
+                <div>
+                  <strong>{booking.patient.name}</strong>
+                  <ul>
+                    <li>Age: {booking.patient.age}</li>
+                    <li>Gender: {booking.patient.gender}</li>
+                    <li>Address: {booking.patient.address}</li>
+                    <li>Residence: {booking.patient.residence}</li>
+                    <li>Contact: {booking.patient.contact}</li>
+                  </ul>
+                </div>
+              </td>
+              <td style={{ width: '15%' }}>{booking.service}</td>
+              <td style={{ width: '15%' }}>{booking.consultationType}</td>
+              <td style={{ width: '25%' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h5>{booking.paymentStatus}</h5>
+                  <div style={{ position: 'relative', width: '150px' }}>
+                    <input
+                      type="datetime-local"
+                      value={selectedDates[booking.id] ? selectedDates[booking.id].toISOString().substr(0, 16) : ''}
+                      onChange={(e) => handleDateChange(booking.id, new Date(e.target.value))}
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+                  <button
+                    style={{
+                      backgroundColor: approvedBookings.includes(booking.id) ? 'yellow' : '#c00100',
+                      color: approvedBookings.includes(booking.id) ? 'black' : 'white',
+                      border: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '4px',
+                      marginTop: '8px'
+                    }}
+                    onClick={() => handleApproveBooking(booking.id)}
+                    disabled={booking.paymentStatus !== 'Paid' || approvedBookings.includes(booking.id) || !selectedDates[booking.id]}
+                  >
+                    {approvedBookings.includes(booking.id) ? 'Approved' : 'Approve Booking'}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {!showAll && (
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <button
+            style={{ backgroundColor: '#c00100', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '4px' }}
+            onClick={handleShowMore}
+          >
+            Show More
+          </button>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default PendingBookings
-
+export default PendingBookings;

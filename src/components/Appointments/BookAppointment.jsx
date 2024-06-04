@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Button,
 	TextField,
 	Typography,
 	Container,
 	Grid,
-	FormControl,
-	InputLabel,
-	Select,
 	MenuItem,
 	Snackbar,
 } from "@mui/material";
@@ -27,7 +24,14 @@ const styles = {
 	},
 	button: {
 		marginTop: "20px",
-		backgroundColor: "brown",
+		backgroundColor: "#c00100",
+	},
+	header: {
+		backgroundColor: "#c00100",
+		color: "#fff",
+		padding: "16px 0",
+		textAlign: "center",
+		borderRadius: "8px 8px 0 0",
 	},
 	successMessage: {
 		marginTop: "20px",
@@ -41,17 +45,38 @@ const BookAppointment = () => {
 		fullName: "",
 		phoneNumber: "",
 		service: "",
-		date: "",
 		time: "",
 		appointmentType: "",
 		age: "",
 		gender: "",
-		bookFor: "",
+		bookFor: "myself",
+		areaOfResidence: "",
 	});
 	const [successMessage, setSuccessMessage] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		// Mock function to get user data (replace with actual API call)
+		const getUserData = () => {
+			return {
+				idNumber: "12345678",
+				fullName: "John Doe",
+				phoneNumber: "0700000000",
+				age: "30",
+				gender: "male",
+			};
+		};
+
+		if (formData.bookFor === "myself") {
+			const userData = getUserData();
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				...userData,
+			}));
+		}
+	}, [formData.bookFor]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -66,7 +91,7 @@ const BookAppointment = () => {
 				formData
 			);
 			if (response.status === 201) {
-				const { appointmentId } = response.data; // Extract appointmentId from response data
+				const { appointmentId } = response.data;
 				setSuccessMessage("Appointment booked successfully");
 				setErrorMessage("");
 				setOpenSnackbar(true);
@@ -75,16 +100,16 @@ const BookAppointment = () => {
 					fullName: "",
 					phoneNumber: "",
 					service: "",
-					date: "",
 					time: "",
 					appointmentType: "",
 					age: "",
 					gender: "",
-					bookFor: "",
+					bookFor: "myself",
+					areaOfResidence: "",
 				});
 				setTimeout(() => {
 					navigate("/appointments-history", { state: { appointmentId } });
-				}, 2000); // Navigate after 2 seconds
+				}, 2000);
 			} else {
 				setSuccessMessage("");
 				setErrorMessage("Error booking appointment");
@@ -102,14 +127,15 @@ const BookAppointment = () => {
 			<Grid container justifyContent="center">
 				<Grid item xs={12} sm={8} md={6}>
 					<div style={styles.formContainer}>
-						<Typography variant="h4" align="center">
-							Book Appointment
-						</Typography>
+						<div style={styles.header}>
+							<Typography variant="h4">Book Appointment</Typography>
+						</div>
 						{successMessage && (
 							<Typography
 								variant="body1"
 								align="center"
-								style={styles.successMessage}>
+								style={styles.successMessage}
+							>
 								{successMessage}
 							</Typography>
 						)}
@@ -117,22 +143,26 @@ const BookAppointment = () => {
 							<Typography
 								variant="body1"
 								align="center"
-								style={{ color: "red" }}>
+								style={{ color: "red" }}
+							>
 								{errorMessage}
 							</Typography>
 						)}
 						<form onSubmit={handleSubmit}>
-							<FormControl fullWidth margin="normal">
-								<InputLabel htmlFor="bookFor">Book For</InputLabel>
-								<Select
-									id="bookFor"
-									name="bookFor"
-									value={formData.bookFor}
-									onChange={handleChange}>
-									<MenuItem value="myself">Myself</MenuItem>
-									<MenuItem value="others">Others</MenuItem>
-								</Select>
-							</FormControl>
+						<TextField
+								label="Book For"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								select
+								name="bookFor"
+								value={formData.bookFor}
+								onChange={handleChange}
+								required
+							>
+								<MenuItem value="myself">Myself</MenuItem>
+								<MenuItem value="others">Others</MenuItem>
+							</TextField>
 							{formData.bookFor === "others" && (
 								<>
 									<TextField
@@ -178,47 +208,19 @@ const BookAppointment = () => {
 								required
 							/>
 							<TextField
-								label="Date"
+								label="Appointment Type"
 								variant="outlined"
 								fullWidth
 								margin="normal"
-								name="date"
-								type="date"
-								value={formData.date}
+								select
+								name="appointmentType"
+								value={formData.appointmentType}
 								onChange={handleChange}
 								required
-								InputLabelProps={{
-									shrink: true,
-								}}
-							/>
-							<TextField
-								label="Time"
-								variant="outlined"
-								fullWidth
-								margin="normal"
-								name="time"
-								type="time"
-								value={formData.time}
-								onChange={handleChange}
-								required
-								InputLabelProps={{
-									shrink: true,
-								}}
-							/>
-							<FormControl fullWidth margin="normal">
-								<InputLabel htmlFor="appointmentType">
-									Appointment Type
-								</InputLabel>
-								<Select
-									id="appointmentType"
-									name="appointmentType"
-									value={formData.appointmentType}
-									onChange={handleChange}
-									required>
-									<MenuItem value="physical">Physical</MenuItem>
-									<MenuItem value="virtual">Virtual</MenuItem>
-								</Select>
-							</FormControl>
+							>
+								<MenuItem value="physical">Physical</MenuItem>
+								<MenuItem value="virtual">Virtual</MenuItem>
+							</TextField>
 							<TextField
 								label="Age"
 								variant="outlined"
@@ -229,24 +231,37 @@ const BookAppointment = () => {
 								onChange={handleChange}
 								required
 							/>
-							<FormControl fullWidth margin="normal">
-								<InputLabel htmlFor="gender">Gender</InputLabel>
-								<Select
-									id="gender"
-									name="gender"
-									value={formData.gender}
-									onChange={handleChange}
-									required>
-									<MenuItem value="male">Male</MenuItem>
-									<MenuItem value="female">Female</MenuItem>
-								</Select>
-							</FormControl>
+							<TextField
+								label="Gender"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								select
+								name="gender"
+								value={formData.gender}
+								onChange={handleChange}
+								required
+							>
+								<MenuItem value="male">Male</MenuItem>
+								<MenuItem value="female">Female</MenuItem>
+							</TextField>
+							<TextField
+								label="Area of Residence"
+								variant="outlined"
+								fullWidth
+								margin="normal"
+								name="areaOfResidence"
+								value={formData.areaOfResidence}
+								onChange={handleChange}
+								required
+							/>
 							<Button
 								variant="contained"
 								color="primary"
 								fullWidth
 								type="submit"
-								style={styles.button}>
+								style={styles.button}
+							>
 								Book Appointment
 							</Button>
 							<Snackbar

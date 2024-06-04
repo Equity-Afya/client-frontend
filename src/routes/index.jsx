@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
@@ -42,6 +42,8 @@ import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
+import ManageChpsPage from "../pages/admin/ManageChpsPage";
+import CreateChpPage from "../pages/admin/CreateChpPage";
 
 function AppRoutes() {
 	return (
@@ -92,6 +94,8 @@ function AppRoutes() {
 					path="/admin-servicemanagement"
 					element={<AdminServicesPage />}
 				/>
+				<Route path="/manage-chps" element={<ManageChpsPage />} />
+				<Route path="/create-chp" element={<CreateChpPage />} />
 				<Route path="/admin-bookings" element={<AdminBookingPage />} />
 				<Route path="/delivery-info" element={<DeliveryInfoPage />} />
 				<Route path="/active-users" element={<ActiveUsersPage />} />
@@ -102,3 +106,101 @@ function AppRoutes() {
 }
 
 export default AppRoutes;
+
+
+/*import React, { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+
+// Lazy loading the components
+const LandingPage = lazy(() => import("../pages/LandingPage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const RegisterPage = lazy(() => import("../pages/RegisterPage"));
+const ResetPasswordPage = lazy(() => import("../pages/ResetPasswordPage"));
+const VerifyOTPPage = lazy(() => import("../pages/VerifyOTPPage"));
+const DashboardPage = lazy(() => import("../pages/DashboardPage"));
+const MedicalServicesPage = lazy(() => import("../pages/MedicalServicesPage"));
+const SpecialistsPage = lazy(() => import("../pages/SpecialistsPage"));
+const MyhealthRecordsPage = lazy(() => import("../pages/MyhealthRecordsPage"));
+const PaymentsPage = lazy(() => import("../pages/PaymentsPage"));
+const CustomerCarePage = lazy(() => import("../pages/CustomerCarePage"));
+const TeleclinicsPage = lazy(() => import("../pages/TeleclinicsPage"));
+const OtherServicesPage = lazy(() => import("../pages/OtherServicesPage"));
+const ForgotPasswordPage = lazy(() => import("../pages/ForgotPasswordPage"));
+const ModernLabPage = lazy(() => import("../pages/ModernLabPage"));
+const ForgotPassword = lazy(() => import("../components/ForgotPassword/ForgotPassword"));
+//const PasswordReset = lazy(() => import("../components/PasswordReset/passwordReset"));
+const AppointmentStatusPage = lazy(() => import("../pages/AppointmentStatusPage"));
+const OtpPasswordPage = lazy(() => import("../pages/OtpPasswordPage"));
+const NotFoundPage = lazy(() => import("../pages/NotFoundPage"));
+const ViewProfilePage = lazy(() => import("../pages/ViewProfilePage"));
+const LanguagePage = lazy(() => import ("../pages/languagePage"));   // Check if this file exists and path is correct
+const BookAppointmentPage = lazy(() => import("../pages/BookAppointmentPage"));
+const AppointmentsHistory = lazy(() => import("../pages/AppointmentsHistory"));
+const DentalPage = lazy(() => import("../pages/DentalPage"));
+const EpharmacyDashboardPage = lazy(() => import("../pages/EpharmacyDashboardPage"));
+const EpharmacyLandingPage = lazy(() => import("../pages/EpharmacyLandingPage"));
+const ProductsPage = lazy(() => import("../pages/ProductsPage"));
+const PrescriptionsPage = lazy(() => import("../pages/PrescriptionsPage"));
+const CartPage = lazy(() => import("../pages/CartPage"));
+const MyOrdersPage = lazy(() => import("../pages/MyOrdersPage"));
+const DoctorsCustomerCarePage = lazy(() => import("../pages/DoctorsCustomerCarePage"));
+const ReviewedPatientsPage = lazy(() => import("../pages/ReviewedPatientsPage"));
+const DoctorsDashboardPage = lazy(() => import("../pages/DoctorsDashboardPage"));
+const DeliveryInfoPage = lazy(() => import("../pages/DeliveryInfoPage"));
+const AdminDashboardPage = lazy(() => import("../pages/admin/AdminDashboardPage"));
+const AdminServicesPage = lazy(() => import("../pages/admin/AdminServicesPage"));
+const AdminBookingPage = lazy(() => import("../pages/admin/AdminBookingPage"));
+const ActiveUsersPage = lazy(() => import("../pages/admin/ActiveUsersPage"));
+const PendingBookingsPage = lazy(() => import("../pages/PendingBookingsPage"));
+
+function AppRoutes() {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+					<Route path="/password-reset" element={<ResetPasswordPage/>} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-otp" element={<VerifyOTPPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/medical-services" element={<MedicalServicesPage />} />
+          <Route path="/specialists" element={<SpecialistsPage />} />
+          <Route path="/health-records" element={<MyhealthRecordsPage />} />
+          <Route path="/payments" element={<PaymentsPage />} />
+          <Route path="/customer-care" element={<CustomerCarePage />} />
+          <Route path="/teleclinics" element={<TeleclinicsPage />} />
+          <Route path="/other-services" element={<OtherServicesPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/modern-lab" element={<ModernLabPage />} />
+          <Route path="/appointment-status" element={<AppointmentStatusPage />} />
+          <Route path="/otp-password" element={<OtpPasswordPage />} />
+          <Route path="/book-appointment" element={<BookAppointmentPage />} />
+          <Route path="/appointments-history" element={<AppointmentsHistory />} />
+          <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
+          <Route path="/doctors-customer-care" element={<DoctorsCustomerCarePage />} />
+					<Route path = "/doctors-dashboard" element={<DoctorsDashboardPage/>}/>
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />} />
+					<Route path="/e-pharmacy-landing-page" element={<EpharmacyLandingPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/prescriptions" element={<PrescriptionsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/my-orders" element={<MyOrdersPage />} />
+          <Route path="/view-profile" element={<ViewProfilePage />} />
+          <Route path="/language" element={<LanguagePage />} />
+          <Route path="/dental" element={<DentalPage />} />
+          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
+          <Route path="/admin-bookings" element={<AdminBookingPage />} />
+          <Route path="/delivery-info" element={<DeliveryInfoPage />} />
+          <Route path="/active-users" element={<ActiveUsersPage />} />
+          <Route path="/pending-bookings" element={<PendingBookingsPage />} />
+        </Routes>
+      </Suspense>
+    </Router>
+  );
+}
+
+export default AppRoutes;*/
