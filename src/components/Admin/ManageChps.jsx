@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -17,9 +17,46 @@ import { useNavigate } from 'react-router-dom';
 
 const ManageChps = () => {
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [editIndex, setEditIndex] = useState(-1);
+  const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
+  const [editedData, setEditedData] = useState({});
+  const [tempData, setTempData] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://192.168.88.243:5500/api/chp/viewallchps');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      setRows(data);
+      setFilteredRows(data);
+      setTempData(data);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+      setError(error.message);
+    }
+  };
 
   const handleSearch = (event) => {
-    console.log("Search term:", event.target.value);
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchTerm(searchTerm);
+    const filteredData = rows.filter(row =>
+      row.name.toLowerCase().includes(searchTerm) ||
+      row.email.toLowerCase().includes(searchTerm) ||
+      row.location.toLowerCase().includes(searchTerm) ||
+      row.phone.toLowerCase().includes(searchTerm) ||
+      row.regDate.toLowerCase().includes(searchTerm)
+    );
+    setFilteredRows(filteredData);
   };
 
   const handleNotifications = () => {
@@ -30,18 +67,60 @@ const ManageChps = () => {
     console.log("Profile clicked");
   };
 
-  const createData = (name, email, location, phone, regDate) => {
-    return { name, email, location, phone, regDate };
-  };
-
-  const rows = [
-    createData('John Doe', 'john.doe@example.com', 'New York', '123-456-7890', '01-01-2022'),
-    createData('Jane Smith', 'jane.smith@example.com', 'Los Angeles', '098-765-4321', '02-02-2023'),
-    // Add more rows as needed
-  ];
-
   const handleAddUser = () => {
     navigate('/create-chp');
+  };
+
+  const handleEdit = (index) => {
+    setEditIndex(index);
+    setEditedData(filteredRows[index]);
+  };
+
+  const handleDelete = async (index) => {
+    const rowToDelete = filteredRows[index];
+    try {
+      const response = await fetch(`http://192.168.88.243:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
+      }
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting data:', error.message);
+      setError(error.message);
+    }
+  };
+
+  const handleInputChange = (event, field) => {
+    setEditedData({
+      ...editedData,
+      [field]: event.target.value
+    });
+  };
+
+  const handleSave = (index) => {
+    const updatedRows = [...tempData];
+    updatedRows[index] = editedData;
+    setTempData(updatedRows);
+    setEditIndex(-1);
+  };
+
+  const handleExport = async () => {
+    try {
+      const response = await fetch('http://192.168.88.243:5500/api/chp/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tempData),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to export data: ${response.status} ${response.statusText}`);
+      }
+      console.log('Data exported successfully');
+    } catch (error) {
+      console.error('Error exporting data:', error.message);
+      setError(error.message);
+    }
   };
 
   return (
@@ -73,56 +152,120 @@ const ManageChps = () => {
           }}
         />
       </div>
-      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-        <h3 style={{ paddingLeft: '5vw' }}>Active Users</h3>
-        <Button style={{backgroundColor: '#c00100', color: '#fff', marginLeft: 'auto', height: '5vh'}}>Export</Button>
-        <Button 
-          style={{backgroundColor: '#c00100', color: '#fff', marginLeft: '2vw', height: '5vh'}}
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <h3 style={{ paddingLeft: '5vw' }}>Active CHPs</h3>
+        <Button style={{ backgroundColor: '#c00100', color: '#fff', marginLeft: 'auto', height: '5vh' }} onClick={handleExport}>
+          Export
+        </Button>
+        <Button
+          style={{ backgroundColor: '#c00100', color: '#fff', marginLeft: '2vw', height: '5vh' }}
           onClick={handleAddUser}
         >
           Add User
         </Button>
       </div>
-      <TableContainer component={Paper} style={{ margin: '1vh 0.5vw', maxWidth: '94vw' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Reg. Date</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.location}</TableCell>
-                <TableCell>{row.phone}</TableCell>
-                <TableCell>{row.regDate}</TableCell>
-                <TableCell>
-                  <IconButton
-                    color="primary"
-                    onClick={() => console.log('Edit', row.name)}
-                    style={{ marginRight: '1vw' }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="secondary"
-                    onClick={() => console.log('Delete', row.name)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+      {error ? (
+        <div style={{ textAlign: 'center', color: 'red' }}>{error}</div>
+      ) : (
+        <TableContainer component={Paper} style={{ margin: '1vh 0.5vw', maxWidth: '94vw' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Phone Number</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {filteredRows.length > 0 ? (
+                filteredRows.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField
+                          id={`name-${index}`}
+                          defaultValue={row.name}
+                          variant="outlined"
+                          onChange={(e) => handleInputChange(e, 'name')}
+                        />
+                      ) : (
+                        row.name
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField
+                          id={`email-${index}`}
+                          defaultValue={row.email}
+                          variant="outlined"
+                          onChange={(e) => handleInputChange(e, 'email')}
+                        />
+                      ) : (
+                        row.email
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField
+                          id={`location-${index}`}
+                          defaultValue={row.location}
+                          variant="outlined"
+                          onChange={(e) => handleInputChange(e, 'location')}
+                        />
+                      ) : (
+                        row.location
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField
+                          id={`phone-${index}`}
+                          defaultValue={row.phone}
+                          variant="outlined"
+                          onChange={(e) => handleInputChange(e, 'phone')}
+                        />
+                      ) : (
+                        row.phone
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <Button
+                          color="primary"
+                          onClick={() => handleSave(index)}
+                          style={{ marginRight: '1vw' }}
+                        >
+                          Save
+                        </Button>
+                      ) : (
+                        <IconButton
+                          color="primary"
+                          onClick={() => handleEdit(index)}
+                          style={{ marginRight: '1vw' }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      )}
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleDelete(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">No match found</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 };

@@ -44,6 +44,7 @@ import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
 import ManageChpsPage from "../pages/admin/ManageChpsPage";
 import CreateChpPage from "../pages/admin/CreateChpPage";
+import AdminLatestBookingsPage from "../pages/admin/AdminLatestBookingsPage";
 
 function AppRoutes() {
 	return (
@@ -94,6 +95,7 @@ function AppRoutes() {
 					path="/admin-servicemanagement"
 					element={<AdminServicesPage />}
 				/>
+				<Route path="/admin-latest-bookings" element={<AdminLatestBookingsPage />} />
 				<Route path="/manage-chps" element={<ManageChpsPage />} />
 				<Route path="/create-chp" element={<CreateChpPage />} />
 				<Route path="/admin-bookings" element={<AdminBookingPage />} />

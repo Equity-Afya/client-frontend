@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -12,18 +13,24 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#c00100',
+      main: '#00f',
     },
   },
 });
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const CreateChp = () => {
   const [formValues, setFormValues] = useState({
-    fullName: '',
+    name: '',
     idNumber: '',
     email: '',
     countryCode: '254',
@@ -33,7 +40,7 @@ const CreateChp = () => {
   });
 
   const [errors, setErrors] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phoneNumber: '',
     idNumber: '',
@@ -41,6 +48,8 @@ const CreateChp = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,8 +60,8 @@ const CreateChp = () => {
 
     if (name === 'email') {
       validateEmail(value);
-    } else if (name === 'fullName') {
-      validateFullName(value);
+    } else if (name === 'name') {
+      validateName(value);
     } else if (name === 'phoneNumber') {
       validatePhoneNumber(value);
     } else if (name === 'idNumber') {
@@ -77,17 +86,17 @@ const CreateChp = () => {
     }
   };
 
-  const validateFullName = (fullName) => {
-    const fullNameRegex = /^[A-Za-z]+ [A-Za-z]+$/;
-    if (!fullNameRegex.test(fullName)) {
+  const validateName = (name) => {
+    const nameRegex = /^[A-Za-z]+ [A-Za-z]+$/;
+    if (!nameRegex.test(name)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        fullName: 'Enter full names',
+        name: 'Enter full names',
       }));
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        fullName: '',
+        name: '',
       }));
     }
   };
@@ -97,7 +106,7 @@ const CreateChp = () => {
     if (!phoneRegex.test(phoneNumber)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        phoneNumber: 'Phone number must start with 1 or 7 and be 9 digits long',
+        phoneNumber: 'input a valid mobile phone number',
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -112,7 +121,7 @@ const CreateChp = () => {
     if (!idNumberRegex.test(idNumber)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        idNumber: 'ID Number must contain only digits and be between 5 and 10 characters long',
+        idNumber: 'Input ID valid number (digits only)',
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -127,7 +136,7 @@ const CreateChp = () => {
     if (!passwordRegex.test(password)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        password: 'Password must be at least 8 characters long, and include at least one letter, one number, and one special character',
+        password: 'At least 8 characters long, at least one uppercase a lowercase letter, a number, and one special character',
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -152,7 +161,7 @@ const CreateChp = () => {
     }
 
     try {
-      const response = await fetch('https://your-backend-endpoint.com/api/create-chp', {
+      const response = await fetch('https://1d4b-102-210-244-74.ngrok-free.app/api/auth/chp/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -160,21 +169,16 @@ const CreateChp = () => {
         body: JSON.stringify(formValues),
       });
 
+      const data = await response.json();
+      console.log('Response data:', data);
+
       if (response.ok) {
-        const data = await response.json();
-        alert('User created successfully');
-        // Clear the form
-        setFormValues({
-          fullName: '',
-          idNumber: '',
-          email: '',
-          countryCode: '254',
-          phoneNumber: '',
-          location: '',
-          password: '',
-        });
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          navigate('/manage-chp');
+        }, 2000); // Adjust the delay as needed
       } else {
-        alert('Failed to create user');
+        alert(`Failed to create user: ${data.message}`);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -186,27 +190,31 @@ const CreateChp = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
-        <header style={{paddingLeft: '7vw', backgroundColor: '#930100', color: '#fff', height: '6vh', marginBottom: '2vh', borderRadius: '10px'}}>
-          <h2 style={{textDecoration: 'underline'}}>CHP REGISTRATION</h2>
+        <header style={{ paddingLeft: '7vw', backgroundColor: '#930100', color: '#fff', height: '6vh', marginBottom: '2vh', borderRadius: '10px' }}>
+          <h2 style={{ textDecoration: 'underline' }}>CHP REGISTER</h2>
         </header>
-        
-        <form style={{width: '30vw'}} onSubmit={handleSubmit}>
+
+        <form style={{ width: '30vw' }} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
                 required
                 label="Full Names"
-                name="fullName"
-                value={formValues.fullName}
+                name="name"
+                value={formValues.name}
                 onChange={handleChange}
                 variant="outlined"
                 color="primary"
-                error={!!errors.fullName}
-                helperText={errors.fullName}
+                error={!!errors.name}
+                helperText={errors.name}
               />
             </Grid>
             <Grid item xs={12}>
@@ -324,6 +332,12 @@ const CreateChp = () => {
             </Grid>
           </Grid>
         </form>
+
+        <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity="success">
+            CHP created successfully!
+          </Alert>
+        </Snackbar>
       </Container>
     </ThemeProvider>
   );
