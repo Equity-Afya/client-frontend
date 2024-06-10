@@ -99,7 +99,7 @@ function AppRoutes() {
 				<Route path="/active-users" element={<ActiveUsersPage />} />
 				<Route path="/pending-bookings" element={<PendingBookingsPage />} />
         <Route path="/approved-bookings" element={<ApprovedBookingsPage/>}/>
-        <Route path="patient-details" element ={<PatientDetailsPage/>}/>
+        <Route path="patient-file" element ={<PatientDetailsPage/>}/>
 			</Routes>
 		</Router>
 	);
