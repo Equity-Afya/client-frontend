@@ -24,6 +24,7 @@ import ViewProfilePage from "../pages/ViewProfilePage";
 import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+import LabResultsPage from "../pages/labResultsPage";
 //clients Routes
 import DentalPage from "../pages/DentalPage";
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
@@ -42,6 +43,16 @@ import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
+import SettingsPage from "../pages/admin/SettingsPage";
+import RolesPage from "../pages/admin/RolesPage";
+import ReportsPage from "../pages/admin/AdminReportsPage";
+import ClinicsPage from "../pages/admin/AdminClinicsPage";
+import DoctorsPage from "../pages/admin/AdminDoctorPage";
+//Pharmacist Routes
+import PharmacistDashboardPage from "../pages/pharmacist/PharmacistDashboardPage";
+import PrescriptionUploadPage from "../pages/pharmacist/PrescriptionUploadPage";
+import DrugsInventoryPage from "../pages/pharmacist/DrugsInventoryPage"
+
 import ManageChpsPage from "../pages/admin/ManageChpsPage";
 import CreateChpPage from "../pages/admin/CreateChpPage";
 import AdminLatestBookingsPage from "../pages/admin/AdminLatestBookingsPage";
@@ -168,51 +179,45 @@ const PendingBookingsPage = lazy(() => import("../pages/PendingBookingsPage"));
 function AppRoutes() {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-					<Route path="/password-reset" element={<ResetPasswordPage/>} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/verify-otp" element={<VerifyOTPPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/medical-services" element={<MedicalServicesPage />} />
-          <Route path="/specialists" element={<SpecialistsPage />} />
-          <Route path="/health-records" element={<MyhealthRecordsPage />} />
-          <Route path="/payments" element={<PaymentsPage />} />
-          <Route path="/customer-care" element={<CustomerCarePage />} />
-          <Route path="/teleclinics" element={<TeleclinicsPage />} />
-          <Route path="/other-services" element={<OtherServicesPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/modern-lab" element={<ModernLabPage />} />
-          <Route path="/appointment-status" element={<AppointmentStatusPage />} />
-          <Route path="/otp-password" element={<OtpPasswordPage />} />
-          <Route path="/book-appointment" element={<BookAppointmentPage />} />
-          <Route path="/appointments-history" element={<AppointmentsHistory />} />
-          <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
-          <Route path="/doctors-customer-care" element={<DoctorsCustomerCarePage />} />
-					<Route path = "/doctors-dashboard" element={<DoctorsDashboardPage/>}/>
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />} />
-					<Route path="/e-pharmacy-landing-page" element={<EpharmacyLandingPage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/prescriptions" element={<PrescriptionsPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/my-orders" element={<MyOrdersPage />} />
-          <Route path="/view-profile" element={<ViewProfilePage />} />
-          <Route path="/language" element={<LanguagePage />} />
-          <Route path="/dental" element={<DentalPage />} />
-          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
-          <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
-          <Route path="/admin-bookings" element={<AdminBookingPage />} />
-          <Route path="/delivery-info" element={<DeliveryInfoPage />} />
-          <Route path="/active-users" element={<ActiveUsersPage />} />
-          <Route path="/pending-bookings" element={<PendingBookingsPage />} />
-        </Routes>
-      </Suspense>
-    </Router>
-  );
-}
-
-export default AppRoutes;*/
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/verify-otp" element={<VerifyOTPPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/medical-services" element={<MedicalServicesPage />} />
+        <Route path="/specialists" element={<SpecialistsPage />} />
+        <Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
+        <Route path="/health-records" element={<MyhealthRecordsPage />} />
+        <Route path="/teleclinics" element={<TeleclinicsPage />} />
+        <Route path="/payments" element={<PaymentsPage />} />
+        <Route path="/customer-care" element={<CustomerCarePage />} />
+        <Route path="/other-services" element={<OtherServicesPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/modern-lab" element={<ModernLabPage />} />
+        <Route path="/appointment-status" element={<AppointmentStatusPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<PasswordReset />} />
+        <Route path="/otp-password" element={<OtpPasswordPage />} />
+        <Route path="/book-appointment" element={<BookAppointmentPage />} />
+        <Route path="/appointments-history" element={<AppointmentsHistory />} />
+        <Route path="/reviewed-patients" element={<ReviewedPatientsPage />} />
+        <Route path="/doctors-customer-care"element={<DoctorsCustomerCarePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="health-records" element={<MyhealthRecordsPage />} />
+        <Route path="/forgot-password" element={ForgotPassword} />
+        <Route path="/reset-password" element={PasswordReset} />
+        <Route path="/e-pharmacy" element={<EpharmacyDashboardPage />} />
+        <Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/prescriptions" element={<PrescriptionsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/my-orders" element={<MyOrdersPage />} />
+        <Route path="/view-profile" element={<ViewProfilePage />} />
+        <Route path="/language" element={<LanguagePage />} />
+        <Route path="/dental" element={<DentalPage />} />
+        <Route path="/delivery-info" element={<DeliveryInfoPage />} />
+        <Route path="/active-users" element={<ActiveUsersPage />} />
+        <Route path="/pending-bookings" element={<PendingBookingsPage />} />
+        <Route path="/lab-results" element={<LabResultsPage />} />*/
