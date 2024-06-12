@@ -57,7 +57,7 @@ const Appointment = () => {
                 <td>{row.name}</td>
                 <td>{row.time}</td>
                 <td>
-                  <Button style={{ backgroundColor: '#c00100', color: '#fff' }}>></Button>
+                  <Button style={{ backgroundColor: '#c00100', color: '#fff' }}></Button>
                 </td>
               </tr>
             ))}
