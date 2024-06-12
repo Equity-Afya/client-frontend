@@ -49,7 +49,7 @@ const PaymentsMode = ({ billingId }) => {
 
       try {
         const response = await fetch(
-          "https:/3eaa-102-210-244-74.ngrok-free.app/api/payments/makestkpayments/B00001",
+          "https://2835-102-210-244-174.ngrok-free.app/api/payments/makestkpayments/B00001",
           {
             method: "POST",
             headers: {

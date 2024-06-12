@@ -24,6 +24,7 @@ import ViewProfilePage from "../pages/ViewProfilePage";
 import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
+import LabResultsPage from "../pages/labResultsPage";
 //clients Routes
 import DentalPage from "../pages/DentalPage";
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
@@ -42,6 +43,16 @@ import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
+import SettingsPage from "../pages/admin/SettingsPage";
+import RolesPage from "../pages/admin/RolesPage";
+import ReportsPage from "../pages/admin/AdminReportsPage";
+import ClinicsPage from "../pages/admin/AdminClinicsPage";
+import DoctorsPage from "../pages/admin/AdminDoctorPage";
+//Pharmacist Routes
+import PharmacistDashboardPage from "../pages/pharmacist/PharmacistDashboardPage";
+import PrescriptionUploadPage from "../pages/pharmacist/PrescriptionUploadPage";
+import DrugsInventoryPage from "../pages/pharmacist/DrugsInventoryPage"
+
 
 
 function AppRoutes() {
@@ -85,13 +96,28 @@ function AppRoutes() {
         <Route path="/view-profile" element={<ViewProfilePage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
-        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
-        <Route path="/admin-bookings" element={<AdminBookingPage />} />
         <Route path="/delivery-info" element={<DeliveryInfoPage />} />
         <Route path="/active-users" element={<ActiveUsersPage />} />
         <Route path="/pending-bookings" element={<PendingBookingsPage />} />
+        <Route path="/lab-results" element={<LabResultsPage />} />
+
+        {/*Admin*/}
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin-servicemanagement" element={<AdminServicesPage />} />
+        <Route path="/admin-bookings" element={<AdminBookingPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/roles" element={<RolesPage />} />
+        <Route path="/reports" element={<ReportsPage />} />
+        <Route path="/clinics" element={<ClinicsPage />} />
+        <Route path="/doctors" element={<DoctorsPage />} />
+
+        {/*Pharmacist*/}
+        <Route path="/pharmacist-dashboard" element={< PharmacistDashboardPage />} />
+        <Route path="/prescription-uploads" element={< PrescriptionUploadPage />} />
+        <Route path="/drug-inventory" element={< DrugsInventoryPage />} />
+
       </Routes>
+
     </Router>
   );
 }
