@@ -13,6 +13,8 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
@@ -34,8 +36,7 @@ function RegisterForm() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showLoginLink =
-    location.pathname !== "/login";
+  const showLoginLink = location.pathname !== "/login";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,15 +44,25 @@ function RegisterForm() {
   const [idNumber, setIdNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [gender, setGender] = useState(""); // New gender state
+  const [dateOfBirth, setDateOfBirth] = useState(""); // New date of birth state
   const [formErrors, setFormErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [countryCode, setCountryCode] = useState("+254");
 
   // Function to check if all fields are filled
   const areFieldsFilled = () => {
     return (
-      name && email && phoneNumber && idNumber && password && confirmPassword
+      name &&
+      email &&
+      phoneNumber &&
+      idNumber &&
+      password &&
+      confirmPassword &&
+      gender &&
+      dateOfBirth
     );
   };
 
@@ -78,6 +89,12 @@ function RegisterForm() {
       case "confirmPassword":
         setConfirmPassword(value);
         break;
+      case "gender":
+        setGender(value);
+        break;
+      case "dateOfBirth":
+        setDateOfBirth(value);
+        break;
       default:
         break;
     }
@@ -88,13 +105,11 @@ function RegisterForm() {
     setPassword(newPassword);
 
     // Custom password regex allowing user to choose special characters
-    const regex =
-      /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
+    const regex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
         ...formErrors,
-        password:
-          "Password should be between 5 and 15 characters and contain at least one letter, one number, and one special character",
+        password: "Password should be between 5 and 15 characters and contain at least one letter, one number, and one special character",
       });
     } else {
       setFormErrors({ ...formErrors, password: "" });
@@ -114,13 +129,21 @@ function RegisterForm() {
         return;
       }
 
-      const userData = { name, email, phoneNumber, idNumber, password };
+      const userData = {
+        name,
+        email,
+        phoneNumber,
+        idNumber,
+        password,
+        gender,
+        dateOfBirth,
+      };
 
       const response = await api.post("/register", userData);
 
       if (response.status === 200) {
         console.log("Registration successful:", response.data);
-        //Show success message
+        // Show success message
         toast.success("Registration successful!", {
           position: "top-center",
           autoClose: 2000,
@@ -133,7 +156,7 @@ function RegisterForm() {
         // Navigate to the OTP verification page
         setTimeout(() => {
           navigate("/verify-otp", { state: { email } });
-        }, 3000); //Delay navigation to verification
+        }, 3000); // Delay navigation to verification
         // Reset form data on successful registration
         setName("");
         setEmail("");
@@ -141,6 +164,8 @@ function RegisterForm() {
         setIdNumber("");
         setPassword("");
         setConfirmPassword("");
+        setGender("");
+        setDateOfBirth("");
         setFormErrors({});
       } else {
         console.error("Registration failed. Status:", response.status);
@@ -168,6 +193,11 @@ function RegisterForm() {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleCountryCodeChange = (event) => {
+    setCountryCode(event.target.value);
+    setPhoneNumber(""); // Clear phone number when country code changes
   };
 
   const theme = createTheme({
@@ -216,11 +246,6 @@ function RegisterForm() {
               {[
                 { label: "Name", name: "name", value: name },
                 { label: "Email", name: "email", value: email },
-                {
-                  label: "Phone Number",
-                  name: "phoneNumber",
-                  value: phoneNumber,
-                },
                 { label: "ID Number", name: "idNumber", value: idNumber },
                 {
                   label: "Password",
@@ -272,18 +297,80 @@ function RegisterForm() {
                   type={field.type || "text"}
                   name={field.name}
                   value={field.value}
-                  onChange={
-                    field.name === "password"
-                      ? handlePasswordChange
-                      : handleChange
-                  }
+                  onChange={field.name === "password" ? handlePasswordChange : handleChange}
                   error={Boolean(formErrors[field.name])}
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
                   autoComplete="off" // Turn off autocomplete
-                  InputProps={field.InputProps} // Pass input properties including the visibility toggle
+                  InputProps={field.InputProps}
                 />
               ))}
+              <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 1 }}>
+                <Select
+                  value={countryCode}
+                  onChange={handleCountryCodeChange}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  style={{ marginBottom: "1px" }}
+                >
+                  <MenuItem value="+254">+254 (Kenya)</MenuItem>
+                  <MenuItem value="+243">+243 (DRC)</MenuItem>
+                  <MenuItem value="+250">+250 (Rwanda)</MenuItem>
+                  <MenuItem value="+257">+257 (Burundi)</MenuItem>
+                  <MenuItem value="+255">+255 (Tanzania)</MenuItem>
+                  <MenuItem value="+256">+256 (Uganda)</MenuItem>
+                  <MenuItem value="+27">+27 (S. Sudan)</MenuItem>
+                  {/* Add more country codes as needed */}
+                </Select>
+                <TextField
+                  label="Phone Number"
+                  variant="outlined"
+                  type="text"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={handleChange}
+                  error={Boolean(formErrors.phoneNumber)}
+                  helperText={formErrors.phoneNumber}
+                  style={{ width: "100%" }}
+                  autoComplete="off" // Turn off autocomplete
+                  inputProps={{
+                    maxLength: 9,
+                    pattern: "[7-9][0-9]{8}",
+                  }}
+                />
+              </Box>
+              <Select
+                label="Gender"
+                variant="outlined"
+                name="gender"
+                value={gender}
+                onChange={handleChange}
+                error={Boolean(formErrors.gender)}
+                helperText={formErrors.gender}
+                style={{ width: "100%" }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+              </Select>
+              <TextField
+                label="Date of Birth"
+                variant="outlined"
+                type="date"
+                name="dateOfBirth"
+                value={dateOfBirth}
+                onChange={handleChange}
+                error={Boolean(formErrors.dateOfBirth)}
+                helperText={formErrors.dateOfBirth}
+                style={{ width: "100%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                placeholder="YYYY-MM-DD" // Date format placeholder
+              />
               <Button
                 type="submit"
                 variant="contained"

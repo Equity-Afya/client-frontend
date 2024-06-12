@@ -11,12 +11,13 @@ const Teleclinics = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [noMatchError, setNoMatchError] = useState(false);
   const [services, setServices] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTeleclinicsData = async () => {
       try {
         const response = await fetch(
-          "https://9235-102-210-244-74.ngrok-free.app/api/facility"
+          "http://192.168.91.222:5500/api/teleclinic/viewallteleclinics"
         );
 
         if (!response.ok) {
@@ -30,9 +31,10 @@ const Teleclinics = () => {
 
         const data = await response.json();
         setTeleclinics(data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError(error.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -109,11 +111,11 @@ const Teleclinics = () => {
       }}
     >
       <div style={{ backgroundColor: "#E6F0F8", padding: "2%", width: "100%" }}>
-        <h2 style={{ paddingLeft: "40%" }}>Our Teleclinics</h2>
+        <h2 style={{ textAlign: "center" }}>Our Teleclinics</h2>
         <Box
           sx={{
-            marginBottom: "20px",
-            paddingLeft: "15%",
+            marginLeft: "15%",
+            marginBottom: "10px",
             borderRadius: "10px",
             width: "75%",
             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
@@ -135,15 +137,15 @@ const Teleclinics = () => {
           />
         </Box>
         {noMatchError && <p>No matching facilities or addresses found.</p>}
+        {error && <p>{error}</p>}
         <Box
           sx={{
             backgroundColor: "#ffffff",
             border: "1px solid #670909",
             padding: "20px",
-            outline: "none",
-            width: "100%",
-            position: "relative",
             borderRadius: "20px",
+            width: "100%",
+            overflow: "auto",
           }}
         >
           <table style={{ width: "100%" }}>
@@ -167,6 +169,7 @@ const Teleclinics = () => {
                     <td>
                       <Button
                         onClick={() => handleViewServices(teleclinic.facility)}
+                        aria-label={`View services for ${teleclinic.facility}`}
                       >
                         View Our Services
                       </Button>
@@ -185,6 +188,7 @@ const Teleclinics = () => {
                   cursor: "pointer",
                   fontWeight: currentPage === page + 1 ? "bold" : "normal",
                 }}
+                aria-label={`Go to page ${page + 1}`}
               >
                 {page + 1}
               </Button>
@@ -242,3 +246,5 @@ const Teleclinics = () => {
 };
 
 export default Teleclinics;
+
+
