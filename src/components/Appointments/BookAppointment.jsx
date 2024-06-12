@@ -7,6 +7,9 @@ import {
 	Grid,
 	MenuItem,
 	Snackbar,
+	Select,
+	FormControl,
+	InputLabel,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -44,6 +47,7 @@ const BookAppointment = () => {
 		idNumber: "",
 		fullName: "",
 		phoneNumber: "",
+		countryCode: "+254",
 		service: "",
 		time: "",
 		appointmentType: "",
@@ -52,29 +56,45 @@ const BookAppointment = () => {
 		bookFor: "myself",
 		areaOfResidence: "",
 	});
+	const [services, setServices] = useState([]);
 	const [successMessage, setSuccessMessage] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		// Mock function to get user data (replace with actual API call)
-		const getUserData = () => {
-			return {
-				idNumber: "12345678",
-				fullName: "John Doe",
-				phoneNumber: "0700000000",
-				age: "30",
-				gender: "male",
-			};
-		};
+	const getUserData = async () => {
+		try {
+			const response = await axios.get("http://192.168.89.29:5500/api/userdata");
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (error) {
+			console.error("Error fetching user data:", error);
+			return null;
+		}
+	};
 
+	const getServices = async () => {
+		try {
+			const response = await axios.get("http://192.168.89.29:5500/api/services");
+			if (response.status === 200) {
+				setServices(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching services:", error);
+		}
+	};
+
+	useEffect(() => {
 		if (formData.bookFor === "myself") {
-			const userData = getUserData();
-			setFormData((prevFormData) => ({
-				...prevFormData,
-				...userData,
-			}));
+			getUserData().then((userData) => {
+				if (userData) {
+					setFormData((prevFormData) => ({
+						...prevFormData,
+						...userData,
+					}));
+				}
+			});
 		}
 	}, [formData.bookFor]);
 
@@ -99,6 +119,7 @@ const BookAppointment = () => {
 					idNumber: "",
 					fullName: "",
 					phoneNumber: "",
+					countryCode: "+254",
 					service: "",
 					time: "",
 					appointmentType: "",
@@ -149,7 +170,7 @@ const BookAppointment = () => {
 							</Typography>
 						)}
 						<form onSubmit={handleSubmit}>
-						<TextField
+							<TextField
 								label="Book For"
 								variant="outlined"
 								fullWidth
@@ -175,16 +196,40 @@ const BookAppointment = () => {
 										onChange={handleChange}
 										required
 									/>
-									<TextField
-										label="Phone Number"
-										variant="outlined"
-										fullWidth
-										margin="normal"
-										name="phoneNumber"
-										value={formData.phoneNumber}
-										onChange={handleChange}
-										required
-									/>
+									<Grid container spacing={2}>
+										<Grid item xs={4}>
+											<FormControl fullWidth variant="outlined">
+												<InputLabel>Country Code</InputLabel>
+												<Select
+													name="countryCode"
+													value={formData.countryCode}
+													onChange={handleChange}
+													label="Country Code"
+													required
+												>
+													<MenuItem value="+254">Kenya (+254)</MenuItem>
+													<MenuItem value="+255">Tanzania (+255)</MenuItem>
+													<MenuItem value="+256">Uganda (+256)</MenuItem>
+													<MenuItem value="+250">Rwanda (+250)</MenuItem>
+													<MenuItem value="+257">Burundi (+257)</MenuItem>
+													<MenuItem value="+243">Congo (+243)</MenuItem>
+													<MenuItem value="+211">South Sudan (+211)</MenuItem>
+												</Select>
+											</FormControl>
+										</Grid>
+										<Grid item xs={8}>
+											<TextField
+												label="Phone Number"
+												variant="outlined"
+												fullWidth
+												margin="normal"
+												name="phoneNumber"
+												value={formData.phoneNumber}
+												onChange={handleChange}
+												required
+											/>
+										</Grid>
+									</Grid>
 								</>
 							)}
 							<TextField
@@ -197,16 +242,23 @@ const BookAppointment = () => {
 								onChange={handleChange}
 								required
 							/>
-							<TextField
-								label="Service"
-								variant="outlined"
-								fullWidth
-								margin="normal"
-								name="service"
-								value={formData.service}
-								onChange={handleChange}
-								required
-							/>
+							<FormControl fullWidth variant="outlined" margin="normal">
+								<InputLabel>Service</InputLabel>
+								<Select
+									name="service"
+									value={formData.service}
+									onChange={handleChange}
+									onOpen={getServices}
+									label="Service"
+									required
+								>
+									{services.map((service) => (
+										<MenuItem key={service.id} value={service.name}>
+											{service.name}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
 							<TextField
 								label="Appointment Type"
 								variant="outlined"
@@ -244,6 +296,7 @@ const BookAppointment = () => {
 							>
 								<MenuItem value="male">Male</MenuItem>
 								<MenuItem value="female">Female</MenuItem>
+								<MenuItem value="other">Other</MenuItem>
 							</TextField>
 							<TextField
 								label="Area of Residence"

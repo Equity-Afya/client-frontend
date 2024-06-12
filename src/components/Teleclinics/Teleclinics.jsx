@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, CircularProgress } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Box, TextField, Button, CircularProgress, IconButton, Menu, MenuItem } from "@mui/material";
+import { Search, Notifications, AccountCircle } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Teleclinics = () => {
   const [teleclinics, setTeleclinics] = useState([]);
@@ -12,12 +13,16 @@ const Teleclinics = () => {
   const [noMatchError, setNoMatchError] = useState(false);
   const [services, setServices] = useState([]);
   const [error, setError] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTeleclinicsData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.91.222:5500/api/teleclinic/viewallteleclinics"
+          "http://192.168.88.198:5500/api/teleclinic/viewallteleclinics"
         );
 
         if (!response.ok) {
@@ -41,6 +46,40 @@ const Teleclinics = () => {
 
     fetchTeleclinicsData();
   }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch("http://192.168.88.198:5500/api/notifications");
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch notifications: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Response is not JSON");
+      }
+
+      const data = await response.json();
+      setNotifications(data);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setError(error.message);
+    }
+  };
+
+  const handleNotificationClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    fetchNotifications();
+  };
+
+  const handleNotificationClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
 
   const handleShowMore = () => {
     setFacilitiesPerPage((prev) => prev + 5);
@@ -103,55 +142,83 @@ const Teleclinics = () => {
     <div
       style={{
         height: "100vh",
-        width: "80vw",
+        width: "79vw",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <div style={{ backgroundColor: "#E6F0F8", padding: "2%", width: "100%" }}>
-        <h2 style={{ textAlign: "center" }}>Our Teleclinics</h2>
-        <Box
-          sx={{
-            marginLeft: "15%",
-            marginBottom: "10px",
-            borderRadius: "10px",
-            width: "75%",
-            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-              {
+      <div style={{ backgroundColor: "#E6F0F8", padding: "1%", width: "100%" }}>
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+          <h2 style={{ textAlign: "left", margin: 0 }}>Our Teleclinics</h2>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "60%",
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 borderColor: "#c00100",
               },
-          }}
-        >
-          <TextField
-            style={{ backgroundColor: "#fff" }}
-            fullWidth
-            variant="outlined"
-            placeholder="Search by teleclinic name or address"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            InputProps={{
-              startAdornment: <Search />,
             }}
-          />
-        </Box>
+          >
+            <TextField
+              style={{ backgroundColor: "#fff", height: "50px", flex: 1 }}
+              variant="outlined"
+              placeholder="Search by teleclinic name or address"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              InputProps={{
+                endAdornment: <Search style={{ color: "#c00100" }} />,
+              }}
+            />
+            <IconButton
+              style={{ color: "#c00100", marginLeft: "10px" }}
+              onClick={handleNotificationClick}
+            >
+              <Notifications />
+            </IconButton>
+            <IconButton
+              style={{ color: "#c00100", marginLeft: "10px" }}
+              onClick={handleProfileClick}
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleNotificationClose}
+          >
+            {notifications.length > 0 ? (
+              notifications.map((notification, index) => (
+                <MenuItem key={index} onClick={handleNotificationClose}>
+                  {notification.message}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem onClick={handleNotificationClose}>No notifications</MenuItem>
+            )}
+          </Menu>
+        </div>
         {noMatchError && <p>No matching facilities or addresses found.</p>}
         {error && <p>{error}</p>}
         <Box
           sx={{
             backgroundColor: "#ffffff",
             border: "1px solid #670909",
-            padding: "20px",
-            borderRadius: "20px",
+            padding: "10px",
+            borderRadius: "10px",
             width: "100%",
+            height: "78vh", // Fixed height for table container
             overflow: "auto",
+            marginTop: "1vw",
           }}
         >
           <table style={{ width: "100%" }}>
-            <thead>
+            <thead style={{textAlign: 'left'}}>
               <tr>
                 <th>Facility</th>
+                <th>Location</th>
                 <th>Address</th>
                 <th>Services</th>
               </tr>
@@ -165,6 +232,7 @@ const Teleclinics = () => {
                 .map((teleclinic, index) => (
                   <tr key={index}>
                     <td>{teleclinic.facility}</td>
+                    <td>{teleclinic.location}</td>
                     <td>{teleclinic.address}</td>
                     <td>
                       <Button
@@ -246,5 +314,3 @@ const Teleclinics = () => {
 };
 
 export default Teleclinics;
-
-

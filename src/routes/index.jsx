@@ -45,6 +45,11 @@ import PendingBookingsPage from "../pages/PendingBookingsPage";
 import ManageChpsPage from "../pages/admin/ManageChpsPage";
 import CreateChpPage from "../pages/admin/CreateChpPage";
 import AdminLatestBookingsPage from "../pages/admin/AdminLatestBookingsPage";
+import CreateDoctorPage from "../pages/admin/CreateDoctorPage";
+import ManageDoctorsPage from "../pages/admin/ManageDoctorPage";
+import ManagePharmacistPage from "../pages/admin/ManagePharmacistPage";
+import ManageClinicsPage from "../pages/admin/ManageClinicsPage";
+import CreateClinicPage from "../pages/admin/CreateClinicPage";
 
 function AppRoutes() {
 	return (
@@ -61,6 +66,8 @@ function AppRoutes() {
 				<Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
 				<Route path="/health-records" element={<MyhealthRecordsPage />} />
 				<Route path="/teleclinics" element={<TeleclinicsPage />} />
+				<Route path="/manage-clinics" element={<ManageClinicsPage/>} />
+				<Route path="/create-clinics" element={<CreateClinicPage/>} />
 				<Route path="/payments" element={<PaymentsPage />} />
 				<Route path="/customer-care" element={<CustomerCarePage />} />
 				<Route path="/other-services" element={<OtherServicesPage />} />
@@ -95,6 +102,9 @@ function AppRoutes() {
 					path="/admin-servicemanagement"
 					element={<AdminServicesPage />}
 				/>
+				<Route path="/manage-pharmacist" element={<ManagePharmacistPage />} />
+				<Route path="/manage-doctors" element={<ManageDoctorsPage />} />
+				<Route path="/create-doctor" element={<CreateDoctorPage />} />
 				<Route path="/admin-latest-bookings" element={<AdminLatestBookingsPage />} />
 				<Route path="/manage-chps" element={<ManageChpsPage />} />
 				<Route path="/create-chp" element={<CreateChpPage />} />

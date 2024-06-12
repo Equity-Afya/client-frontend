@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-const ManageChps = () => {
+const ManagePharmacists = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
@@ -31,7 +31,7 @@ const ManageChps = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.88.243:5500/api/chp/viewallchps');
+      const response = await fetch('http://192.168.88.243:5500/api/pharmacist/viewallpharmacists');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -52,7 +52,7 @@ const ManageChps = () => {
     const filteredData = rows.filter(row =>
       row.name.toLowerCase().includes(searchTerm) ||
       row.email.toLowerCase().includes(searchTerm) ||
-      row.location.toLowerCase().includes(searchTerm) ||
+      row.licenceNumber.toLowerCase().includes(searchTerm) ||
       row.phone.toLowerCase().includes(searchTerm) ||
       row.regDate.toLowerCase().includes(searchTerm)
     );
@@ -68,7 +68,7 @@ const ManageChps = () => {
   };
 
   const handleAddUser = () => {
-    navigate('/create-chp');
+    navigate('/create-pharmacist');
   };
 
   const handleEdit = (index) => {
@@ -79,7 +79,7 @@ const ManageChps = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.88.243:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.88.243:5500/api/pharmacist/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -106,7 +106,7 @@ const ManageChps = () => {
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.88.243:5500/api/chp/export', {
+      const response = await fetch('http://192.168.88.243:5500/api/pharmacist/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,9 +124,9 @@ const ManageChps = () => {
   };
 
   return (
-    <div style={{ maxWidth: '80vw', overflowX: 'hidden' }}>
+    <div style={{ maxWidth: '100vw', overflowX: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2vh 2vw', backgroundColor: '#f1f1f1' }}>
-        <h2 style={{ margin: 0 }}>Manage CHPs</h2>
+        <h2 style={{ margin: 0 }}>Manage Pharmacists</h2>
         <TextField
           variant="outlined"
           placeholder="Search..."
@@ -153,7 +153,7 @@ const ManageChps = () => {
         />
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <h3 style={{ paddingLeft: '5vw' }}>Active CHPs</h3>
+        <h3 style={{ paddingLeft: '5vw' }}>Active Pharmacists</h3>
         <Button style={{ backgroundColor: '#c00100', color: '#fff', marginLeft: 'auto', height: '5vh' }} onClick={handleExport}>
           Export
         </Button>
@@ -173,7 +173,7 @@ const ManageChps = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Location</TableCell>
+                <TableCell>Licence Number</TableCell>
                 <TableCell>Phone Number</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
@@ -209,13 +209,13 @@ const ManageChps = () => {
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
-                          id={`location-${index}`}
-                          defaultValue={row.location}
+                          id={`licenceNumber-${index}`}
+                          defaultValue={row.licenceNumber}
                           variant="outlined"
-                          onChange={(e) => handleInputChange(e, 'location')}
+                          onChange={(e) => handleInputChange(e, 'licenceNumber')}
                         />
                       ) : (
-                        row.location
+                        row.licenceNumber
                       )}
                     </TableCell>
                     <TableCell>
@@ -270,4 +270,4 @@ const ManageChps = () => {
   );
 };
 
-export default ManageChps;
+export default ManagePharmacists;

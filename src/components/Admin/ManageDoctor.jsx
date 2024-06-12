@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-const ManageChps = () => {
+const ManageDoctors = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
@@ -31,7 +31,7 @@ const ManageChps = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.88.243:5500/api/chp/viewallchps');
+      const response = await fetch('http://192.168.88.198:5500/api/doctor/viewalldoctors');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -52,9 +52,8 @@ const ManageChps = () => {
     const filteredData = rows.filter(row =>
       row.name.toLowerCase().includes(searchTerm) ||
       row.email.toLowerCase().includes(searchTerm) ||
-      row.location.toLowerCase().includes(searchTerm) ||
-      row.phone.toLowerCase().includes(searchTerm) ||
-      row.regDate.toLowerCase().includes(searchTerm)
+      row.licenseNo.toLowerCase().includes(searchTerm) ||
+      row.phoneNumber.toLowerCase().includes(searchTerm)
     );
     setFilteredRows(filteredData);
   };
@@ -68,7 +67,7 @@ const ManageChps = () => {
   };
 
   const handleAddUser = () => {
-    navigate('/create-chp');
+    navigate('/create-doctor');
   };
 
   const handleEdit = (index) => {
@@ -79,7 +78,7 @@ const ManageChps = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.88.243:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.88.198:5500/api/doctor/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -106,7 +105,7 @@ const ManageChps = () => {
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.88.243:5500/api/chp/export', {
+      const response = await fetch('http://192.168.88.198:5500/api/doctor/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,9 +123,9 @@ const ManageChps = () => {
   };
 
   return (
-    <div style={{ maxWidth: '80vw', overflowX: 'hidden' }}>
+    <div style={{ width: '80vw', overflowX: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2vh 2vw', backgroundColor: '#f1f1f1' }}>
-        <h2 style={{ margin: 0 }}>Manage CHPs</h2>
+        <h2 style={{ margin: 0 }}>Manage Doctors</h2>
         <TextField
           variant="outlined"
           placeholder="Search..."
@@ -153,7 +152,7 @@ const ManageChps = () => {
         />
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <h3 style={{ paddingLeft: '5vw' }}>Active CHPs</h3>
+        <h3 style={{ paddingLeft: '5vw' }}>Active Doctors</h3>
         <Button style={{ backgroundColor: '#c00100', color: '#fff', marginLeft: 'auto', height: '5vh' }} onClick={handleExport}>
           Export
         </Button>
@@ -170,10 +169,10 @@ const ManageChps = () => {
         <TableContainer component={Paper} style={{ margin: '1vh 0.5vw', maxWidth: '94vw' }}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow style={{backgroundColor: '#cff'}}>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Location</TableCell>
+                <TableCell>License Number</TableCell>
                 <TableCell>Phone Number</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
@@ -209,25 +208,25 @@ const ManageChps = () => {
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
-                          id={`location-${index}`}
-                          defaultValue={row.location}
+                          id={`licenseNo-${index}`}
+                          defaultValue={row.licenseNo}
                           variant="outlined"
-                          onChange={(e) => handleInputChange(e, 'location')}
+                          onChange={(e) => handleInputChange(e, 'licenseNo')}
                         />
                       ) : (
-                        row.location
+                        row.licenseNo
                       )}
                     </TableCell>
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
-                          id={`phone-${index}`}
-                          defaultValue={row.phone}
+                          id={`phoneNumber-${index}`}
+                          defaultValue={row.phoneNumber}
                           variant="outlined"
-                          onChange={(e) => handleInputChange(e, 'phone')}
+                          onChange={(e) => handleInputChange(e, 'phoneNumber')}
                         />
                       ) : (
-                        row.phone
+                        row.phoneNumber
                       )}
                     </TableCell>
                     <TableCell>
@@ -270,4 +269,4 @@ const ManageChps = () => {
   );
 };
 
-export default ManageChps;
+export default ManageDoctors;
