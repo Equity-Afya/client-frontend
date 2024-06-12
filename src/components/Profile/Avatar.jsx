@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const fetchAvatar = async (userToken, setAvatarSrcImageUrl) => {
     try {
-        const response = await axios.get('http://192.168.90.89:5500/api/patient/getProfileImage/37449211', {
+        const response = await axios.get('http://192.168.89.43:5500/api/patient/getProfileImage/37449211', {
             headers: {
                 'Authorization': 'Bearer ' + userToken
             }

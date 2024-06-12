@@ -17,12 +17,12 @@ const ViewProfile = () => {
 
     const fetchProfileDetails = async () => {
         try {
-            const response = await axios.get('http://192.168.90.89:5500/api/patient/viewProfile/37449211');
+            const response = await axios.get('http://192.168.89.43:5500/api/patient/viewPatientProfile/37449211');
             const { email, phoneNumber, idNumber, password, avatarSrc, backgroundImage, name } = response.data;
             setEmail(email);
             setPhoneNumber(phoneNumber);
             setIdNumber(idNumber);
-            setPassword(password);
+            //setPassword(password);
             setAvatarSrcImageUrl(avatarSrc);
             setBackgroundImage(backgroundImage);
             setName(name);
@@ -115,9 +115,9 @@ const ViewProfile = () => {
                     <Typography variant="body1" mb={2} sx={{ fontWeight: 'bold' }}>
                         ID Number: {idNumber}
                     </Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                    {/*<Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                         Password: {password}
-                    </Typography>
+                    </Typography>*/}
                 </Card>
                 {/* Edit profile dialog */}
                 <Dialog open={openDialog} onClose={handleCloseDialog}>

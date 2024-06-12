@@ -11,7 +11,7 @@ export const AvatarProvider = ({ children }) => {
 
   const uploadAvatar = async (formData) => {
     try {
-      const response = await axios.post('http://192.168.90.89:5500/api/patient/uploadProfileImages/37449211', formData, {
+      const response = await axios.post('http://192.168.89.43:5500/api/patient/uploadProfileImages/37449211', formData, {
         headers: {
           'Authorization': 'Bearer ' + userToken,
           'Content-Type': 'multipart/form-data'
