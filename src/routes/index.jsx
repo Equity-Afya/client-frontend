@@ -43,15 +43,6 @@ import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
-import SettingsPage from "../pages/admin/SettingsPage";
-import RolesPage from "../pages/admin/RolesPage";
-import ReportsPage from "../pages/admin/AdminReportsPage";
-import ClinicsPage from "../pages/admin/AdminClinicsPage";
-import DoctorsPage from "../pages/admin/AdminDoctorPage";
-//Pharmacist Routes
-import PharmacistDashboardPage from "../pages/pharmacist/PharmacistDashboardPage";
-import PrescriptionUploadPage from "../pages/pharmacist/PrescriptionUploadPage";
-import DrugsInventoryPage from "../pages/pharmacist/DrugsInventoryPage"
 
 import ManageChpsPage from "../pages/admin/ManageChpsPage";
 import CreateChpPage from "../pages/admin/CreateChpPage";
