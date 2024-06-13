@@ -1,10 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, Paper, Card, CardContent, Button, TextField, MenuItem, CircularProgress } from '@mui/material';
+import { Container, Typography, Paper, Card, CardContent, Button, CircularProgress } from '@mui/material';
 import { FavoriteBorderOutlined, Height, Description } from '@mui/icons-material';
 import axios from 'axios';
-import DataAnalyticsGraph from '../../components/MyHealthRecords/dataAnalyticsGraphs';
+import RecordForm from '../../components/MyHealthRecords/recordForm'; // Assuming RecordForm is in the same directory
+import DataAnalyticsGraph from '../../components/MyHealthRecords/dataAnalyticsGraphs'; // Adjust import path as needed
 
 const MyHealthRecords = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const MyHealthRecords = () => {
         </Typography>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <RecordCard title="Blood Pressure" buttonText="Record" icon={<FavoriteBorderOutlined />} formFields={['Date', 'Systolic', 'Diastolic']} />
-          <RecordCard title="BMI" buttonText="Record" icon={<Height />} formFields={['Date', 'Weight', 'Height']} />
+          <RecordCard title="BMI" buttonText="Record" icon={<Height />} formFields={['Date', 'Weight', 'Height', 'HeightUnit']} calculateBMI />
           <RecordCard title="Lab Results" buttonText="View" icon={<Description />} onViewClick={fetchLabResults} />
         </div>
       </Paper>
@@ -39,7 +39,7 @@ const MyHealthRecords = () => {
   );
 };
 
-const RecordCard = ({ title, buttonText, icon, formFields = [], onViewClick }) => {
+const RecordCard = ({ title, buttonText, icon, formFields = [], onViewClick, calculateBMI }) => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -52,17 +52,6 @@ const RecordCard = ({ title, buttonText, icon, formFields = [], onViewClick }) =
     }
   };
 
-  const handleFormSubmit = (data) => {
-    axios.post('http://192.168.91.164:5500/api/createrecord', data)
-      .then(response => {
-        console.log('Data submitted successfully:', response.data);
-        setShowForm(false);
-      })
-      .catch(error => {
-        console.error('Failed to submit data:', error);
-      });
-  };
-
   return (
     <Card style={{ width: '30%', margin: '10px', background: 'lightgrey', borderRadius: '20px' }}>
       <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -73,71 +62,12 @@ const RecordCard = ({ title, buttonText, icon, formFields = [], onViewClick }) =
           {title}
         </Typography>
         {title === 'Blood Pressure' && <Typography variant="h6" gutterBottom style={{ color: 'black' }}>Weekly Average:</Typography>}
-        <Button variant="contained" color="primary" style={{ backgroundColor: '#C00100' }} onClick={handleButtonClick}>
+        <Button variant="contained" color="primary" style={{ backgroundColor: '#C00100', marginBottom: '10px' }} onClick={handleButtonClick}>
           {loading ? <CircularProgress color="inherit" size={24} /> : buttonText}
         </Button>
-        {showForm && <RecordForm formFields={formFields} onSubmit={handleFormSubmit} />}
+        {showForm && <RecordForm formFields={formFields} />}
       </CardContent>
     </Card>
-  );
-};
-
-const RecordForm = ({ formFields, onSubmit }) => {
-  const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const handleChange = (field, value) => {
-    setFormData(prevData => ({
-      ...prevData,
-      [field]: field === 'Date' ? formatDate(value) : value
-    }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoading(true);
-    axios.post('http://192.168.91.164:5500/api/createrecord', formData)
-      .then(response => {
-        console.log('Data submitted successfully:', response.data);
-        setLoading(false);
-        onSubmit(formData);
-      })
-      .catch(error => {
-        console.error('Failed to submit data:', error);
-        setLoading(false);
-      });
-  };
-
-  return (
-    <form onSubmit={handleSubmit} style={{ marginTop: '20px', width: '100%', textAlign: 'center' }}>
-      {formFields.map((field, index) => (
-        <TextField
-          key={index}
-          label={field}
-          type={field === 'Date' ? 'date' : 'text'}
-          value={formData[field] || ''}
-          onChange={(e) => handleChange(field, e.target.value)}
-          style={{ marginBottom: '10px', borderRadius: '20px', color: 'black', width: '80%' }}
-          InputProps={{
-            style: { color: 'black' }
-          }}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      ))}
-      <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#C00100' }}>
-        {loading ? <CircularProgress color="inherit" size={24} /> : "Submit"}
-      </Button>
-    </form>
   );
 };
 
