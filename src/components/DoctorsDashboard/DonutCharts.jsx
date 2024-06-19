@@ -45,42 +45,39 @@ const DonutCharts = () => {
   const data = getDataBasedOnDuration();
 
   return (
-    <Card style={{ width: '20vw', height: '45vh', outline: '#930100 solid 1px', marginTop: '5vh', borderRadius: '15px', position: 'relative' }}>
+    <Card style={{ width: '20vw', height: '45vh', outline: '#930100 solid 1px', marginTop: '5vh', borderRadius: '15px', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-      <div style={{ display: 'flex', flexDirection: 'row', position: 'absolute', top: '90%', left: '50%', transform: 'translateX(-50%)' }}>
-        <div>
-          <h5 style={{ marginLeft: '1vw', marginTop: '1vh' }}>Gender</h5>
-        </div>
-        <div>
-          <FormControl style={{ width: '50%', marginTop: '1vh', marginLeft: '7vw' }}>
-            <Select
-              variant="outlined"
-              value={selectedDuration}
-              onChange={handleDurationChange}
-              style={{
-                height: '6vh',
-                padding: '8px',
-                borderRadius: '5px',
-                border: '1px solid #ccc',
-                boxSizing: 'border-box',
-              }}
-            >
-              <MenuItem value="this-month">This Month</MenuItem>
-              <MenuItem value="this-year">This Year</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', paddingLeft: '1vw'}}>
+        <h5 style={{  paddingLeft: '1vw', marginTop: '2vh' }}>Gender Trends</h5>
+        <FormControl style={{ width: '50%' }}>
+          <Select
+            variant="outlined"
+            value={selectedDuration}
+            onChange={handleDurationChange}
+            style={{
+              height: '6vh',
+              padding: '8px',
+              borderRadius: '5px',
+              border: '1px solid #ccc',
+              boxSizing: 'border-box',
+            }}
+          >
+            <MenuItem value="this-month">This Month</MenuItem>
+            <MenuItem value="this-year">This Year</MenuItem>
+          </Select>
+        </FormControl>
       </div>
-      <div style={{ position: 'absolute', top: '50%', left: '15%', transform: 'translate(-50%, -50%)' }}>
-        <PieChart width={400} height={400}>
+      
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
+        <PieChart width={350} height={350}>
           <Pie
             data={data}
-            cx={200}
-            cy={200}
+            cx={100}
+            cy={100}
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={80}
-            innerRadius={40} // Adjust the inner radius to create a donut chart
+            outerRadius={75}
+            innerRadius={35} // Adjust the inner radius to create a donut chart
             fill="#8884d8"
             dataKey="value"
           >
@@ -89,7 +86,7 @@ const DonutCharts = () => {
             }
           </Pie>
           <Tooltip />
-          <Legend layout="vertical" align="left" verticalAlign="bottom" wrapperStyle={{ left: 0 }} />
+          <Legend layout="vertical" align="left" verticalAlign="bottom" wrapperStyle={{ left: 50 }} />
         </PieChart>
       </div>
       
@@ -98,3 +95,4 @@ const DonutCharts = () => {
 };
 
 export default DonutCharts;
+

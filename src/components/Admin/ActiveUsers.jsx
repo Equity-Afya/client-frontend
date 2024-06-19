@@ -3,7 +3,6 @@ import { Box, Typography, Select, MenuItem, InputLabel, Button, Container, Table
 import api from '../../services/api'; // Assuming you have an API service
 import CreateUsers from './UserRegistration';
 
-
 const ActiveUsers = () => {
   const [selectedRole, setSelectedRole] = useState('');
   const [formData, setFormData] = useState([]);
@@ -35,16 +34,34 @@ const ActiveUsers = () => {
     setOpenRegistration(true); // Open the registration form popup
   };
 
+  // Adding event listeners to all buttons
+  useEffect(() => {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        console.log(`${button.textContent} button clicked`);
+      });
+    });
+
+    return () => {
+      buttons.forEach(button => {
+        button.removeEventListener('click', (event) => {
+          console.log(`${button.textContent} button clicked`);
+        });
+      });
+    };
+  }, []);
+
   return (
-    <Box sx={{marginTop:'40px'}}>
+    <Box sx={{marginTop: '3.7vh'}}>
       {openRegistration ? (
         <CreateUsers />
       ) : (
-        <Box sx={{marginLeft:'40px'}}>
-          <Box sx={{marginRight:'40px'}}>
-            <Typography sx={{ fontWeight:'bold'}}>USERS</Typography>
+        <Box sx={{marginLeft: '2.08vw'}}>
+          <Box sx={{marginRight: '2.08vw'}}>
+            <Typography sx={{ fontWeight: 'bold' }}>USERS</Typography>
           </Box>
-          <Box sx={{display:'flex', alignItems: 'center'}}>
+          <Box sx={{display: 'flex', alignItems: 'center'}}>
             <Box>
               <InputLabel htmlFor="role-select">Filter By Role</InputLabel>
               <Select
@@ -55,26 +72,26 @@ const ActiveUsers = () => {
                 id="role-select"
                 fullWidth
                 variant="outlined"
-                sx={{ mb: 2, width:'300px'}}
+                sx={{ mb: 2, width: '15.6vw' }}
               >
                 <MenuItem value="admin">Admin</MenuItem>
                 <MenuItem value="doctor">Doctor</MenuItem>
                 <MenuItem value="CHP">CHP</MenuItem>
               </Select>
             </Box>
-            <Box ml={50}>
-              <Button color='primary' sx={{backgroundColor:'#930100', color:'white'}}>
-                Export Data         
+            <Box sx={{marginLeft: '26vw'}}>
+              <Button color='primary' sx={{backgroundColor: '#930100', color: 'white'}}>
+                Export Data
               </Button>
             </Box>
-            <Box ml={2}>
-              <Button onClick={handleAddUserClick} color='primary' sx={{backgroundColor:'#930100', color:'white'}}>
-                Add User            
+            <Box sx={{marginLeft: '1.04vw'}}>
+              <Button onClick={handleAddUserClick} color='primary' sx={{backgroundColor: '#930100', color: 'white'}}>
+                Add User
               </Button>
             </Box>
           </Box>
         
-          <Container maxWidth="md" sx={{marginRight:'60px'}}>
+          <Container maxWidth="md" sx={{marginRight: '3.12vw'}}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
               ACTIVE USERS
             </Typography>
@@ -124,3 +141,4 @@ const ActiveUsers = () => {
 }
 
 export default ActiveUsers;
+
