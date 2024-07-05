@@ -1,177 +1,171 @@
-import React, { useState } from 'react';
-import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { FormControl, InputLabel, Select, MenuItem, TextField, Button, Paper, Dialog, DialogTitle, DialogContent, DialogActions, Typography, IconButton, Card, CardContent } from '@material-ui/core';
-import {Done, Handshake} from '@mui/icons-material';
-//import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Typography, MenuItem, Select, TextField, Button, FormControl, InputLabel } from '@mui/material';
+import { styled } from '@mui/system';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#800000',
-    },
-  },
+const Container = styled(Box)({
+    textAlign: 'center',
+    marginTop: '2rem',
 });
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(4),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    backgroundColor: 'lightgrey',
-    color: '#800000',
-    width: '500px'
-  },
-  button: {
-    marginTop: theme.spacing(2),
-  },
-  card: {
-    marginTop: theme.spacing(2),
-    width: '100%',
-  },
-  cardContent: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  icon: {
-    marginRight: theme.spacing(1),
-    color: '#800000',
-  },
-}));
+const FormContainer = styled(Box)({
+    width: '40%',
+    margin: 'auto',
+    padding: '2rem',
+    backgroundColor: '#eee',
+    borderRadius: '8px',
+});
 
-const DeliveryInformation = () => {
-  const classes = useStyles();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [formData, setFormData] = useState({
-    county: '',
-    subCounty: '',
-    town: '',
-    street: '',
-    house: '',
-    contact: '',
-  });
-  const [formErrors, setFormErrors] = useState({});
+const Title = styled(Typography)({
+    marginBottom: '2rem',
+    color: '#b22222', // Dark red color for the title
+});
 
-  const handleChange = (event) => {
-    const { id, value } = event.target;
-    setFormData({
-      ...formData,
-      [id]: value,
+const StyledButton = styled(Button)({
+    backgroundColor: '#b22222', // Dark red color for the button
+    '&:hover': {
+        backgroundColor: '#8b0000', // Darker red on hover
+    },
+});
+
+// Utility function to transform data into the required structure
+const transformData = (data) => {
+    const result = [];
+
+    data.forEach(({ County, Constituency, Ward }) => {
+        let county = result.find(c => c.name === County);
+        if (!county) {
+            county = { name: County, subCounties: [] };
+            result.push(county);
+        }
+
+        let subCounty = county.subCounties.find(sc => sc.name === Constituency);
+        if (!subCounty) {
+            subCounty = { name: Constituency, wards: [] };
+            county.subCounties.push(subCounty);
+        }
+
+        if (!subCounty.wards.includes(Ward)) {
+            subCounty.wards.push(Ward);
+        }
     });
-  };
 
-  const validateForm = () => {
-    const errors = {};
-    Object.keys(formData).forEach((key) => {
-      if (!formData[key] && key !== 'house') {
-        errors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
-      }
-    });
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+    return result;
+};
 
-  const handleCompleteOrder = () => {
-    const isValid = validateForm();
-    if (isValid) {
-      console.log("Form is valid:", isValid);
-      setOpenDialog(true);
-    }
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+const DeliveryForm = () => {
+    const navigate = useNavigate();
+    const [counties, setCounties] = useState([]);
+    const [county, setCounty] = useState('');
+    const [subCounty, setSubCounty] = useState('');
+    const [ward, setWard] = useState('');
+    const [streetName, setStreetName] = useState('');
+    const [houseName, setHouseName] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Paper className={classes.paper}>
-        <h1>Delivery Information</h1>
-        <FormControl className={classes.formControl} fullWidth >
-          <InputLabel id="county-label"> County</InputLabel>
-          <Select labelId="county-label" id="county" value={formData.county} onChange={handleChange} fullWidth>
-            <MenuItem value="county1">County 1</MenuItem>
-            <MenuItem value="county2">County 2</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel id="subCounty-label"> Sub-County</InputLabel>
-          <Select labelId="subCounty-label" id="subCounty" value={formData.subCounty} onChange={handleChange} fullWidth>
-            <MenuItem value="">Select Sub-County</MenuItem>
-            <MenuItem value="subCounty1">Sub-County 1</MenuItem>
-            <MenuItem value="subCounty2">Sub-County 2</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel id="town-label">Town</InputLabel>
-          <Select labelId="town-label" id="town" value={formData.town} onChange={handleChange} fullWidth>
-            <MenuItem value="">Select Town</MenuItem>
-            <MenuItem value="town1">Town 1</MenuItem>
-            <MenuItem value="town2">Town 2</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField 
-          id="street" 
-          label="Street Name" 
-          fullWidth 
-          className={classes.textField} 
-          required
-          value={formData.street}
-          onChange={handleChange}
-          
-        />
-        <TextField 
-         id="house" 
-         label="House/Apartment Name" 
-         fullWidth 
-         className={classes.textField}
-         value={formData.house}
-         onChange={handleChange}
-        />
-        <TextField 
-          id="contact" 
-          label="Contact Number" 
-          fullWidth 
-          className={classes.textField} 
-          required
-          value={formData.contact}
-          onChange={handleChange}
-          
-        />
-        <Button className={classes.button} variant="contained" color="primary" fullWidth onClick={handleCompleteOrder}>
-          Complete Order
-        </Button>
-      </Paper>
+    useEffect(() => {
+        // Fetch the data from the provided URL
+        fetch('https://script.googleusercontent.com/macros/echo?user_content_key=eGUr17WaqI1SMb8BVxW5O1gh-6BLuswSWk575VHlESPL3GMli4FbTpSpIx0eiTy1bJzddr0_kNAu01b34EMgzcgXos9y0gNim5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnPTg7q70c6bXETUWjib5naBS2mWPrs16CCi3a8yX3Gs0_7AldyRqjt8qVwNqGjCBmZ0v496HtayW-FIReJA3WTE0sUUtUBOS7g&lib=MOetB0mm9xG5ZijZygTgpHNdsv6zkqyqw')
+            .then(response => response.json())
+            .then(data => {
+                const transformedData = transformData(data.data);
+                setCounties(transformedData);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-  <DialogTitle style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>Delivery Message</DialogTitle>
-  <DialogContent>
-    <Card className={classes.card}>
-      <CardContent className={classes.cardContent} style={{ flexDirection: 'column', alignItems: 'center' }}>
-        <Done style={{ marginBottom: '8px' }} />
-        <Typography variant="body1" style={{ marginBottom: '8px' }}>Your order has been successfully placed.</Typography>
-        <Handshake style={{ marginBottom: '8px' }} />
-      </CardContent>
-      <CardContent style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-        <Typography variant="body1">Thank you for your order!</Typography>
-      </CardContent>
-    </Card>
-  </DialogContent>
-  <DialogActions  style={{justifyContent: 'center'}}>
-    <Button onClick={handleCloseDialog} color="primary" variant='contained' style={{backgroundColor:'#800000'}}>
-      Back
-    </Button>
-  </DialogActions>
-</Dialog>
-    </ThemeProvider>
-  );
-}
+    const handleCountyChange = (event) => {
+        setCounty(event.target.value);
+        setSubCounty('');
+        setWard('');
+    };
 
-export default DeliveryInformation;
+    const handleSubCountyChange = (event) => {
+        setSubCounty(event.target.value);
+        setWard('');
+    };
+
+    const handleCompleteOrder = () => {
+        // Handle form submission if needed
+        navigate('/payments'); // Replace '/another-page' with the actual path you want to navigate to
+    };
+
+    const selectedCounty = counties.find(c => c.name === county);
+    const subCounties = selectedCounty ? selectedCounty.subCounties : [];
+    const selectedSubCounty = subCounties.find(sc => sc.name === subCounty);
+    const wards = selectedSubCounty ? selectedSubCounty.wards : [];
+
+    return (
+        <Container>
+            <FormContainer>
+                <Title variant="h5">
+                    Delivery Information
+                </Title>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>County</InputLabel>
+                    <Select value={county} onChange={handleCountyChange}>
+                        {counties.map(c => (
+                            <MenuItem key={c.name} value={c.name}>
+                                {c.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>Sub-County</InputLabel>
+                    <Select value={subCounty} onChange={handleSubCountyChange} disabled={!county}>
+                        {subCounties.map(sc => (
+                            <MenuItem key={sc.name} value={sc.name}>
+                                {sc.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel>Ward</InputLabel>
+                    <Select value={ward} onChange={(e) => setWard(e.target.value)} disabled={!subCounty}>
+                        {wards.map(w => (
+                            <MenuItem key={w} value={w}>
+                                {w}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <TextField
+                    label="Street Name"
+                    fullWidth
+                    margin="normal"
+                    value={streetName}
+                    onChange={(e) => setStreetName(e.target.value)}
+                />
+                <TextField
+                    label="House/Apartment Name"
+                    fullWidth
+                    margin="normal"
+                    value={houseName}
+                    onChange={(e) => setHouseName(e.target.value)}
+                />
+                <TextField
+                    label="Contact Number"
+                    fullWidth
+                    margin="normal"
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                />
+                <StyledButton
+                    variant="contained"
+                    color="primary"
+                    onClick={handleCompleteOrder}
+                    fullWidth
+                    sx={{ mt: 2 }}
+                >
+                    Complete Order
+                </StyledButton>
+            </FormContainer>
+        </Container>
+    );
+};
+
+export default DeliveryForm;

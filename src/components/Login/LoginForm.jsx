@@ -22,13 +22,16 @@ function Login() {
 	const [avatarSrcImageUrl, setAvatarSrcImageUrl] = useState(""); // Define avatar URL state
 	const navigate = useNavigate();
 
-	const fetchAvatar = async (userToken) => {
-		try {
-			const response = await api.get("/getProfileImage/37449211", {
-				headers: {
-					Authorization: "Bearer " + userToken,
-				},
-			});
+  const fetchAvatar = async (userToken) => {
+    try {
+      const response = await axios.get(
+        "http://192.168.89.43:5500/api/patient/getProfileImage/37449211",
+        {
+          headers: {
+            Authorization: 'Bearer ' + userToken,
+          },
+        }
+      );
 
 			console.log("Response from API:", response); // Log the entire response object
 
@@ -53,11 +56,14 @@ function Login() {
 		e.preventDefault();
 		setLoading(true);
 
-		try {
-			const response = await axios.post("http://localhost:5500/api/login", {
-				email,
-				password,
-			});
+    try {
+      const response = await axios.post(
+        "http://192.168.89.43:5500/api/login",
+        {
+          email,
+          password,
+        }
+      );
 
 			if (response.status === 200) {
 				// Call fetchAvatar after successful login
