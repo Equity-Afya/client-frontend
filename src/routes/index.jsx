@@ -43,6 +43,8 @@ import AdminServicesPage from "../pages/admin/AdminServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
+import ApprovedBookingsPage from "../pages/ApprovedBookingsPage";
+import PatientDetailsPage from "../pages/PatientDetailsPage";
 import SettingsPage from "../pages/admin/SettingsPage";
 import RolesPage from "../pages/admin/RolesPage";
 import ReportsPage from "../pages/admin/AdminReportsPage";
@@ -107,6 +109,9 @@ function AppRoutes() {
 				<Route path="/admin-bookings" element={<AdminBookingPage />} />
 				<Route path="/delivery-info" element={<DeliveryInfoPage />} />
 				<Route path="/active-users" element={<ActiveUsersPage />} />
+				<Route path="/pending-bookings" element={<PendingBookingsPage />} />
+        <Route path="/approved-bookings" element={<ApprovedBookingsPage/>}/>
+        <Route path="patient-file" element ={<PatientDetailsPage/>}/>
         <Route path="/pending-bookings" element={<PendingBookingsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/roles" element={<RolesPage />} />
