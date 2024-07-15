@@ -22,7 +22,7 @@ const Teleclinics = () => {
     const fetchTeleclinicsData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.88.198:5500/api/teleclinic/viewallteleclinics"
+          "http://192.168.91.100:5500/api/teleclinic/viewallteleclinics"
         );
 
         if (!response.ok) {
@@ -49,7 +49,7 @@ const Teleclinics = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch("http://192.168.88.198:5500/api/notifications");
+      const response = await fetch("http://192.168.91.100:5500/api/notifications");
 
       if (!response.ok) {
         throw new Error(`Failed to fetch notifications: ${response.status}`);

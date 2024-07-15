@@ -28,7 +28,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const CreateDoctor = () => {
+const CreatePharmacist = () => {
   const [formValues, setFormValues] = useState({
     name: '',
     idNumber: '',
@@ -36,9 +36,8 @@ const CreateDoctor = () => {
     countryCode: '254',
     phoneNumber: '',
     licenseNo: '',
-    specialization: '',  
     password: '',
-    confirmPassword: '', 
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({
@@ -47,11 +46,11 @@ const CreateDoctor = () => {
     phoneNumber: '',
     idNumber: '',
     password: '',
-    confirmPassword: '', 
+    confirmPassword: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const navigate = useNavigate();
 
@@ -181,7 +180,7 @@ const CreateDoctor = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.90.236:5500/api/auth/doctor/register', {
+      const response = await fetch('http://192.168.89.68:5500/api/pharmacist/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -194,6 +193,9 @@ const CreateDoctor = () => {
 
       if (response.ok) {
         setOpenSnackbar(true);
+        setTimeout(() => {
+          navigate('/manage-pharmacist');
+        }, 2000);
       } else {
         alert(`Failed to create user: ${data.message}`);
       }
@@ -215,15 +217,11 @@ const CreateDoctor = () => {
     setOpenSnackbar(false);
   };
 
-  const handleClose = () => {
-    navigate('/manage-doctors');
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
-        <header style={{ paddingLeft: '7vw', backgroundColor: '#930100', color: '#fff', height: '10vh', marginBottom: '2vh', paddingTop: '1vh', justifyContent: 'center' }}>
-          <h2 style={{ textDecoration: 'underline' }}>DOCTOR REGISTER</h2>
+        <header style={{ paddingLeft: '5vw', backgroundColor: '#930100', color: '#fff', height: '6vh', marginBottom: '2vh', borderRadius: '10px' }}>
+          <h2 style={{ textDecoration: 'underline' }}>PHARMACIST REGISTER</h2>
         </header>
 
         <form style={{ width: '30vw' }} onSubmit={handleSubmit}>
@@ -320,18 +318,6 @@ const CreateDoctor = () => {
               <TextField
                 fullWidth
                 required
-                label="specialization"
-                name="specialization"
-                value={formValues.specialization}
-                onChange={handleChange}
-                variant="outlined"
-                color="primary"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
                 type={showPassword ? 'text' : 'password'}
                 label="Password"
                 name="password"
@@ -395,22 +381,12 @@ const CreateDoctor = () => {
                 Create User
               </Button>
             </Grid>
-            <Grid item xs={12}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="secondary"
-                onClick={handleClose}
-              >
-                Close
-              </Button>
-            </Grid>
           </Grid>
         </form>
 
         <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={handleCloseSnackbar}>
           <Alert onClose={handleCloseSnackbar} severity="success">
-            Doctor created successfully!
+            Pharmacist created successfully!
           </Alert>
         </Snackbar>
       </Container>
@@ -418,4 +394,5 @@ const CreateDoctor = () => {
   );
 };
 
-export default CreateDoctor;
+export default CreatePharmacist;
+

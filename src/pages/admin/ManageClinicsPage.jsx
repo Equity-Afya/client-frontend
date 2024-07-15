@@ -4,7 +4,7 @@ import AdminSidebar from '../../components/Admin/AdminSidebar';
 
 const ManageClinicsPage = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
       <div style={{ position: 'fixed' }}> {/* Set sidebar to fixed */}
         <AdminSidebar />
       </div>

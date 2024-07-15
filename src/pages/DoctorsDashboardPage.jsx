@@ -12,7 +12,7 @@ const DoctorsDashboardPage = () => {
       <div>
         <DoctorsSideBar />
       </div>
-      <div style={{ paddingLeft: "18%" }}>
+      <div style={{ paddingLeft: "18vw", backgroundColor: '#fff' }}>
         <div>
           <DashboardHeader />
         </div>

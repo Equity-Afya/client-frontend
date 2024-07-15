@@ -20,16 +20,25 @@ import {
   Fullscreen,
   FullscreenExit,
   Brightness4,
-  Logout
+  Logout,
+  LocalPharmacy
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import axios from "axios";
+
+const activeStyle = css`
+  color: #ff9;
+  background-color: #333;
+`;
 
 const StyledListItem = styled(ListItem)`
   && {
-    padding-top: 8px; /* Adjust the padding as needed */
-    color: ${({ active }) => (active ? "#ff9" : "inherit")};
+    padding-top: 8px;
+    color: inherit;
+    background-color: transparent; /* Default background color */
+
+    ${({ active }) => active && activeStyle} /* Apply active styles */
   }
 `;
 
@@ -38,11 +47,12 @@ function AdminSidebar() {
   const [brightnessMode, setBrightnessMode] = useState(false);
   const [fullscreenMode, setFullscreenMode] = useState(false);
   const [loggedInUsersCount, setLoggedInUsersCount] = useState(0);
-  const [services, setServices] = useState([]);
-  const [chps, setChps] = useState([]);
-  const [doctors, setDoctors] = useState([]);
-  const [clinics, setClinics] = useState([]);
-  const [roles, setRoles] = useState([]);
+  const [servicesCount, setServicesCount] = useState(0);
+  const [chpsCount, setChpsCount] = useState(0);
+  const [doctorsCount, setDoctorsCount] = useState(0);
+  const [pharmacistsCount, setPharmacistsCount] = useState(0);
+  const [clinicsCount, setClinicsCount] = useState(0);
+  const [rolesCount, setRolesCount] = useState(0);
   const [activeRoute, setActiveRoute] = useState("/admin-dashboard");
 
   useEffect(() => {
@@ -65,73 +75,68 @@ function AdminSidebar() {
       }
     };
 
-    fetchLoggedInUsers();
-  }, []);
-
-  useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get("/services");
-        setServices(response.data.services || []);
+        setServicesCount(response.data.services ? response.data.services.length : 0);
       } catch (error) {
         console.error("Error fetching services:", error);
       }
     };
 
-    fetchServices();
-  }, []);
-
-  useEffect(() => {
     const fetchChps = async () => {
       try {
-        const response = await axios.get("/chps");
-        setChps(response.data.chps || []);
+        const response = await axios.get("http://192.168.88.57:5500/api/chp/viewallchps");
+        setChpsCount(response.data.chps ? response.data.chps.length : 0);
       } catch (error) {
         console.error("Error fetching CHPS:", error);
       }
     };
 
-    fetchChps();
-  }, []);
-
-  useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.88.18:5500/api/doctor/viewalldoctors"
+          "http://192.168.88.57:5500/api/doctor/viewalldoctors"
         );
-        setDoctors(response.data.doctors || []);
+        setDoctorsCount(response.data.doctors ? response.data.doctors.length : 0);
       } catch (error) {
         console.error("Error fetching doctors:", error);
       }
     };
 
-    fetchDoctors();
-  }, []);
+    const fetchPharmacists = async () => {
+      try {
+        const response = await axios.get("http://192.168.88.57:5500/api/auth/pharmacist/register'");
+        setPharmacistsCount(response.data.pharmacists ? response.data.pharmacists.length : 0);
+      } catch (error) {
+        console.error("Error fetching pharmacists:", error);
+      }
+    };
 
-  useEffect(() => {
     const fetchClinics = async () => {
       try {
-        const response = await axios.get("/clinics");
-        setClinics(response.data.clinics || []);
+        const response = await axios.get("http://192.168.88.57:5500/api/teleclinic/viewallteleclinics");
+        setClinicsCount(response.data.clinics ? response.data.clinics.length : 0);
       } catch (error) {
         console.error("Error fetching clinics:", error);
       }
     };
 
-    fetchClinics();
-  }, []);
-
-  useEffect(() => {
     const fetchRoles = async () => {
       try {
         const response = await axios.get("/roles");
-        setRoles(response.data.roles || []);
+        setRolesCount(response.data.roles ? response.data.roles.length : 0);
       } catch (error) {
         console.error("Error fetching roles:", error);
       }
     };
 
+    fetchLoggedInUsers();
+    fetchServices();
+    fetchChps();
+    fetchDoctors();
+    fetchPharmacists();
+    fetchClinics();
     fetchRoles();
   }, []);
 
@@ -201,15 +206,15 @@ function AdminSidebar() {
           </StyledListItem>
           <StyledListItem
             button
-            active={activeRoute === "/admin-servicemanagement"}
-            onClick={() => handleNavigation("/admin-servicemanagement")}
+            active={activeRoute === "/manage-services"}
+            onClick={() => handleNavigation("/manage-services")}
           >
             <ListItemIcon
               sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}
             >
               <MedicalServices />
             </ListItemIcon>
-            <ListItemText primary={`Services (${services.length})`} />
+            <ListItemText primary={`Services (${servicesCount})`} />
           </StyledListItem>
           <StyledListItem
             button
@@ -221,7 +226,7 @@ function AdminSidebar() {
             >
               <LocalHospital />
             </ListItemIcon>
-            <ListItemText primary={`CHPS (${chps.length})`} />
+            <ListItemText primary={`CHPS (${chpsCount})`} />
           </StyledListItem>
           <StyledListItem
             button
@@ -233,12 +238,24 @@ function AdminSidebar() {
             >
               <AssignmentInd />
             </ListItemIcon>
-            <ListItemText primary={`Doctors (${doctors.length})`} />
+            <ListItemText primary={`Doctors (${doctorsCount})`} />
           </StyledListItem>
           <StyledListItem
             button
-            active={activeRoute === "/reports"}
-            onClick={() => handleNavigation("/reports")}
+            active={activeRoute === "/manage-pharmacist"}
+            onClick={() => handleNavigation("/manage-pharmacist")}
+          >
+            <ListItemIcon
+              sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}
+            >
+              <LocalPharmacy />
+            </ListItemIcon>
+            <ListItemText primary={`Pharmacists (${pharmacistsCount})`} />
+          </StyledListItem>
+          <StyledListItem
+            button
+            active={activeRoute === "/admin-latest-bookings"}
+            onClick={() => handleNavigation("/admin-latest-bookings")}
           >
             <ListItemIcon
               sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}
@@ -257,7 +274,7 @@ function AdminSidebar() {
             >
               <Business />
             </ListItemIcon>
-            <ListItemText primary={`Clinics (${clinics.length})`} />
+            <ListItemText primary={`Clinics (${clinicsCount})`} />
           </StyledListItem>
           <StyledListItem
             button
@@ -269,7 +286,7 @@ function AdminSidebar() {
             >
               <LocalHospitalOutlined />
             </ListItemIcon>
-            <ListItemText primary={`Roles (${roles.length})`} />
+            <ListItemText primary={`Roles (${rolesCount})`} />
           </StyledListItem>
         </List>
         <List sx={{ paddingBottom: 2 }}>
@@ -290,7 +307,6 @@ function AdminSidebar() {
             active={activeRoute === "/logout"}
             onClick={() => handleNavigation("/logout")}
           >
-
             <ListItemIcon
               sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}
             >

@@ -8,7 +8,7 @@ const ManagePharmacistPage = () => {
       <div>
         <AdminSidebar/>
       </div>
-      <div style={{paddingLeft: '1vw'}}>
+      <div style={{paddingLeft: '0.5vw', width: '82vw'}}>
         <ManagePharmacists/>
       </div>
     </div>

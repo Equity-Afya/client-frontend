@@ -22,7 +22,6 @@ const ManageChps = () => {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [editedData, setEditedData] = useState({});
-  const [tempData, setTempData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -31,14 +30,13 @@ const ManageChps = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.88.243:5500/api/chp/viewallchps');
+      const response = await fetch('http://192.168.89.68:5500/api/chp/viewallchps');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
       const data = await response.json();
       setRows(data);
       setFilteredRows(data);
-      setTempData(data);
       setError(null);
     } catch (error) {
       console.error('Error fetching data:', error.message);
@@ -60,11 +58,11 @@ const ManageChps = () => {
   };
 
   const handleNotifications = () => {
-    console.log("Notifications clicked");
+    navigate('/admin-profile');
   };
 
   const handleProfile = () => {
-    console.log("Profile clicked");
+    navigate('/admin-profile');
   };
 
   const handleAddUser = () => {
@@ -79,7 +77,7 @@ const ManageChps = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.88.243:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.89.68:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -97,21 +95,34 @@ const ManageChps = () => {
     });
   };
 
-  const handleSave = (index) => {
-    const updatedRows = [...tempData];
-    updatedRows[index] = editedData;
-    setTempData(updatedRows);
-    setEditIndex(-1);
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://192.168.89.68:5500/api/chp/update/${editedData.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedData),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update data: ${response.status} ${response.statusText}`);
+      }
+      setEditIndex(-1);
+      fetchData();
+    } catch (error) {
+      console.error('Error updating data:', error.message);
+      setError(error.message);
+    }
   };
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.88.243:5500/api/chp/export', {
+      const response = await fetch('http://192.168.89.68:5500/api/chp/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(tempData),
+        body: JSON.stringify(rows),
       });
       if (!response.ok) {
         throw new Error(`Failed to export data: ${response.status} ${response.statusText}`);
@@ -130,6 +141,7 @@ const ManageChps = () => {
         <TextField
           variant="outlined"
           placeholder="Search..."
+          value={searchTerm}
           onChange={handleSearch}
           style={{ flex: 1, marginLeft: '30vw', width: '32vw' }}
         />
@@ -170,7 +182,7 @@ const ManageChps = () => {
         <TableContainer component={Paper} style={{ margin: '1vh 0.5vw', maxWidth: '94vw' }}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow style={{backgroundColor: '#cff'}}>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Location</TableCell>
@@ -186,7 +198,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <TextField
                           id={`name-${index}`}
-                          defaultValue={row.name}
+                          value={editedData.name}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'name')}
                         />
@@ -198,7 +210,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <TextField
                           id={`email-${index}`}
-                          defaultValue={row.email}
+                          value={editedData.email}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'email')}
                         />
@@ -210,7 +222,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <TextField
                           id={`location-${index}`}
-                          defaultValue={row.location}
+                          value={editedData.location}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'location')}
                         />
@@ -222,7 +234,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <TextField
                           id={`phone-${index}`}
-                          defaultValue={row.phone}
+                          value={editedData.phone}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'phone')}
                         />
@@ -234,7 +246,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <Button
                           color="primary"
-                          onClick={() => handleSave(index)}
+                          onClick={handleSave}
                           style={{ marginRight: '1vw' }}
                         >
                           Save

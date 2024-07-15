@@ -22,7 +22,6 @@ const ManageDoctors = () => {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [editedData, setEditedData] = useState({});
-  const [tempData, setTempData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -31,14 +30,13 @@ const ManageDoctors = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.88.198:5500/api/doctor/viewalldoctors');
+      const response = await fetch('http://192.168.90.236:5500/api/doctor/viewalldoctors');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
       const data = await response.json();
       setRows(data);
       setFilteredRows(data);
-      setTempData(data);
       setError(null);
     } catch (error) {
       console.error('Error fetching data:', error.message);
@@ -78,7 +76,7 @@ const ManageDoctors = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.88.198:5500/api/doctor/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.90.236:5500/api/doctor/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -96,21 +94,34 @@ const ManageDoctors = () => {
     });
   };
 
-  const handleSave = (index) => {
-    const updatedRows = [...tempData];
-    updatedRows[index] = editedData;
-    setTempData(updatedRows);
-    setEditIndex(-1);
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://192.168.90.236:5500/api/doctor/updatedetails/${editedData.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedData),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update data: ${response.status} ${response.statusText}`);
+      }
+      fetchData();
+      setEditIndex(-1);
+    } catch (error) {
+      console.error('Error updating data:', error.message);
+      setError(error.message);
+    }
   };
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.88.198:5500/api/doctor/export', {
+      const response = await fetch('http://192.168.90.236:5500/api/doctor/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(tempData),
+        body: JSON.stringify(rows),
       });
       if (!response.ok) {
         throw new Error(`Failed to export data: ${response.status} ${response.statusText}`);
@@ -171,9 +182,9 @@ const ManageDoctors = () => {
             <TableHead>
               <TableRow style={{backgroundColor: '#cff'}}>
                 <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>License Number</TableCell>
                 <TableCell>Phone Number</TableCell>
+                <TableCell>License Number</TableCell>
+                <TableCell>Specialization</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -196,13 +207,13 @@ const ManageDoctors = () => {
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
-                          id={`email-${index}`}
-                          defaultValue={row.email}
+                          id={`phoneNumber-${index}`}
+                          defaultValue={row.phoneNumber}
                           variant="outlined"
-                          onChange={(e) => handleInputChange(e, 'email')}
+                          onChange={(e) => handleInputChange(e, 'phoneNumber')}
                         />
                       ) : (
-                        row.email
+                        row.phoneNumber
                       )}
                     </TableCell>
                     <TableCell>
@@ -220,20 +231,24 @@ const ManageDoctors = () => {
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
-                          id={`phoneNumber-${index}`}
-                          defaultValue={row.phoneNumber}
+                          id={`specialization-${index}`}
+                          defaultValue={row.specialization}
                           variant="outlined"
-                          onChange={(e) => handleInputChange(e, 'phoneNumber')}
+                          onChange={(e) => handleInputChange(e, 'specialization')}
                         />
                       ) : (
-                        row.phoneNumber
+                        <ol>
+                          {row.specialization.split(',').map((specialization, i) => (
+                            <li key={i}>{specialization.trim()}</li>
+                          ))}
+                        </ol>
                       )}
                     </TableCell>
                     <TableCell>
                       {editIndex === index ? (
                         <Button
                           color="primary"
-                          onClick={() => handleSave(index)}
+                          onClick={handleSave}
                           style={{ marginRight: '1vw' }}
                         >
                           Save

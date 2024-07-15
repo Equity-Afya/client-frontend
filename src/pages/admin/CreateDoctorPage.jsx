@@ -4,14 +4,14 @@ import AdminSidebar from '../../components/Admin/AdminSidebar';
 
 const CreateDoctorPage = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div>
+    <sdiv style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ position: 'fixed' }}>
         <AdminSidebar />
       </div>
-      <div style={{ paddingLeft: '20vw' }}>
+      <div style={{ marginLeft: '40vw' }}>
         <CreateDoctor />
       </div>
-    </div>
+    </sdiv>
   );
 };
 

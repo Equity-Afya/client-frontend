@@ -3,7 +3,7 @@ import CreateTeleclinic from '../../components/Admin/CreateTeleclinic'
 
 const CreateClinicPage = () => {
   return (
-    <div>
+    <div style={{backgroundColor: '#fff', marginLeft: '35vw'}}>
       <CreateTeleclinic/>
     </div>
   )
