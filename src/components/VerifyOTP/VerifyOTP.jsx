@@ -51,7 +51,7 @@ function VerifyOtp() {
 	const handleResendOTP = async () => {
 		try {
 			setResendLoading(true);
-			const response = await api.post("/resendotp", { email });
+			const response = await api.post("http://192.168.88.253:5500/api/auth/patient/resendotp", { email });
 
 			if (response.status === 200) {
 				alert(response.data.message);

@@ -1,17 +1,11 @@
-/* eslint-disable react/no-deprecated */
-import { createRoot } from "react-dom/client";
-import React from "react";
-import App from "./App";
-import { AvatarProvider } from "./components/Profile/AvatarContext";
-import { CartProvider } from './components/E-Pharmacy/Cart/CartContext';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
 
-
-createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AvatarProvider>
-      <CartProvider>
-        <App />
-      </CartProvider>
-      </AvatarProvider>
-  </React.StrictMode>
-);
+    <App />
+  </React.StrictMode>,
+)
+

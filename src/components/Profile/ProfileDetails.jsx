@@ -17,6 +17,9 @@ function AvatarWithProfileDetails() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const avatarData = useAvatar();
+console.log(avatarData); // Check what is returned
+
 
   return (
     <div>

@@ -171,7 +171,8 @@ function PatientDetails () {
               />
             </Box>
             <h3 style={{marginLeft:600, color:'#C00100'}}>INVESTIGATIONS AND LAB RESULTS</h3>
-            
+            <button style={{marginTop:40, color:'C00100'}}>Submit</button>
+            <button style={{marginTop:40, color:'C00100'}}>Submit</button>
 
 
 

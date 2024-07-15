@@ -47,32 +47,42 @@ import DoctorsDashboardPage from "../pages/DoctorsDashboardPage";
 import DeliveryInfoPage from "../pages/DeliveryInfoPage";
 //Admin Routes
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
-import AdminServicesPage from "../pages/admin/AdminServicesPage";
+import ManageServicesPage from "../pages/admin/ManageServicesPage";
 import AdminBookingPage from "../pages/admin/AdminBookingPage";
 import ActiveUsersPage from "../pages/admin/ActiveUsersPage";
 import PendingBookingsPage from "../pages/PendingBookingsPage";
+
+import ManageChpsPage from "../pages/admin/ManageChpsPage";
+import CreateChpPage from "../pages/admin/CreateChpPage";
+import AdminLatestBookingsPage from "../pages/admin/AdminLatestBookingsPage";
+import CreateDoctorPage from "../pages/admin/CreateDoctorPage";
+import ManageDoctorsPage from "../pages/admin/ManageDoctorPage";
+import ManagePharmacistPage from "../pages/admin/ManagePharmacistPage";
+import ManageClinicsPage from "../pages/admin/ManageClinicsPage";
+import CreateClinicPage from "../pages/admin/CreateClinicPage";
+
+import ApprovedBookingsPage from "../pages/ApprovedBookingsPage";
+import PatientDetailsPage from "../pages/PatientDetailsPage";
 import SettingsPage from "../pages/admin/SettingsPage";
 import RolesPage from "../pages/admin/RolesPage";
 import ReportsPage from "../pages/admin/AdminReportsPage";
 import ClinicsPage from "../pages/admin/AdminClinicsPage";
 import DoctorsPage from "../pages/admin/AdminDoctorPage";
-import ManageChpsPage from "../pages/admin/ManageChpsPage";
-import CreateChpPage from "../pages/admin/CreateChpPage";
-import AdminLatestBookingsPage from "../pages/admin/AdminLatestBookingsPage";
 
 //Pharmacist Routes
 import PharmacistDashboardPage from "../pages/pharmacist/PharmacistDashboardPage";
 import PrescriptionUploadPage from "../pages/pharmacist/PrescriptionUploadPage";
 import DrugsInventoryPage from "../pages/pharmacist/DrugsInventoryPage"
+import CreatePharmacistPage from "../pages/admin/CreatePharmacistPage";
 
 
 function AppRoutes() {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<RegisterPage />} />
+				<Route path="/dashboard" element={<LandingPage />} />
 				<Route path="/login" element={<LoginPage />} />
-				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/reset-password" element={<ResetPasswordPage />} />
 				<Route path="/verify-otp" element={<VerifyOTPPage />} />
 				<Route path="/dashboard" element={<DashboardPage />} />
@@ -81,6 +91,8 @@ function AppRoutes() {
 				<Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
 				<Route path="/health-records" element={<MyhealthRecordsPage />} />
 				<Route path="/teleclinics" element={<TeleclinicsPage />} />
+				<Route path="/manage-clinics" element={<ManageClinicsPage/>} />
+				<Route path="/create-clinics" element={<CreateClinicPage/>} />
 				<Route path="/payments" element={<PaymentsPage />} />
 				<Route path="/customer-care" element={<CustomerCarePage />} />
 				<Route path="/other-services" element={<OtherServicesPage />} />
@@ -122,13 +134,20 @@ function AppRoutes() {
 
         {/*Admin*/}
 				<Route path="/admin-dashboard" element={<AdminDashboardPage />} />
-				<Route path="/admin-servicemanagement" element={<AdminServicesPage />}/>
+				<Route path="/manage-services"element={<ManageServicesPage />}/>
+				<Route path="/manage-pharmacist" element={<ManagePharmacistPage />} />
+				<Route path="/manage-doctors" element={<ManageDoctorsPage />} />
+				<Route path="/create-doctor" element={<CreateDoctorPage />} />
+				<Route path="/create-pharmacist" element={<CreatePharmacistPage />} />
 				<Route path="/admin-latest-bookings" element={<AdminLatestBookingsPage />} />
 				<Route path="/manage-chps" element={<ManageChpsPage />} />
 				<Route path="/create-chp" element={<CreateChpPage />} />
 				<Route path="/admin-bookings" element={<AdminBookingPage />} />
 				<Route path="/delivery-info" element={<DeliveryInfoPage />} />
 				<Route path="/active-users" element={<ActiveUsersPage />} />
+				<Route path="/pending-bookings" element={<PendingBookingsPage />} />
+        <Route path="/approved-bookings" element={<ApprovedBookingsPage/>}/>
+        <Route path="patient-file" element ={<PatientDetailsPage/>}/>
         <Route path="/pending-bookings" element={<PendingBookingsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/roles" element={<RolesPage />} />
