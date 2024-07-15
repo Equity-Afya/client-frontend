@@ -20,6 +20,7 @@ function TreatnmentSection () {
                style={{ marginLeft: 20, width:800 }}
                />
                 </div><br></br>
+                
                 <div style={{ display: 'flex', alignItems: 'center',marginTop:40 }}>
                <label htmlFor="REMARKS">
                 REMARKS:
@@ -31,7 +32,9 @@ function TreatnmentSection () {
                rows={3}
                style={{ marginLeft: 20, width:800 }}
                />
-                </div>
+               </div>
+              
+               
             </div>
 
         );
