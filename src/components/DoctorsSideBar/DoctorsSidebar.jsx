@@ -70,6 +70,7 @@ const DoctorsSideBar = () => {
               location.pathname === "/doctors-dashboard"
                 ? "#670909"
                 : "transparent",
+            height: "50px", // Set uniform height
           }}
         >
           <ListItemIcon>
@@ -80,60 +81,13 @@ const DoctorsSideBar = () => {
         <ListItem
           button
           component={Link}
-          to="/doctors-profile"
-          style={{
-            backgroundColor:
-              location.pathname === "/doctors-profile"
-                ? "#670909"
-                : "transparent",
-          }}
-        >
-          <ListItemIcon>
-            <Person color={darkMode ? "white" : "black"} />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-        <ListItem
-          button
-          component={Link}
-          to="/reviewed-patients"
-          style={{
-            backgroundColor:
-              location.pathname === "/reviewed-patients"
-                ? "#670909"
-                : "transparent",
-          }}
-        >
-          <ListItemIcon>
-            <ListAlt color={darkMode ? "white" : "black"} />
-          </ListItemIcon>
-          <ListItemText primary="Reviewed Patients" />
-        </ListItem>
-        <ListItem
-          button
-          component={Link}
-          to="/approved-bookings"
-          style={{
-            backgroundColor:
-              location.pathname === "/approved-bookings"
-                ? "#670909"
-                : "transparent",
-          }}
-        >
-          <ListItemIcon>
-            <Done color={darkMode ? "white" : "black"} />
-          </ListItemIcon>
-          <ListItemText primary="Approved Bookings" />
-        </ListItem>
-        <ListItem
-          button
-          component={Link}
           to="/pending-bookings"
           style={{
             backgroundColor:
               location.pathname === "/pending-bookings"
                 ? "#670909"
                 : "transparent",
+            height: "50px", // Set uniform height
           }}
         >
           <ListItemIcon>
@@ -144,12 +98,64 @@ const DoctorsSideBar = () => {
         <ListItem
           button
           component={Link}
+          to="/approved-bookings"
+          style={{
+            backgroundColor:
+              location.pathname === "/approved-bookings"
+                ? "#670909"
+                : "transparent",
+            height: "50px", // Set uniform height
+          }}
+        >
+          <ListItemIcon>
+            <Done color={darkMode ? "white" : "black"} />
+          </ListItemIcon>
+          <ListItemText primary="Approved Bookings" />
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          to="/reviewed-patients"
+          style={{
+            backgroundColor:
+              location.pathname === "/reviewed-patients"
+                ? "#670909"
+                : "transparent",
+            height: "50px", // Set uniform height
+          }}
+        >
+          <ListItemIcon>
+            <ListAlt color={darkMode ? "white" : "black"} />
+          </ListItemIcon>
+          <ListItemText primary="Reviewed Patients" />
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          to="/doctors-profile"
+          style={{
+            backgroundColor:
+              location.pathname === "/doctors-profile"
+                ? "#670909"
+                : "transparent",
+            height: "50px", // Set uniform height
+          }}
+        >
+          <ListItemIcon>
+            <Person color={darkMode ? "white" : "black"} />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
           to="/doctors-customer-care"
           style={{
             backgroundColor:
               location.pathname === "/doctors-customer-care"
                 ? "#670909"
                 : "transparent",
+            height: "50px", // Set uniform height
           }}
         >
           <ListItemIcon>
@@ -181,3 +187,4 @@ const DoctorsSideBar = () => {
 };
 
 export default DoctorsSideBar;
+
