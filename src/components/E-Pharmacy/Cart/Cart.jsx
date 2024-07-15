@@ -20,7 +20,7 @@ const Cart = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.90.165:5500/api/product/viewallproducts'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.88.195:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -53,8 +53,34 @@ const Cart = () => {
     setOpenDialog(false);
   };
 
-  const handleCheckout = () => {
-    navigate('/delivery-info');
+  const handleCheckout = async () => {
+    try {
+      const orderData = {
+        products: cart.map(item => ({
+          productId: item.id,
+          quantity: item.quantity,
+          productUrl: item.imageUrl
+        }))
+      };
+
+      const response = await fetch('http://192.168.88.195:5500/api/order/createorder/321456', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to checkout');
+      }
+
+      const data = await response.json();
+      console.log('Checkout successful:', data);
+      navigate('/delivery-info');
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    }
   };
 
   const handleRemoveItem = (productId) => {
@@ -95,7 +121,7 @@ const Cart = () => {
           >
             <HelpOutline />
           </IconButton>
-          <Button variant="contained" color="primary" sx={{ marginLeft: 2, backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>
+          <Button variant="contained" color="primary" sx={{ marginLeft: 2, backgroundColor: '#800000', '&:hover': { backgroundColor: '#c00100' } }}>
             Live Chart
           </Button>
           <IconButton
@@ -105,7 +131,7 @@ const Cart = () => {
             color="inherit"
             onClick={() => navigate('/cart')}
           >
-            <Badge badgeContent={cart.length} color="error">
+            <Badge badgeContent={cart.length} color="#800000">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -132,7 +158,7 @@ const Cart = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-           <Button onClick={handleProceedWithOrder} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Proceed with Order</Button>
+          <Button onClick={handleProceedWithOrder} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Proceed with Order</Button>
           <Button onClick={handleContinueShopping} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Continue to Shopping</Button>
         </DialogActions>
       </Dialog>
@@ -169,11 +195,11 @@ const Cart = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={() => handleRemoveItem(item.id)} sx={{ color:'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>REMOVE</Button>
+                  <Button size="small" onClick={() => handleRemoveItem(item.id)} sx={{ color:'white', backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}>REMOVE</Button>
                 </CardActions>
               </Box>
             ))}
-            <Button onClick={handleCheckout} sx={{ marginTop: 2, color: 'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>CHECKOUT ({totalAmount} Ksh)</Button>
+            <Button onClick={handleCheckout} sx={{ marginTop: 2, color: 'white', backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}>CHECKOUT ({totalAmount} Ksh)</Button>
           </>
         ) : (
           <>
@@ -193,7 +219,7 @@ const Cart = () => {
         <Typography variant="h6" align="left">
           <Link to="/products" style={{ textDecoration: 'none', color: '#000' }}>
             Products
-            <IconButton edge="end" aria-label="see all" sx={{ color: '#c00100' }}>
+            <IconButton edge="end" aria-label="see all" sx={{ color: '#800000' }}>
               <ArrowForwardIos />
             </IconButton>
           </Link>
@@ -217,7 +243,7 @@ const Cart = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={() => handleAddToCart(product)} sx={{ color: 'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Add to Cart</Button>
+                  <Button size="small" onClick={() => handleAddToCart(product)} sx={{ color: 'white', backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}>Add to Cart</Button>
                 </CardActions>
               </Card>
             </Grid>

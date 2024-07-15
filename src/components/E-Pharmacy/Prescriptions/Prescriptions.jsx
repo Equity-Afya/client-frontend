@@ -1,28 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Card, Typography, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, AppBar, Toolbar, Badge, Snackbar } from '@mui/material';
 import { Done, ChevronLeft, ChevronRight, Notifications, PhotoLibrary } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import "./Prescription.css";
 
 const Prescriptions = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [waitingApproval, setWaitingApproval] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]); // State for notifications
-  const [newNotification, setNewNotification] = useState(false); // State to track new notifications
-  const [snackbarOpen, setSnackbarOpen] = useState(false); // State for snackbar
+  const [notifications, setNotifications] = useState([]);
+  const [newNotification, setNewNotification] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  useEffect(() => {
+    fetchUploadedFiles();
+    fetchNotifications();
+  }, []);
+
+  const fetchUploadedFiles = async () => {
+    try {
+      const response = await fetch('http://192.168.88.195:5500/api/prescription/getuploadedfiles/321456');
+      if (response.ok) {
+        const data = await response.json();
+        const files = data.files.map(fileUrl => ({ name: fileUrl, url: fileUrl }));
+        setUploadedFiles(files);
+      } else {
+        console.error('Failed to fetch uploaded files');
+      }
+    } catch (error) {
+      console.error('Error fetching uploaded files:', error);
+    }
+  };
 
   const handleFileInputChange = (event) => {
     const files = Array.from(event.target.files);
-    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+    const fileObjs = files.map(file => ({ name: file.name, file }));
+    setUploadedFiles((prevFiles) => [...prevFiles, ...fileObjs]);
   };
 
-  const handleDialogClose = () => {
-    setOpenDialog(false);
+  const handleViewDialogClose = () => {
+    setViewDialogOpen(false);
   };
 
   const handleNextImage = () => {
@@ -33,32 +53,33 @@ const Prescriptions = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + uploadedFiles.length) % uploadedFiles.length);
   };
 
-  const proceedToReview = () => {
-    setOpenDialog(true);
+  const openViewDialog = () => {
+    setViewDialogOpen(true);
   };
 
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
-      uploadedFiles.forEach((file) => {
-        formData.append('prescription-image', file);
+      uploadedFiles.forEach((fileObj) => {
+        formData.append('prescription-image', fileObj.file);
       });
 
-      const response = await fetch('http://192.168.90.165:5500/api/prescription/uploadprescriptionimage/321456', {
+      const response = await fetch('http://192.168.88.195:5500/api/prescription/uploadprescriptionimage/321456', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
-        setOpenDialog(false);
+        // Fetch updated files after successful submission
+        fetchUploadedFiles();
+
+        // Optionally, clear uploadedFiles state after submission
+        setUploadedFiles([]);
+        
         setSubmitted(true);
-        setWaitingApproval(true);
-        setTimeout(() => {
-          setWaitingApproval(false);
-          fetchNotifications(); // Fetch notifications after submitting
-          setSnackbarOpen(true); // Display snackbar after successful submission
-          navigate('/e-pharmacy'); // Navigate to homepage
-        }, 1000);
+        fetchNotifications();
+        setSnackbarOpen(true);
+        navigate('/e-pharmacy');
       } else {
         console.error('Failed to submit files to the backend');
       }
@@ -69,7 +90,7 @@ const Prescriptions = () => {
 
   const handleNotificationIconClick = () => {
     setNotificationDialogOpen(true);
-    setNewNotification(false); // Mark notifications as read when opening the dialog
+    setNewNotification(false);
   };
 
   const handleNotificationDialogClose = () => {
@@ -78,12 +99,12 @@ const Prescriptions = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://192.168.90.165:5500/api/notifications/getallnotifications/321456'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.88.195:5500/api/notifications/getallnotifications/321456');
       if (response.ok) {
         const data = await response.json();
-        setNotifications(data.notifications); // Assuming the response contains a 'notifications' array
+        setNotifications(data.notifications);
         if (data.notifications.length > 0) {
-          setNewNotification(true); // Highlight the notification icon if there are new notifications
+          setNewNotification(true);
         }
       } else {
         console.error('Failed to fetch notifications');
@@ -93,18 +114,13 @@ const Prescriptions = () => {
     }
   };
 
-  // Fetch notifications when the component mounts
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
-
   return (
     <Paper
       elevation={3}
       style={{
         height: '100vh',
         width: '1000px',
-        backgroundColor: 'f0f0f0',
+        backgroundColor: '#f0f0f0',
         marginBottom: '10px',
         display: 'flex',
         flexDirection: 'column',
@@ -116,7 +132,7 @@ const Prescriptions = () => {
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             Prescription Upload
           </Typography>
-          <IconButton color="inherit" onClick={() => setOpenDialog(true)}>
+          <IconButton color="inherit" onClick={openViewDialog}>
             <Badge badgeContent={uploadedFiles.length} color="secondary">
               <PhotoLibrary />
             </Badge>
@@ -141,20 +157,20 @@ const Prescriptions = () => {
           </label>
           {uploadedFiles.length > 0 && (
             <div style={{ marginTop: '10px' }}>
-              {uploadedFiles.map((file, index) => (
-                <Typography key={index} variant="body1">Uploaded File {index + 1}: {file.name}</Typography>
+              {uploadedFiles.map((fileObj, index) => (
+                <Typography key={index} variant="body1">Uploaded File {index + 1}: {fileObj.name}</Typography>
               ))}
             </div>
           )}
           {uploadedFiles.length > 0 && (
-            <Button variant="contained" style={{ marginTop: '20px', backgroundColor: 'maroon' }} onClick={proceedToReview}>
-              View
+            <Button variant="contained" style={{ marginTop: '20px', backgroundColor: 'maroon' }} onClick={handleSubmit}>
+              Submit
             </Button>
           )}
-          <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
+          <Dialog open={viewDialogOpen} onClose={handleViewDialogClose} maxWidth="sm" fullWidth>
             <DialogTitle style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Typography variant="h3" style={{ color: 'maroon' }}>Review Your Uploads</Typography>
-              <IconButton onClick={handleDialogClose}>
+              <Typography variant="h3" style={{ color: 'maroon' }}>View Your Uploads</Typography>
+              <IconButton onClick={handleViewDialogClose}>
                 <Done style={{ color: 'maroon' }} />
               </IconButton>
             </DialogTitle>
@@ -163,15 +179,22 @@ const Prescriptions = () => {
                 <>
                   <Typography variant="body1">File {currentIndex + 1}: {uploadedFiles[currentIndex].name}</Typography>
                   <div style={{ maxHeight: '50vh', overflowY: 'auto', margin: '20px auto' }}>
-                    <img
-                      src={URL.createObjectURL(uploadedFiles[currentIndex])}
-                      alt={`Preview ${currentIndex + 1}`}
-                      style={{ maxWidth: '100%', maxHeight: '50vh', objectFit: 'contain', marginBottom: '10px' }}
-                    />
+                    {uploadedFiles[currentIndex].url ? (
+                      <img
+                        src={uploadedFiles[currentIndex].url}
+                        alt={`Preview ${currentIndex + 1}`}
+                        style={{ maxWidth: '100%', maxHeight: '50vh', objectFit: 'contain', marginBottom: '10px' }}
+                      />
+                    ) : (
+                      <img
+                        src={URL.createObjectURL(uploadedFiles[currentIndex].file)}
+                        alt={`Preview ${currentIndex + 1}`}
+                        style={{ maxWidth: '100%', maxHeight: '50vh', objectFit: 'contain', marginBottom: '10px' }}
+                      />
+                    )}
                   </div>
                 </>
               )}
-              {waitingApproval && <Typography variant="body1" style={{ color: 'maroon', marginTop: '20px' }}>Waiting for pharmacist's approval...</Typography>}
             </DialogContent>
             <DialogActions style={{ justifyContent: 'space-between', margin: '0 auto' }}>
               <IconButton onClick={handlePreviousImage} disabled={uploadedFiles.length <= 1}>
@@ -180,11 +203,6 @@ const Prescriptions = () => {
               <IconButton onClick={handleNextImage} disabled={uploadedFiles.length <= 1}>
                 <ChevronRight style={{ color: 'maroon' }} />
               </IconButton>
-              {currentIndex === uploadedFiles.length - 1 && (
-                <Button onClick={handleSubmit} style={{ backgroundColor: 'maroon', color: 'white' }}>
-                  Submit
-                </Button>
-              )}
             </DialogActions>
           </Dialog>
         </CardContent>

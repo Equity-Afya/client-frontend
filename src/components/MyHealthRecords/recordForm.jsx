@@ -28,7 +28,7 @@ const RecordForm = ({ formFields, onSubmit }) => {
     setLoading(true);
     // Post formData and bmiData to backend
     const dataToSend = { ...formData, ...bmiData };
-    axios.post('http://192.168.91.164:5500/api/createrecord', dataToSend)
+    axios.post('http://192.168.88.179:5500/api/createrecord', dataToSend)
       .then(response => {
         console.log('Data submitted successfully:', response.data);
         setLoading(false);
@@ -189,6 +189,7 @@ const RecordForm = ({ formFields, onSubmit }) => {
           </div>
         </>
       )}
+      <div style={{ marginBottom: '20px' }} /> {/* Added space */}
       <Button type="submit" variant="contained" color="primary" style={{ backgroundColor: '#C00100', width: '80%' }}>
         {loading ? <CircularProgress color="inherit" size={24} /> : "Submit"}
       </Button>

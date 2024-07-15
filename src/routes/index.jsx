@@ -25,6 +25,14 @@ import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
 import LabResultsPage from "../pages/labResultsPage";
+import BMIRecordPage from "../pages/BMIRecordPage";
+import BloodPressureRecordPage from "../pages/BloodPressureRecordPage";
+import SurgicalPage from "../pages/SurgicalPage";
+import ObGynPage from "../pages/Ob-GynPage";
+import OrthopedicsPage from "../pages/OrthopedicsPage";
+import PaediatricsPage from "../pages/PaediatricsPage";
+import EntPage from "../pages/EntPage";
+import CancelledReturnedPage from "../pages/CancelledReturnedPage";
 //clients Routes
 import DentalPage from "../pages/DentalPage";
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
@@ -97,7 +105,21 @@ function AppRoutes() {
 				<Route path="/view-profile" element={<ViewProfilePage />} />
 				<Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
-				<Route path="/lab-results" element={<LabResultsPage />} />
+				<Route path="/blood-pressure" element={<BloodPressureRecordPage />} />
+        <Route path="/bmi" element={<BMIRecordPage />} />
+        <Route path="/lab-results" element={<LabResultsPage />} />
+        <Route path="/surgical" element={<SurgicalPage />} />
+        <Route path="/ob-gyn" element={<ObGynPage />} />
+        <Route path="/ortho" element={<OrthopedicsPage />} />
+        <Route path="/paeds" element={<PaediatricsPage />} />
+        <Route path="/ent" element={<EntPage />} />
+        <Route path="/cancelled-returned-orders" element={<CancelledReturnedPage />} />
+
+
+
+
+
+
         {/*Admin*/}
 				<Route path="/admin-dashboard" element={<AdminDashboardPage />} />
 				<Route path="/admin-servicemanagement" element={<AdminServicesPage />}/>

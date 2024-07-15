@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, createTheme, ThemeProvider } from '@mui/material';
 import { ChevronLeft, ChevronRight, Done } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#800000', // maroon color
+      },
+    },
+  });
 
 const PrescriptionGallery = () => {
     const [patients, setPatients] = useState([]);
@@ -12,7 +20,7 @@ const PrescriptionGallery = () => {
     useEffect(() => {
         const fetchPrescriptions = async () => {
             try {
-                const response = await fetch('http://192.168.90.165:5500/api/prescription/view-all-prescriptions');
+                const response = await fetch('http://192.168.88.244:5500/api/prescription/view-all-prescriptions');
                 const data = await response.json();
 
                 setPatients(data);
@@ -48,7 +56,7 @@ const PrescriptionGallery = () => {
                 throw new Error('Invalid prescription or status');
             }
 
-            const response = await fetch(`http://192.168.90.165:5500/api/prescription/approve-prescription/${currentPatient.prescriptionId}`, {
+            const response = await fetch(`http://192.168.88.195:5500/api/prescription/approve-prescription/${currentPatient.prescriptionId}`, {
                 method: 'POST',
             });
 
@@ -79,7 +87,7 @@ const PrescriptionGallery = () => {
                 throw new Error('Invalid prescription or status');
             }
 
-            const response = await fetch(`http://192.168.90.165:5500/api/prescription/decline-prescription/${currentPatient.prescriptionId}`, {
+            const response = await fetch(`http://192.168.88.244:5500/api/prescription/decline-prescription/${currentPatient.prescriptionId}`, {
                 method: 'POST',
             });
 
@@ -105,6 +113,7 @@ const PrescriptionGallery = () => {
     };
 
     return (
+        <ThemeProvider theme={theme}>
         <Box sx={{ textAlign: 'center', mt: 2 }}>
             <Typography variant="h5" gutterBottom>
                 Prescription Images
@@ -184,9 +193,10 @@ const PrescriptionGallery = () => {
                 </DialogActions>
             </Dialog>
             <Link to="/pharmacist-dashboard">
-                <Button variant="contained" color="primary" backgroundColor="maroon">Go back to Dashboard</Button>
+                <Button variant="contained" color="primary" backgroundColor="maroon" gap='2'>Go back to Dashboard</Button>
             </Link>
-        </Box>
+            </Box>
+            </ThemeProvider>
     );
 };
 

@@ -14,7 +14,6 @@ import {
   History,
   Payment,
   Headset,
-  AccountCircle,
   Brightness4,
   Brightness7,
   Logout,
@@ -150,12 +149,6 @@ const handleLogout = async () => {
             <Headset />
           </ListItemIcon>
           <ListItemText primary="Customer Care" />
-        </ListItem>
-        <ListItem button onClick={() => handleNavigation("/my-account")}>
-          <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>
-            <AccountCircle />
-          </ListItemIcon>
-          <ListItemText primary="My Account" />
         </ListItem>
         <ListItem button onClick={() => handleNavigation("/e-pharmacy")}>
           <ListItemIcon sx={{ color: brightnessMode ? "#000000" : "white", marginRight: -3 }}>

@@ -1,9 +1,9 @@
 import React from 'react';
-import LabResults from '../components/MyHealthRecords/labResults'
+import LabResultsRecord from '../components/MyHealthRecords/LabresultsRecord'
 
 function LabResultsPage() {
   return (
-    <LabResults />
+    <LabResultsRecord />
   )
 }
 

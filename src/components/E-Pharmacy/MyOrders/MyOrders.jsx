@@ -1,13 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Card, CardContent, CardMedia, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';
+import axios from 'axios';
 
 const MyOrders = () => {
   const [activeTab, setActiveTab] = useState('ongoingDelivered');
   const [open, setOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const navigate = useNavigate(); // Using useNavigate hook for navigation
+  const [allOrders, setAllOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('http://192.168.88.195:5500/api/order/viewuserorder/321456');
+        setAllOrders(response.data); // Assuming response.data is an array of orders
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  useEffect(() => {
+    const filterOrders = () => {
+      if (activeTab === 'ongoingDelivered') {
+        setFilteredOrders(allOrders.filter(order => order.orderStatus === 'Ongoing' || order.orderStatus === 'Delivered'));
+      } else if (activeTab === 'cancelledReturned') {
+        setFilteredOrders(allOrders.filter(order => order.orderStatus === 'Cancelled' || order.orderStatus === 'Returned'));
+      }
+    };
+
+    filterOrders();
+  }, [activeTab, allOrders]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -26,37 +54,16 @@ const MyOrders = () => {
     navigate('/products'); // Navigating to '/products' page
   };
 
-  const orders = [
-    {
-      id: 1,
-      orderNumber: '12345',
-      status: 'Delivered',
-      date: '2024-03-31',
-      products: [
-        { 
-          id: 1,
-          image: 'path/to/image1.jpg',
-          description: 'Order Description 1',
-          items: [
-            { name: 'Product 1', quantity: 2, price: 100 },
-            { name: 'Product 2', quantity: 1, price: 50 }
-          ],
-          totalPrice: 250
-        },
-        { 
-          id: 2,
-          image: 'path/to/image2.jpg',
-          description: 'Order Description 2',
-          items: [
-            { name: 'Product 3', quantity: 3, price: 150 },
-            { name: 'Product 4', quantity: 1, price: 70 }
-          ],
-          totalPrice: 320
-        }
-      ]
-    },
-    // Add more orders as needed
-  ];
+  const cancelOrder = async (orderId) => {
+    try {
+      await axios.post(`http://192.168.88.195:5500/api/order/cancelorder/${orderId}`);
+      setAllOrders((prevOrders) => prevOrders.map(order =>
+        order.orderId === orderId ? { ...order, orderStatus: 'Cancelled' } : order
+      ));
+    } catch (error) {
+      console.error('Error cancelling order:', error);
+    }
+  };
 
   const RedButton = styled(Button)({
     backgroundColor: '#800000',
@@ -99,41 +106,50 @@ const MyOrders = () => {
       </Box>
       <Card sx={{ marginTop: 2 }}>
         <CardContent>
-          {activeTab === 'ongoingDelivered' &&
-            orders.map((order) => (
-              order.products.map(product => (
-                <Paper key={product.id} sx={{ marginBottom: 2, padding: 2 }}>
-                  <Box display="flex" alignItems="center">
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={product.image}
-                      alt={product.description}
-                    />
-                    <CardContent sx={{ marginLeft: 2 }}>
-                      <Typography variant="h6" component="div">
-                        {product.description}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Order Number: {order.orderNumber}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Status: {order.status}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Date: {order.date}
-                      </Typography>
-                    </CardContent>
-                  </Box>
-                  <RedButton variant="contained" onClick={() => handleSeeDetails(product)}>
+          {filteredOrders.map((order) => (
+            <Paper key={order.orderId} sx={{ marginBottom: 2, padding: 2 }}>
+              {order.products.map((product, index) => (
+                <Box key={index} display="flex" alignItems="center">
+                  <CardMedia
+                    component="img"
+                    sx={{ width: 50, height: 50 }} // Adjust the size proportionally here
+                    image={product.productUrl}
+                    alt={`Product ${index + 1}`}
+                  />
+                  <CardContent sx={{ marginLeft: 2 }}>
+                    <Typography variant="h6" component="div">
+                      Product ID: {product.productId}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Order Number: {order.orderId}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Status: {order.orderStatus}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Date: {new Date(order.createdAt).toLocaleDateString()}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Quantity: {product.quantity}
+                    </Typography>
+                  </CardContent>
+                  <RedButton variant="contained" onClick={() => handleSeeDetails(order)}>
                     See Details
                   </RedButton>
-                </Paper>
-              ))
-            ))}
-          {activeTab === 'cancelledReturned' && (
-            <Typography>Content for Cancelled/Returned</Typography>
-          )}
+                  {activeTab === 'ongoingDelivered' && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => cancelOrder(order.orderId)}
+                      sx={{ marginLeft: 2, backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
+                </Box>
+              ))}
+            </Paper>
+          ))}
         </CardContent>
       </Card>
 
@@ -143,17 +159,16 @@ const MyOrders = () => {
         <DialogContent>
           {selectedOrder && (
             <div>
-              <Typography variant="h6">Order Number: {selectedOrder.orderNumber}</Typography>
-              <Typography variant="body1">Date: {selectedOrder.date}</Typography>
-              <Typography variant="body1">Number of Items: {selectedOrder.items.length}</Typography>
-              <Typography variant="body1">Total Price: Ksh {selectedOrder.totalPrice}</Typography>
+              <Typography variant="h6">Order Number: {selectedOrder.orderId}</Typography>
+              <Typography variant="body1">Date: {new Date(selectedOrder.createdAt).toLocaleDateString()}</Typography>
+              <Typography variant="body1">Status: {selectedOrder.orderStatus}</Typography>
               <Typography variant="h6" style={{ marginTop: 20 }}>Items in Your Order</Typography>
-              {selectedOrder.items.map((item, index) => (
+              {selectedOrder.products.map((product, index) => (
                 <Card key={index} sx={{ marginTop: 2 }}>
                   <CardContent>
-                    <Typography variant="body1">{item.name}</Typography>
-                    <Typography variant="body2">Quantity: {item.quantity}</Typography>
-                    <Typography variant="body2">Price: Ksh {item.price}</Typography>
+                    <Typography variant="body1">Product ID: {product.productId}</Typography>
+                    <Typography variant="body2">Quantity: {product.quantity}</Typography>
+                    <Typography variant="body2">Image: <img src={product.productUrl} alt={`Product ${index + 1}`} style={{ width: 50, height: 50 }} /></Typography>
                   </CardContent>
                 </Card>
               ))}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, MenuItem, Select, TextField, Button, FormControl, InputLabel } from '@mui/material';
 import { styled } from '@mui/system';
+import axios from 'axios';
 
 const Container = styled(Box)({
     textAlign: 'center',
@@ -87,9 +88,29 @@ const DeliveryForm = () => {
         setWard('');
     };
 
-    const handleCompleteOrder = () => {
-        // Handle form submission if needed
-        navigate('/payments'); // Replace '/another-page' with the actual path you want to navigate to
+    const handleSubmit = async () => {
+        try {
+            const formData = {
+                county,
+                subCounty,
+                ward,
+                streetName,
+                houseName,
+                contactNumber,
+            };
+
+            // Replace 'http://your-backend-api-url/submit-order' with your actual backend API endpoint
+            const response = await axios.post('http://192.168.88.195:5500/api/delivery/add-delivery-information/321456', formData);
+            
+            // Assuming backend responds with success
+            console.log('Order Submitted:', response.data);
+
+            // Navigate to payment page or another page after successful submission
+            navigate('/payments');
+        } catch (error) {
+            console.error('Error submitting order:', error);
+            // Handle error scenario if needed
+        }
     };
 
     const selectedCounty = counties.find(c => c.name === county);
@@ -157,7 +178,7 @@ const DeliveryForm = () => {
                 <StyledButton
                     variant="contained"
                     color="primary"
-                    onClick={handleCompleteOrder}
+                    onClick={handleSubmit}
                     fullWidth
                     sx={{ mt: 2 }}
                 >

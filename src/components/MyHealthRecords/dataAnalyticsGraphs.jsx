@@ -1,62 +1,77 @@
-import React, { useState } from 'react';
-import { Card, CardContent, Typography, TextField, MenuItem } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
-const DataAnalyticsGraph = () => {
-  const bloodPressureData = [
-    { date: 'Monday', systolic: 120, diastolic: 80 },
-    { date: 'Tuesday', systolic: 118, diastolic: 78 },
-    { date: 'Wednesday', systolic: 122, diastolic: 82 },
-    { date: 'Thursday', systolic: 115, diastolic: 75 },
-    { date: 'Friday', systolic: 125, diastolic: 85 },
-    { date: 'Saturday', systolic: 122, diastolic: 83 },
-    { date: 'Sunday', systolic: 123, diastolic: 81 },
-  ];
+const BloodPressureChart = () => {
+  const [url, setUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [timeInterval, setTimeInterval] = useState('Daily');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.88.244:5500/api/displaypressuremap');
+        console.log('API response:', response.data);
+        setUrl(response.data.url);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err);
+        setLoading(false);
+      }
+    };
 
-  const handleTimeIntervalChange = (event) => {
-    setTimeInterval(event.target.value);
-  };
+    fetchData();
+  }, []);
 
-  const weeklyAverage = bloodPressureData.reduce((sum, entry) => sum + entry.systolic + entry.diastolic, 0) / bloodPressureData.length;
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh" bgcolor="#f0f0f0">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh" bgcolor="#f0f0f0">
+        <Typography variant="h6" color="error">
+          Error fetching data: {error.message}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
-    <Card style={{ marginTop: '80px', width: '50%', padding: '20px', borderRadius: '20px', background: 'lightgrey' }}>
-      <CardContent>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h5" gutterBottom style={{ color: 'black' }}>
-            Pressure Map
-          </Typography>
-          <TextField
-            select
-            value={timeInterval}
-            onChange={handleTimeIntervalChange}
-            variant="outlined"
-            size="small"
-            label="Time Interval"
-            style={{ color: 'black' }}
-          >
-            <MenuItem value="Daily">Daily</MenuItem>
-            <MenuItem value="Weekly">Weekly</MenuItem>
-            <MenuItem value="Monthly">Monthly</MenuItem>
-          </TextField>
-        </div>
-        <Typography variant="h6" gutterBottom style={{ color: 'black' }}>
-          Weekly Average: {weeklyAverage.toFixed(2)}
+    <Box p={2} bgcolor="#f0f0f0">
+      <Typography variant="h4" gutterBottom>
+        Blood Pressure Variation
+      </Typography>
+      {url ? (
+        <Box 
+          sx={{ 
+            backgroundColor: '#fff', 
+            padding: '20px', 
+            borderRadius: '8px', 
+            boxShadow: 3,
+            marginBottom: '20px'
+          }}
+        >
+          <iframe
+            src={url}
+            width="100%"
+            height="600px"
+            frameBorder="0"
+            allowFullScreen
+          />
+        </Box>
+      ) : (
+        <Typography variant="h6" color="error">
+          No URL found in the response.
         </Typography>
-        <LineChart width={500} height={200} data={bloodPressureData}>
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="systolic" stroke="#8884d8" />
-          <Line type="monotone" dataKey="diastolic" stroke="#82ca9d" />
-        </LineChart>
-      </CardContent>
-    </Card>
+      )}
+    </Box>
   );
 };
 
-export default DataAnalyticsGraph;
+export default BloodPressureChart;
