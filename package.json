@@ -30,6 +30,7 @@
     "cors": "^2.8.5",
     "DOM": "^0.0.3",
     "http-proxy-middleware": "^3.0.0",
+    "https": "^1.0.0",
     "leaflet.markercluster": "^1.5.3",
     "plotly.js": "^2.33.0",
     "react": "^18.2.0",

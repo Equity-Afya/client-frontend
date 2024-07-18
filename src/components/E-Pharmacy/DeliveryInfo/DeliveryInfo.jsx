@@ -100,7 +100,7 @@ const DeliveryForm = () => {
             };
 
             // Replace 'http://your-backend-api-url/submit-order' with your actual backend API endpoint
-            const response = await axios.post('http://192.168.88.195:5500/api/delivery/add-delivery-information/321456', formData);
+            const response = await axios.post('http e://192.168.88.28:5500/api/delivery/add-delivery-information/321456', formData);
             
             // Assuming backend responds with success
             console.log('Order Submitted:', response.data);

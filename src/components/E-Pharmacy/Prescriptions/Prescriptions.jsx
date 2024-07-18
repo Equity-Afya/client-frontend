@@ -22,7 +22,7 @@ const Prescriptions = () => {
 
   const fetchUploadedFiles = async () => {
     try {
-      const response = await fetch('http://192.168.88.195:5500/api/prescription/getuploadedfiles/321456');
+      const response = await fetch('http://192.168.88.28:5500/api/prescription/getuploadedfiles/321456');
       if (response.ok) {
         const data = await response.json();
         const files = data.files.map(fileUrl => ({ name: fileUrl, url: fileUrl }));
@@ -64,7 +64,7 @@ const Prescriptions = () => {
         formData.append('prescription-image', fileObj.file);
       });
 
-      const response = await fetch('http://192.168.88.195:5500/api/prescription/uploadprescriptionimage/321456', {
+      const response = await fetch('http://192.168.88.28:5500/api/prescription/uploadprescriptionimage/321456', {
         method: 'POST',
         body: formData,
       });
@@ -99,7 +99,7 @@ const Prescriptions = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://192.168.88.195:5500/api/notifications/getallnotifications/321456');
+      const response = await fetch('http://192.168.88.28:5500/api/notifications/getallnotifications/321456');
       if (response.ok) {
         const data = await response.json();
         setNotifications(data.notifications);

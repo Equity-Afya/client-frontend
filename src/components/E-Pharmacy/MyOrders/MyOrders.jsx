@@ -15,7 +15,7 @@ const MyOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://192.168.88.195:5500/api/order/viewuserorder/321456');
+        const response = await axios.get('http://192.168.88.28:5500/api/order/viewuserorder/321456');
         setAllOrders(response.data); // Assuming response.data is an array of orders
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -56,7 +56,7 @@ const MyOrders = () => {
 
   const cancelOrder = async (orderId) => {
     try {
-      await axios.post(`http://192.168.88.195:5500/api/order/cancelorder/${orderId}`);
+      await axios.put(`http://192.168.88.28:5500/api/order/cancelorder/${orderId}`);
       setAllOrders((prevOrders) => prevOrders.map(order =>
         order.orderId === orderId ? { ...order, orderStatus: 'Cancelled' } : order
       ));
@@ -131,6 +131,9 @@ const MyOrders = () => {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Quantity: {product.quantity}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Price: {product.price}
                     </Typography>
                   </CardContent>
                   <RedButton variant="contained" onClick={() => handleSeeDetails(order)}>

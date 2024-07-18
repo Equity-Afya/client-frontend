@@ -10,7 +10,7 @@ const BloodPressureChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.88.244:5500/api/displaypressuremap');
+        const response = await axios.get('https://192.168.89.172:5500/api/displaypressuremap');
         console.log('API response:', response.data);
         setUrl(response.data.url);
         setLoading(false);

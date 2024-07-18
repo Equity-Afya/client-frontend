@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
 
 const Cart = () => {
-  const { cart, addToCart, removeFromCart, updateCart } = useCart(); // Updated to include updateCart
+  const { cart, addToCart, removeFromCart, updateCart } = useCart();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productQuantities, setProductQuantities] = useState({});
@@ -20,12 +20,12 @@ const Cart = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.88.195:5500/api/product/viewallproducts'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.88.28:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
       const data = await response.json();
-      setProducts(data.slice(0, 4)); // Fetching only the first four products
+      setProducts(data.slice(0, 5)); // Fetching only the first four products
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -59,11 +59,12 @@ const Cart = () => {
         products: cart.map(item => ({
           productId: item.id,
           quantity: item.quantity,
-          productUrl: item.imageUrl
+          productUrl: item.imageUrl,
+          productPrice: item.price
         }))
       };
 
-      const response = await fetch('http://192.168.88.195:5500/api/order/createorder/321456', {
+      const response = await fetch('http://192.168.88.28:5500/api/order/createorder/321456', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +163,7 @@ const Cart = () => {
           <Button onClick={handleContinueShopping} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Continue to Shopping</Button>
         </DialogActions>
       </Dialog>
-      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '45%', overflow: 'auto' }}>
+      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '50vh', overflow: 'auto' }}>
         {cart.length > 0 ? (
           <>
             <Typography variant="h6" align="center">
@@ -188,7 +189,7 @@ const Cart = () => {
                     Category: {item.category}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
-                    Price: ${item.price}
+                    Price: Ksh{item.price}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
                     Quantity: {item.quantity}
@@ -215,7 +216,7 @@ const Cart = () => {
           </>
         )}
       </Paper>
-      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '65%' }}>
+      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '75vh', overflow: 'auto' }}>
         <Typography variant="h6" align="left">
           <Link to="/products" style={{ textDecoration: 'none', color: '#000' }}>
             Products
@@ -227,14 +228,14 @@ const Cart = () => {
         <Grid container spacing={2}>
           {products.map((product) => (
             <Grid item key={product.id} xs={12} sm={6} md={3}>
-              <Card>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardMedia
                   component="img"
                   height="140"
                   image={product.imageUrl}
                   alt={product.name}
                 />
-                <CardContent>
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="div">
                     {product.name}
                   </Typography>

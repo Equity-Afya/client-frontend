@@ -20,7 +20,7 @@ const PrescriptionGallery = () => {
     useEffect(() => {
         const fetchPrescriptions = async () => {
             try {
-                const response = await fetch('http://192.168.88.244:5500/api/prescription/view-all-prescriptions');
+                const response = await fetch('http://192.168.88.28:5500/api/prescription/view-all-prescriptions');
                 const data = await response.json();
 
                 setPatients(data);
@@ -56,7 +56,7 @@ const PrescriptionGallery = () => {
                 throw new Error('Invalid prescription or status');
             }
 
-            const response = await fetch(`http://192.168.88.195:5500/api/prescription/approve-prescription/${currentPatient.prescriptionId}`, {
+            const response = await fetch(`http://192.168.88.28:5500/api/prescription/approve-prescription/${currentPatient.prescriptionId}`, {
                 method: 'POST',
             });
 
@@ -87,7 +87,7 @@ const PrescriptionGallery = () => {
                 throw new Error('Invalid prescription or status');
             }
 
-            const response = await fetch(`http://192.168.88.244:5500/api/prescription/decline-prescription/${currentPatient.prescriptionId}`, {
+            const response = await fetch(`http://192.168.88.28:5500/api/prescription/decline-prescription/${currentPatient.prescriptionId}`, {
                 method: 'POST',
             });
 

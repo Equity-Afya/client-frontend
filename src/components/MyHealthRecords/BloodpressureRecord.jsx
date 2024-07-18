@@ -35,7 +35,7 @@ const BloodPressureRecord = () => {
     };
 
     // Example POST request using Axios
-    axios.post('http://192.168.88.244:5500/api/createrecord', formData)
+    axios.post('https://192.168.89.172:5500/api/createrecord', formData)
       .then(response => {
         console.log('Data submitted successfully:', response.data);
         // Optionally navigate to the next page or handle success

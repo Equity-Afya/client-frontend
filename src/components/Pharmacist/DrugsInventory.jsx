@@ -1,60 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import {
+    Box, Typography, Table, TableBody, TableCell, TableContainer,
+    TableHead, TableRow, Paper, Button, Dialog, DialogTitle,
+    DialogContent, DialogActions, TextField
+} from '@mui/material';
 
 const ProductInventory = () => {
     const [products, setProducts] = useState([]);
     const [newProductName, setNewProductName] = useState('');
     const [newProductDescription, setNewProductDescription] = useState('');
-    const [newProductImage, setNewProductImage] = useState('');
+    const [newProductImage, setNewProductImage] = useState(null);
     const [newProductCategory, setNewProductCategory] = useState('');
     const [newProductPrice, setNewProductPrice] = useState('');
     const [newProductQuantity, setNewProductQuantity] = useState('');
     const [open, setOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [selectedProductId, setSelectedProductId] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteProductId, setDeleteProductId] = useState(null);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('http://192.168.88.195:5500/api/product/viewallproducts');
-                const data = await response.json();
-                setProducts(data); // Assuming data is an array of product objects
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-
         fetchProducts();
     }, []);
 
-    const handleEditProduct = (productId) => {
-        // Implement edit product logic here
-        console.log('Edit product with ID:', productId);
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://192.168.88.28:5500/api/product/viewallproducts');
+            const data = await response.json();
+            setProducts(data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
     };
 
-    const handleDeleteProduct = (productId) => {
-        setProducts((prevProducts) => prevProducts.filter(product => product.id !== productId));
-        // Implement delete product logic here, e.g., make a DELETE request to the backend
-        console.log('Delete product with ID:', productId);
+    const handleEditProduct = (productId) => {
+        const productToEdit = products.find(product => product.id === productId);
+        setSelectedProduct(productToEdit);
+        setSelectedProductId(productId);
+        setEditDialogOpen(true);
+    };
+
+    const handleDeleteProduct = async (productId) => {
+        try {
+            const response = await fetch(`http://192.168.88.28:5500/api/product/deleteproduct/${productId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                console.log(`Product ${productId} deleted successfully.`);
+                setProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+                setDeleteDialogOpen(false);
+            } else {
+                const errorData = await response.json();
+                throw new Error(`Failed to delete product ${productId}: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            alert(`Failed to delete product: ${error.message || 'An unknown error occurred'}`);
+        }
     };
 
     const handleAddProduct = async (e) => {
         e.preventDefault();
 
-        const newProduct = {
-            name: newProductName,
-            description: newProductDescription,
-            image: newProductImage,
-            category: newProductCategory,
-            price: parseFloat(newProductPrice),
-            quantity: parseInt(newProductQuantity),
-        };
+        const formData = new FormData();
+        formData.append('name', newProductName);
+        formData.append('description', newProductDescription);
+        formData.append('image', newProductImage);
+        formData.append('category', newProductCategory);
+        formData.append('price', newProductPrice);
+        formData.append('quantity', newProductQuantity);
 
         try {
-            const response = await fetch('http://192.168.88.195:5500/api/product/addproduct', {
+            const response = await fetch('http://192.168.88.28:5500/api/product/createproduct', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newProduct),
+                body: formData,
             });
 
             if (response.ok) {
@@ -62,11 +83,11 @@ const ProductInventory = () => {
                 setProducts([...products, result]);
                 setNewProductName('');
                 setNewProductDescription('');
-                setNewProductImage('');
+                setNewProductImage(null);
                 setNewProductCategory('');
                 setNewProductPrice('');
                 setNewProductQuantity('');
-                setOpen(false); // Close the dialog on successful product addition
+                setOpen(false);
             } else {
                 console.error('Error adding product:', response.statusText);
             }
@@ -75,12 +96,63 @@ const ProductInventory = () => {
         }
     };
 
+    const handleEditSubmit = async () => {
+        const formData = new FormData();
+        formData.append('name', selectedProduct.name);
+        formData.append('description', selectedProduct.description);
+        formData.append('image', newProductImage || selectedProduct.image);
+        formData.append('category', selectedProduct.category);
+        formData.append('price', selectedProduct.price);
+        formData.append('quantity', selectedProduct.quantity);
+
+        try {
+            const response = await fetch(`http://192.168.88.28:5500/api/product/updateproduct/${selectedProductId}`, {
+                method: 'PUT',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const updatedProduct = await response.json();
+                const updatedProducts = products.map(product =>
+                    product.id === selectedProductId ? updatedProduct : product
+                );
+                setProducts(updatedProducts);
+                setEditDialogOpen(false);
+            } else {
+                console.error('Error updating product:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error updating product:', error);
+            alert(`Error updating product: ${error.message || 'An unknown error occurred'}`);
+        }
+    };
+
+    const handleFileChange = (e) => {
+        setNewProductImage(e.target.files[0]);
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleEditDialogClose = () => {
+        setEditDialogOpen(false);
+        setSelectedProductId(null);
+        setSelectedProduct(null);
+    };
+
+    const handleDeleteDialogOpen = (productId) => {
+        setDeleteProductId(productId);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleDeleteDialogClose = () => {
+        setDeleteDialogOpen(false);
+        setDeleteProductId(null);
     };
 
     return (
@@ -105,13 +177,13 @@ const ProductInventory = () => {
                     </TableHead>
                     <TableBody>
                         {products.map((product) => (
-                            <TableRow key={product.id}>
+                            <TableRow key={product.id}> {/* Use a unique key here */}
                                 <TableCell>{product.id}</TableCell>
                                 <TableCell>{product.name}</TableCell>
                                 <TableCell>{product.quantity}</TableCell>
                                 <TableCell>
                                     <Button onClick={() => handleEditProduct(product.id)}>Edit</Button>
-                                    <Button onClick={() => handleDeleteProduct(product.id)}>Delete</Button>
+                                    <Button onClick={() => handleDeleteDialogOpen(product.id)}>Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -137,13 +209,6 @@ const ProductInventory = () => {
                             onChange={(e) => setNewProductDescription(e.target.value)}
                         />
                         <TextField
-                            label="Product Image URL"
-                            variant="outlined"
-                            fullWidth
-                            value={newProductImage}
-                            onChange={(e) => setNewProductImage(e.target.value)}
-                        />
-                        <TextField
                             label="Product Category"
                             variant="outlined"
                             fullWidth
@@ -166,14 +231,82 @@ const ProductInventory = () => {
                             value={newProductQuantity}
                             onChange={(e) => setNewProductQuantity(e.target.value)}
                         />
+                        <input type="file" onChange={handleFileChange} />
                     </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleAddProduct} type="submit" variant="contained" color="primary">
-                        Add Product
+                    <Button onClick={handleAddProduct} color="primary" type="submit">
+                        Add
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={editDialogOpen} onClose={handleEditDialogClose}>
+                <DialogTitle>Edit Product</DialogTitle>
+                <DialogContent>
+                    {selectedProduct && (
+                        <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <TextField
+                                label="Product Name"
+                                variant="outlined"
+                                fullWidth
+                                value={selectedProduct.name}
+                                onChange={(e) => setSelectedProduct({ ...selectedProduct, name: e.target.value })}
+                            />
+                            <TextField
+                                label="Product Description"
+                                variant="outlined"
+                                fullWidth
+                                value={selectedProduct.description}
+                                onChange={(e) => setSelectedProduct({ ...selectedProduct, description: e.target.value })}
+                            />
+                            <TextField
+                                label="Product Category"
+                                variant="outlined"
+                                fullWidth
+                                value={selectedProduct.category}
+                                onChange={(e) => setSelectedProduct({ ...selectedProduct, category: e.target.value })}
+                            />
+                            <TextField
+                                label="Product Price"
+                                variant="outlined"
+                                fullWidth
+                                type="number"
+                                value={selectedProduct.price}
+                                onChange={(e) => setSelectedProduct({ ...selectedProduct, price: e.target.value })}
+                            />
+                            <TextField
+                                label="Product Quantity"
+                                variant="outlined"
+                                fullWidth
+                                type="number"
+                                value={selectedProduct.quantity}
+                                onChange={(e) => setSelectedProduct({ ...selectedProduct, quantity: e.target.value })}
+                            />
+                            <input type="file" onChange={handleFileChange} />
+                        </Box>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleEditDialogClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleEditSubmit} color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={deleteDialogOpen} onClose={handleDeleteDialogClose}>
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>Are you sure you want to delete this product?</DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteDialogClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => handleDeleteProduct(deleteProductId)} color="primary">
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>

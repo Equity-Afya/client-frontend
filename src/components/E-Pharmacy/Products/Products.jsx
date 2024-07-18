@@ -3,7 +3,7 @@ import {
   AppBar, Toolbar, IconButton, Menu, MenuItem, InputBase, Badge, Box, Card, CardMedia, CardContent, Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField
 } from '@mui/material';
 import {
-  Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight, ChevronLeft, ChevronRight
+  Menu as MenuIcon, Search as SearchIcon, AccountCircle, ShoppingCart, CategoryOutlined, FavoriteBorderOutlined, LocalOfferOutlined, DescriptionOutlined, ArrowRight
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
@@ -25,12 +25,12 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.88.195:5500/api/product/viewallproducts'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.88.28:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
       const data = await response.json();
-      setProducts(data.slice(0, 4)); // Fetching only the first four products
+      setProducts(data.slice(0, 5)); // Fetching only the first four products
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -43,7 +43,7 @@ const ProductsPage = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setProductQuantity(0); // Reset quantity
+    setProductQuantity(1); // Reset quantity
   };
 
   const handleProceedWithOrder = () => {
@@ -192,14 +192,14 @@ const ProductsPage = () => {
       <Grid container spacing={4}>
         {products.map((product) => (
           <Grid item xs={12} sm={6} md={3} key={product.id}>
-            <Card>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <CardMedia
                 component="img"
                 height="140"
                 image={product.imageUrl}
                 alt={product.name}
               />
-              <CardContent>
+              <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h6" component="div">
                   {product.name}
                 </Typography>
@@ -207,7 +207,7 @@ const ProductsPage = () => {
                   {product.description}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  ${product.price}
+                  Ksh {product.price}
                 </Typography>
               </CardContent>
               <Button

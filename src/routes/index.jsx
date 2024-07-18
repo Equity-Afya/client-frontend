@@ -100,7 +100,7 @@ function AppRoutes() {
 				<Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
 				<Route path="/products" element={<ProductsPage />} />
 				<Route path="/prescriptions" element={<PrescriptionsPage />} />
-				<Route path="/cart" element={<CartPage />} />
+				<Route path="/cart" element={<CartPage />}/>
 				<Route path="/my-orders" element={<MyOrdersPage />} />
 				<Route path="/view-profile" element={<ViewProfilePage />} />
 				<Route path="/language" element={<LanguagePage />} />

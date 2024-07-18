@@ -28,7 +28,7 @@ const RecordForm = ({ formFields, onSubmit }) => {
     setLoading(true);
     // Post formData and bmiData to backend
     const dataToSend = { ...formData, ...bmiData };
-    axios.post('http://192.168.88.179:5500/api/createrecord', dataToSend)
+    axios.post('https://192.168.89.172:5500/api/createrecord', dataToSend)
       .then(response => {
         console.log('Data submitted successfully:', response.data);
         setLoading(false);

@@ -28,7 +28,7 @@ const LabResults = () => {
   useEffect(() => {
     const fetchLabResults = async () => {
       try {
-        const response = await axios.get('http://192.168.88.179:5500/api/viewlabresults');
+        const response = await axios.get('https://192.168.89.172:5500/api/viewlabresults');
         setLabResults(response.data);
       } catch (error) {
         setError(error.message);
@@ -39,7 +39,7 @@ const LabResults = () => {
   }, []);
 
   const handleDownload = (id) => {
-    window.open(`http://192.168.88.179:5500/api/downloadlabresults/${id}`, '_blank');
+    window.open(`https://192.168.89.172:5500/api/downloadlabresults/${id}`, '_blank');
   };
 
   const handlePrevious = () => {
