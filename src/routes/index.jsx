@@ -73,7 +73,7 @@ function AppRoutes() {
 		<Router>
 			<Routes>
       <Route path="/" element={<RegisterPage />} />
-				<Route path="/dashboard" element={<LandingPage />} />
+				<Route path="/landing-page" element={<LandingPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/reset-password" element={<ResetPasswordPage />} />
 				<Route path="/verify-otp" element={<VerifyOTPPage />} />

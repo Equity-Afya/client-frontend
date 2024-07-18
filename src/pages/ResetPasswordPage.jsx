@@ -2,7 +2,7 @@ import PasswordReset from '../components/PasswordReset/passwordReset';
 
 const ResetPasswordPage = () => {
   return (
-    <div>
+    <div style={{marginLeft: '30vw'}}>
     <PasswordReset />
     </div>
   );
