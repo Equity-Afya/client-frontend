@@ -20,7 +20,7 @@ import Select from "@mui/material/Select";
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
   color: "white",
-  width: 400,
+  width: 450,
   textAlign: "center",
   fontFamily: "Nunito, sans-serif",
   fontSize: 15,
@@ -229,7 +229,7 @@ function RegisterForm() {
       >
         <ToastContainer />
 
-        <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "400px" } }}>
+        <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "33vw" } }}>
           <FormTitle>
             <h1>TeleAfia</h1>
             <h3 style={{ textAlign: "center", position: "relative" }}>
@@ -241,12 +241,12 @@ function RegisterForm() {
                   padding: "0 10px",
                 }}
               >
-                Register
+                Signup
               </span>
             </h3>
           </FormTitle>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} style={{width: '450'}}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {[
                 { label: "Name", name: "name", value: name },
