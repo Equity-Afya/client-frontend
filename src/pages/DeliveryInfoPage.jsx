@@ -2,7 +2,7 @@ import DeliveryInformation from '../components/E-Pharmacy/DeliveryInfo/DeliveryI
 
 export default function DeliveryInfoPage() {
   return (
-    <div>
+    <div style={{marginLeft: '20vw'}}>
       <DeliveryInformation/>
     </div>
     

@@ -69,12 +69,12 @@ function AppRoutes() {
 	return (
 		<Router>
 			<Routes>
-      <Route path="/" element={<RegisterPage />} />
-				<Route path="/dashboard" element={<LandingPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+				<Route path="/landing-page" element={<LandingPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/reset-password" element={<ResetPasswordPage />} />
 				<Route path="/verify-otp" element={<VerifyOTPPage />} />
-				<Route path="/dashboard" element={<DashboardPage />} />
+				<Route path="/" element={<DashboardPage />} />
 				<Route path="/medical-services" element={<MedicalServicesPage />} />
 				<Route path="/specialists" element={<SpecialistsPage />} />
 				<Route path="/doctors-dashboard" element={<DoctorsDashboardPage />} />
