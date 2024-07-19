@@ -31,7 +31,7 @@ const ManagePharmacists = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/pharmacists/getall');
+      const response = await fetch('http://192.168.89.172:5500/api/pharmacists/getall');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -79,7 +79,7 @@ const ManagePharmacists = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.89.68:5500/api/pharmacist/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.89.172:5500/api/pharmacist/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -106,7 +106,7 @@ const ManagePharmacists = () => {
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/pharmacist/export', {
+      const response = await fetch('http://192.168.89.172:5500/api/pharmacist/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

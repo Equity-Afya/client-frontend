@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 
 const AppointmentsHistoryPage = () => {
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: "flex", height: "100vh", width: "100vw" }}>
       {/* Sidebar on the left with margin-right */}
       <Box
         sx={{

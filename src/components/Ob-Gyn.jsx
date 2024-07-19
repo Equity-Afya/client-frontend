@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, IconButton } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for navigation
 
-function Dental() {
+function ObGyn() {
   const navigate = useNavigate(); // Initialize useNavigate hook
   const [description, setDescription] = useState('');
 
@@ -15,9 +16,9 @@ function Dental() {
           throw new Error('Failed to fetch services');
         }
         const data = await response.json();
-        const dentalService = data.services.find(service => service.name.toLowerCase() === 'dental');
-        if (dentalService) {
-          setDescription(dentalService.description);
+        const obGynService = data.services.find(service => service.name.toLowerCase() === 'dental');
+        if (obGynService) {
+          setDescription(obGynService.description);
         } else {
           setDescription('Description not available');
         }
@@ -29,6 +30,7 @@ function Dental() {
 
     fetchDescription();
   }, []);
+
 
   const handleSpecialistServicesClick = () => {
     navigate('/specialists'); // Navigate to the medical-services page
@@ -45,23 +47,19 @@ function Dental() {
           <ArrowDropDownIcon sx={{ fontSize: 40 }} />
         </IconButton>
         <img
-          src='/src/assets/equity-afia.jpg'
+         src='/src/assets/equity-afia.jpg'
           alt="Modern Lab"
           style={{ marginLeft: '200px', marginTop: '40px', height: '70px', backgroundColor: '#FCF4F4', borderRadius: '10px' }}
         />
       </Box>
-      <h4 style={{ marginLeft: '70px', color:'#C00000' }}>Dental</h4>
+      <h4 style={{ marginLeft: '70px', color:'#C00000' }}>Ob-Gyn</h4>
       <Box sx={{ marginLeft: '70px', border: '1px solid #000', borderRadius: '20px', textAlign: 'center', marginRight: '70px', padding: '20px' }}>
-        {description}
+       {description}
       </Box>
-      <Button sx={{ marginLeft: '350px', marginTop: '50px', backgroundColor: '#C00000', textTransform: 'none', color: 'white' }} onClick={handleBookAppointmentClick}>
-        Book Appointment
-      </Button>
-      <p style={{ marginLeft: '290px', marginTop: '50px', textTransform: 'none', color: '#C00000', fontWeight: 'bold' }}>
-        Quality, Affordable healthcare for all
-      </p>
+      <Button sx={{ marginLeft: '350px', marginTop: '50px', backgroundColor: '#C00000', textTransform: 'none', color: 'white' }} onClick={handleBookAppointmentClick}>Book Appointment</Button>
+      <p style={{ marginLeft: '290px', marginTop: '50px', textTransform: 'none', color: '#C00000', fontWeight: 'bold' }}>Quality, Affordable healthcare for all</p>
     </Box>
   );
 }
 
-export default Dental;
+export default ObGyn;

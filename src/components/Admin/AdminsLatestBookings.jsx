@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const AdminLatestBookings = () => {
@@ -35,7 +35,7 @@ const AdminLatestBookings = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.91.100:5500/api/appointments/getallappointments');
+      const response = await fetch('http://192.168.89.172:5500/api/appointments/getallappointments');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }

@@ -41,7 +41,7 @@ const ManageClinics = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.91.100:5500/api/teleclinic/viewallteleclinics');
+      const response = await fetch('http://192.168.89.172:5500/api/teleclinic/viewallteleclinics');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -91,7 +91,7 @@ const ManageClinics = () => {
   const handleSaveClinic = async (index) => {
     const clinicId = filteredRows[index].id; // Get the correct clinic ID
     try {
-      const response = await fetch(`http://192.168.91.100:5500/api/teleclinic/updateteleclinic/${clinicId}`, {
+      const response = await fetch(`http://192.168.89.172:5500/api/teleclinic/updateteleclinic/${clinicId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ const ManageClinics = () => {
 
   const handleDeleteClinic = async () => {
     try {
-      const response = await fetch(`http://192.168.91.100:5500/api/teleclinic/deleteclinic/${clinicToDelete}`, {
+      const response = await fetch(`http://192.168.89.172:5500/api/teleclinic/deleteclinic/${clinicToDelete}`, {
         method: 'DELETE'
       });
       if (!response.ok) {

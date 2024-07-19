@@ -25,6 +25,14 @@ import LanguagePage from "../pages/languagePage";
 import BookAppointmentPage from "../pages/BookAppointmentPage";
 import AppointmentsHistory from "../pages/AppointmentsHistory";
 import LabResultsPage from "../pages/labResultsPage";
+import BMIRecordPage from "../pages/BMIRecordPage";
+import BloodPressureRecordPage from "../pages/BloodPressureRecordPage";
+import SurgicalPage from "../pages/SurgicalPage";
+import ObGynPage from "../pages/Ob-GynPage";
+import OrthopedicsPage from "../pages/OrthopedicsPage";
+import PaediatricsPage from "../pages/PaediatricsPage";
+import EntPage from "../pages/EntPage";
+import CancelledReturnedPage from "../pages/CancelledReturnedPage";
 //clients Routes
 import DentalPage from "../pages/DentalPage";
 import EpharmacyDashboardPage from "../pages/EpharmacyDashboardPage";
@@ -70,7 +78,7 @@ import CreatePharmacistPage from "../pages/admin/CreatePharmacistPage";
 
 function AppRoutes() {
 	return (
-		<Router>
+    <Router>
 			<Routes>
       <Route path="/" element={<RegisterPage />} />
 				<Route path="/landing-page" element={<LandingPage />} />
@@ -104,12 +112,26 @@ function AppRoutes() {
 				<Route path="/e-pharmacy" element={<EpharmacyLandingPage />} />
 				<Route path="/products" element={<ProductsPage />} />
 				<Route path="/prescriptions" element={<PrescriptionsPage />} />
-				<Route path="/cart" element={<CartPage />} />
+				<Route path="/cart" element={<CartPage />}/>
 				<Route path="/my-orders" element={<MyOrdersPage />} />
 				<Route path="/view-profile" element={<ViewProfilePage />} />
 				<Route path="/language" element={<LanguagePage />} />
         <Route path="/dental" element={<DentalPage />} />
-				<Route path="/lab-results" element={<LabResultsPage />} />
+				<Route path="/blood-pressure" element={<BloodPressureRecordPage />} />
+        <Route path="/bmi" element={<BMIRecordPage />} />
+        <Route path="/lab-results" element={<LabResultsPage />} />
+        <Route path="/surgical" element={<SurgicalPage />} />
+        <Route path="/ob-gyn" element={<ObGynPage />} />
+        <Route path="/ortho" element={<OrthopedicsPage />} />
+        <Route path="/paeds" element={<PaediatricsPage />} />
+        <Route path="/ent" element={<EntPage />} />
+        <Route path="/cancelled-returned-orders" element={<CancelledReturnedPage />} />
+
+
+
+
+
+
         {/*Admin*/}
 				<Route path="/admin-dashboard" element={<AdminDashboardPage />} />
 				<Route path="/manage-services"element={<ManageServicesPage />}/>
@@ -143,10 +165,7 @@ function AppRoutes() {
         <Route path="/prescription-uploads" element={<PrescriptionUploadPage />} />
         <Route path="/drug-inventory" element={< DrugsInventoryPage/>} />
 
-
-        
-
-			</Routes>
+        </Routes>
 		</Router>
 	);
 }

@@ -107,7 +107,7 @@ const AppointmentHistory = () => {
 				color="primary"
 				component={Link}
 				to="/payments"
-				sx={{ mt: 2 }}>
+				sx={{ mt: 2, backgroundColor: '#c00100'}}>
 				Proceed to Payments
 			</Button>
 		</Container>

@@ -1,73 +1,80 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, Paper, Card, CardContent, Button, CircularProgress } from '@mui/material';
-import { FavoriteBorderOutlined, Height, Description } from '@mui/icons-material';
-import axios from 'axios';
-import RecordForm from '../../components/MyHealthRecords/recordForm'; // Assuming RecordForm is in the same directory
-import DataAnalyticsGraph from '../../components/MyHealthRecords/dataAnalyticsGraphs'; // Adjust import path as needed
+import { Container, Typography, Paper, Button, createTheme, ThemeProvider, Box, Grid } from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#c00100', // maroon color
+    },
+  },
+});
 
 const MyHealthRecords = () => {
   const navigate = useNavigate();
 
-  const fetchLabResults = async () => {
-    try {
-      const response = await axios.get('http://192.168.88.198:5500/api/viewlabresults');
-      const labResults = response.data;
-      navigate('/lab-results', { state: { labResults } });
-    } catch (error) {
-      console.error('Failed to fetch lab results:', error);
-    }
+  const goToPage = (path) => {
+    navigate(path);
   };
 
   return (
-    <Container>
-      <Typography variant="h1" gutterBottom>
-        My Health Records
-      </Typography>
-      <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
-        <Typography variant="h5" gutterBottom>
-          Health Records
-        </Typography>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <RecordCard title="Blood Pressure" buttonText="Record" icon={<FavoriteBorderOutlined />} formFields={['Date', 'Systolic', 'Diastolic']} />
-          <RecordCard title="BMI" buttonText="Record" icon={<Height />} formFields={['Date', 'Weight', 'Height', 'HeightUnit']} calculateBMI />
-          <RecordCard title="Lab Results" buttonText="View" icon={<Description />} onViewClick={fetchLabResults} />
-        </div>
-      </Paper>
-      <DataAnalyticsGraph />
-    </Container>
-  );
-};
-
-const RecordCard = ({ title, buttonText, icon, formFields = [], onViewClick, calculateBMI }) => {
-  const [showForm, setShowForm] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleButtonClick = () => {
-    if (title === "Lab Results") {
-      setLoading(true);
-      onViewClick().then(() => setLoading(false));
-    } else {
-      setShowForm(true);
-    }
-  };
-
-  return (
-    <Card style={{ width: '30%', margin: '10px', background: 'lightgrey', borderRadius: '20px' }}>
-      <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ background: 'darkgrey', padding: '10px', borderRadius: '50%' }}>
-          {icon}
-        </div>
-        <Typography variant="h6" gutterBottom style={{ marginTop: '10px', color: 'black', fontWeight: 'bold', textDecoration: 'underline' }}>
-          {title}
-        </Typography>
-        {title === 'Blood Pressure' && <Typography variant="h6" gutterBottom style={{ color: 'black' }}>Weekly Average:</Typography>}
-        <Button variant="contained" color="primary" style={{ backgroundColor: '#C00100', marginBottom: '10px' }} onClick={handleButtonClick}>
-          {loading ? <CircularProgress color="inherit" size={24} /> : buttonText}
-        </Button>
-        {showForm && <RecordForm formFields={formFields} />}
-      </CardContent>
-    </Card>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth={false} disableGutters={true} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', padding: 0, margin: 0 }}>
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'flex-start', 
+            flexGrow: 1,
+            textAlign: 'center',
+            paddingTop: '80px', // Adjust this value to move it up or down
+            paddingBottom: '20px' // Added padding bottom to ensure space for content
+          }}
+        >
+          <Typography variant="h1" gutterBottom>
+            My Health Records
+          </Typography>
+          <Paper elevation={3} style={{ padding: '20px', marginTop: '20px', maxWidth: '100vh' }}>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12} sm={6}>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => goToPage('/blood-pressure')}
+                  fullWidth
+                  style={{ height: '100px', fontSize: '18px' }} // Adjust button height and font size for a better appearance
+                >
+                  Blood Pressure Records
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => goToPage('/bmi')}
+                  fullWidth
+                  style={{ height: '100px', fontSize: '18px' }}
+                >
+                  BMI Records
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => goToPage('/lab-results')}
+                  fullWidth
+                  style={{ height: '100px', fontSize: '18px' }}
+                >
+                  Lab Results
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 

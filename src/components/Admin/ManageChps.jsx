@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
+
 const ManageChps = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +31,7 @@ const ManageChps = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/chp/viewallchps');
+      const response = await fetch('http://192.168.89.172:5500/api/chp/viewallchps');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -77,7 +78,7 @@ const ManageChps = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.89.68:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.89.172:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -97,7 +98,7 @@ const ManageChps = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://192.168.89.68:5500/api/chp/update/${editedData.id}`, {
+      const response = await fetch(`http://192.168.89.172:5500/api/chp/update/${editedData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +118,7 @@ const ManageChps = () => {
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/chp/export', {
+      const response = await fetch('http://192.168.89.172:5500/api/chp/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

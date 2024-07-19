@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../Cart/CartContext';
 
 const Cart = () => {
-  const { cart, addToCart, removeFromCart, updateCart } = useCart(); // Updated to include updateCart
+  const { cart, addToCart, removeFromCart, updateCart } = useCart();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productQuantities, setProductQuantities] = useState({});
@@ -20,12 +20,12 @@ const Cart = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.90.165:5500/api/product/viewallproducts'); // Replace with your actual endpoint
+      const response = await fetch('http://192.168.88.28:5500/api/product/viewallproducts'); // Replace with your actual endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
       const data = await response.json();
-      setProducts(data.slice(0, 4)); // Fetching only the first four products
+      setProducts(data.slice(0, 5)); // Fetching only the first four products
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -53,8 +53,35 @@ const Cart = () => {
     setOpenDialog(false);
   };
 
-  const handleCheckout = () => {
-    navigate('/delivery-info');
+  const handleCheckout = async () => {
+    try {
+      const orderData = {
+        products: cart.map(item => ({
+          productId: item.id,
+          quantity: item.quantity,
+          productUrl: item.imageUrl,
+          productPrice: item.price
+        }))
+      };
+
+      const response = await fetch('http://192.168.88.28:5500/api/order/createorder/321456', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to checkout');
+      }
+
+      const data = await response.json();
+      console.log('Checkout successful:', data);
+      navigate('/delivery-info');
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    }
   };
 
   const handleRemoveItem = (productId) => {
@@ -95,7 +122,7 @@ const Cart = () => {
           >
             <HelpOutline />
           </IconButton>
-          <Button variant="contained" color="primary" sx={{ marginLeft: 2, backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>
+          <Button variant="contained" color="primary" sx={{ marginLeft: 2, backgroundColor: '#800000', '&:hover': { backgroundColor: '#c00100' } }}>
             Live Chart
           </Button>
           <IconButton
@@ -105,7 +132,7 @@ const Cart = () => {
             color="inherit"
             onClick={() => navigate('/cart')}
           >
-            <Badge badgeContent={cart.length} color="error">
+            <Badge badgeContent={cart.length} color="#800000">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -132,11 +159,11 @@ const Cart = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-           <Button onClick={handleProceedWithOrder} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Proceed with Order</Button>
+          <Button onClick={handleProceedWithOrder} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Proceed with Order</Button>
           <Button onClick={handleContinueShopping} sx={{ backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Continue to Shopping</Button>
         </DialogActions>
       </Dialog>
-      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '45%', overflow: 'auto' }}>
+      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '50vh', overflow: 'auto' }}>
         {cart.length > 0 ? (
           <>
             <Typography variant="h6" align="center">
@@ -162,18 +189,18 @@ const Cart = () => {
                     Category: {item.category}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
-                    Price: ${item.price}
+                    Price: Ksh{item.price}
                   </Typography>
                   <Typography variant="body2" color="text.primary">
                     Quantity: {item.quantity}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={() => handleRemoveItem(item.id)} sx={{ color:'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>REMOVE</Button>
+                  <Button size="small" onClick={() => handleRemoveItem(item.id)} sx={{ color:'white', backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}>REMOVE</Button>
                 </CardActions>
               </Box>
             ))}
-            <Button onClick={handleCheckout} sx={{ marginTop: 2, color: 'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>CHECKOUT ({totalAmount} Ksh)</Button>
+            <Button onClick={handleCheckout} sx={{ marginTop: 2, color: 'white', backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}>CHECKOUT ({totalAmount} Ksh)</Button>
           </>
         ) : (
           <>
@@ -189,11 +216,11 @@ const Cart = () => {
           </>
         )}
       </Paper>
-      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '65%' }}>
+      <Paper elevation={3} sx={{ margin: 2, padding: 2, width: '90%', height: '75vh', overflow: 'auto' }}>
         <Typography variant="h6" align="left">
           <Link to="/products" style={{ textDecoration: 'none', color: '#000' }}>
             Products
-            <IconButton edge="end" aria-label="see all" sx={{ color: '#c00100' }}>
+            <IconButton edge="end" aria-label="see all" sx={{ color: '#800000' }}>
               <ArrowForwardIos />
             </IconButton>
           </Link>
@@ -201,14 +228,14 @@ const Cart = () => {
         <Grid container spacing={2}>
           {products.map((product) => (
             <Grid item key={product.id} xs={12} sm={6} md={3}>
-              <Card>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardMedia
                   component="img"
                   height="140"
                   image={product.imageUrl}
                   alt={product.name}
                 />
-                <CardContent>
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="div">
                     {product.name}
                   </Typography>
@@ -217,7 +244,7 @@ const Cart = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" onClick={() => handleAddToCart(product)} sx={{ color: 'white', backgroundColor: '#c00100', '&:hover': { backgroundColor: '#c00100' } }}>Add to Cart</Button>
+                  <Button size="small" onClick={() => handleAddToCart(product)} sx={{ color: 'white', backgroundColor: '#800000', '&:hover': { backgroundColor: '#800000' } }}>Add to Cart</Button>
                 </CardActions>
               </Card>
             </Grid>
