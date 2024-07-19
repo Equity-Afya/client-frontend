@@ -35,7 +35,7 @@ const CreateTeleclinic = () => {
 
     try {
       // Send the form data to the backend (replace with your actual API endpoint)
-      const response = await fetch('http://192.168.91.100:5500/api/teleclinic/addteleclinic', {
+      const response = await fetch('http://192.168.89.172:5500/api/teleclinic/addteleclinic', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

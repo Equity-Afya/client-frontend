@@ -9,7 +9,7 @@ const ActiveUsers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.88.198:5500/api/get/all/registeredusers');
+        const response = await axios.get('http://192.168.89.172:5500/api/get/all/registeredusers');
         setChps(response.data.chps);
         setDoctors(response.data.doctors);
         setLoading(false);

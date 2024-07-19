@@ -33,7 +33,7 @@ const ManageServices = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.90.236:5500/api/teleclinic/viewallteleclinics');
+      const response = await fetch('http://192.168.89.172:5500/api/teleclinic/viewallteleclinics');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -90,7 +90,7 @@ const ManageServices = () => {
     };
 
     try {
-      const response = await fetch(`http://192.168.90.236:5500/api/teleclinic/updateteleclinic/${editedService.id}`, {
+      const response = await fetch(`http://192.168.89.172:5500/api/teleclinic/updateteleclinic/${editedService.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

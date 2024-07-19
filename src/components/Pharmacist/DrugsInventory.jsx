@@ -156,7 +156,7 @@ const ProductInventory = () => {
     };
 
     return (
-        <Box sx={{ textAlign: 'center', mt: 2 }}>
+        <Box sx={{ textAlign: 'center', mt: 2, height: '100vh', width: '100vw', padding:'0', marginTop:'20px' }}>
             <Typography variant="h5" gutterBottom>
                 Product Inventory
             </Typography>

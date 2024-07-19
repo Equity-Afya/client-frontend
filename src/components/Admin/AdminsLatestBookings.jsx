@@ -35,7 +35,7 @@ const AdminLatestBookings = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.91.100:5500/api/appointments/getallappointments');
+      const response = await fetch('http://192.168.89.172:5500/api/appointments/getallappointments');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }

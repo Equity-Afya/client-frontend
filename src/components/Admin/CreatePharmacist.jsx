@@ -180,7 +180,7 @@ const CreatePharmacist = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/pharmacist/register', {
+      const response = await fetch('http://192.168.89.172:5500/api/pharmacist/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

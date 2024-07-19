@@ -30,7 +30,7 @@ const ManageDoctors = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.90.236:5500/api/doctor/viewalldoctors');
+      const response = await fetch('http://192.168.89.172:5500/api/doctor/viewalldoctors');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
@@ -76,7 +76,7 @@ const ManageDoctors = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.90.236:5500/api/doctor/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.89.172:5500/api/doctor/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -96,7 +96,7 @@ const ManageDoctors = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://192.168.90.236:5500/api/doctor/updatedetails/${editedData.id}`, {
+      const response = await fetch(`http://192.168.89.172:5500/api/doctor/updatedetails/${editedData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const ManageDoctors = () => {
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.90.236:5500/api/doctor/export', {
+      const response = await fetch('http://192.168.89.172:5500/api/doctor/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

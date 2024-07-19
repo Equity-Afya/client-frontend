@@ -181,7 +181,7 @@ const CreateDoctor = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.90.236:5500/api/auth/doctor/register', {
+      const response = await fetch('http://192.168.89.172:5500/api/auth/doctor/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

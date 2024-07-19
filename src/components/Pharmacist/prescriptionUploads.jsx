@@ -114,7 +114,7 @@ const PrescriptionGallery = () => {
 
     return (
         <ThemeProvider theme={theme}>
-        <Box sx={{ textAlign: 'center', mt: 2 }}>
+        <Box sx={{ textAlign: 'center', mt: 2, height: '100vh', width: '100vw' }}>
             <Typography variant="h5" gutterBottom>
                 Prescription Images
             </Typography>

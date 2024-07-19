@@ -86,7 +86,7 @@ function AdminSidebar() {
 
     const fetchChps = async () => {
       try {
-        const response = await axios.get("http://192.168.88.57:5500/api/chp/viewallchps");
+        const response = await axios.get("http://192.168.89.172:5500/api/chp/viewallchps");
         setChpsCount(response.data.chps ? response.data.chps.length : 0);
       } catch (error) {
         console.error("Error fetching CHPS:", error);
@@ -96,7 +96,7 @@ function AdminSidebar() {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.88.57:5500/api/doctor/viewalldoctors"
+          "http://192.168.89.172:5500/api/doctor/viewalldoctors"
         );
         setDoctorsCount(response.data.doctors ? response.data.doctors.length : 0);
       } catch (error) {
@@ -106,7 +106,7 @@ function AdminSidebar() {
 
     const fetchPharmacists = async () => {
       try {
-        const response = await axios.get("http://192.168.88.57:5500/api/auth/pharmacist/register'");
+        const response = await axios.get("http://192.168.89.172:5500/api/auth/pharmacist/register'");
         setPharmacistsCount(response.data.pharmacists ? response.data.pharmacists.length : 0);
       } catch (error) {
         console.error("Error fetching pharmacists:", error);
@@ -115,7 +115,7 @@ function AdminSidebar() {
 
     const fetchClinics = async () => {
       try {
-        const response = await axios.get("http://192.168.88.57:5500/api/teleclinic/viewallteleclinics");
+        const response = await axios.get("http://192.168.89.172:5500/api/teleclinic/viewallteleclinics");
         setClinicsCount(response.data.clinics ? response.data.clinics.length : 0);
       } catch (error) {
         console.error("Error fetching clinics:", error);
