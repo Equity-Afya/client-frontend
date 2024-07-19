@@ -7,6 +7,7 @@ const AppointmentStatusPage = () => {
       style={{
         display: "flex",
         height: "100vh", // Minimum height of the viewport
+        width: "100vw"
       }}
     >
       <div style={{ width: "20%" }}>

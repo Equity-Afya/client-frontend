@@ -14,9 +14,6 @@ const PatientDetailsPage = () => {
                     <PatientDetails/>
                     <FileUpload/>
                     <TreatnmentSection/>
-                  
-                    
-                    
             
                     </div>
 

@@ -1,158 +1,193 @@
 import React, { useState, useEffect } from 'react';
-import { Box, IconButton, InputBase, Typography, ThemeProvider, createTheme, MenuItem, Select } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import debounce from 'lodash/debounce';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#c00100',
-    },
-  },
-});
+const AdminLatestBookings = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
+  const [error, setError] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('All Bookings');
 
-const AdminsLatestBookings = () => {
-  const [bookings, setBookings] = useState([]);
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalBookings, setTotalBookings] = useState(0);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // Mock function to fetch bookings from the backend
-  const fetchLatestBookings = async () => {
+  useEffect(() => {
+    handleSearch(searchTerm);
+  }, [searchTerm, rows]);
+
+  useEffect(() => {
+    filterRowsByStatus(statusFilter);
+  }, [statusFilter, rows]);
+
+  const fetchData = async () => {
     try {
-      // Fetch data from the backend
-      const response = await fetch(`your_backend_url/bookings?page=${page}&limit=${rowsPerPage}`);
+      const response = await fetch('http://192.168.91.100:5500/api/appointments/getallappointments');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+      }
+
       const data = await response.json();
-      setBookings(data.bookings);
-      setTotalBookings(data.total);
+      if (Array.isArray(data)) {
+        console.log('Fetched data:', data);
+        setRows(data);
+        setFilteredRows(data);
+      } else {
+        throw new Error('Fetched data is not an array');
+      }
+
+      setError(null);
     } catch (error) {
-      console.error('Error fetching latest bookings:', error);
+      console.error('Error fetching data:', error.message);
+      setError(error.message);
     }
   };
 
-  useEffect(() => {
-    fetchLatestBookings();
-  }, [page, rowsPerPage]);
+  const handleSearch = debounce((searchTerm) => {
+    const filteredData = rows.filter(row =>
+      row.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.appointmentType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (row.scheduledDate && row.scheduledDate.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      row.createdAt.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredRows(filteredData);
+  }, 300);
 
-  const handleSearch = () => {
-    // Add logic for handling search
-    console.log('Search button clicked');
+  const handleSearchInputChange = (event) => {
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
+  };
+
+  const handleStatusChange = (event) => {
+    setStatusFilter(event.target.value);
+  };
+
+  const filterRowsByStatus = (status) => {
+    let filteredData = rows;
+    if (status !== 'All Bookings') {
+      filteredData = rows.filter(row => {
+        console.log(`Checking row with appointmentStatus: ${row.appointmentStatus}`);
+        return row.appointmentStatus === status;
+      });
+    }
+    setFilteredRows(filteredData);
   };
 
   const handleNotifications = () => {
-    // Add logic for handling notifications
-    console.log('Notifications button clicked');
+    console.log("Notifications clicked");
   };
 
   const handleProfile = () => {
-    // Add logic for handling profile button
-    console.log('Profile button clicked');
-  };
-
-  const handleChangePage = (newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1); // Reset page to 1 when changing rows per page
+    console.log("Profile clicked");
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <header>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25vh 2.08vw' }}>
-            <Typography variant="h1" component="h1" sx={{ fontSize: '2.08vw', fontWeight: 'bold' }}>
-              LatestBookings
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', paddingLeft: '20vw' }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  border: '0.104vw solid gray',
-                  borderRadius: '0.208vw',
-                  padding: '0.156vh 0.625vw',
-                  '&:focus-within': {
-                    borderColor: 'primary.main',
-                  },
-                }}
-              >
-                <InputBase placeholder="Search..." sx={{ color: 'primary.main', width: '25vw' }} />
-                <IconButton color="primary" onClick={handleSearch}>
-                  <SearchIcon />
-                </IconButton>
-              </Box>
-              <IconButton color="primary" onClick={handleNotifications} sx={{ marginLeft: '3vw' }}>
-                <NotificationsIcon />
-              </IconButton>
-              <Link to="/admins-profile"> {/* Use Link for navigation */}
-                <IconButton color="primary" onClick={handleProfile} sx={{ marginLeft: '2vw' }}>
-                  <AccountCircleIcon />
-                </IconButton>
-              </Link>
-            </Box>
-          </Box>
-        </header>
-        <body>
-          <table style={{ width: '80vw' }}>
-            <thead style={{ backgroundColor: '#d9d9d9' }}>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Location</th>
-                <th>Phone</th>
-                <th>Registration Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((booking) => (
-                <tr key={booking.id}>
-                  <td>{booking.name}</td>
-                  <td>{booking.email}</td>
-                  <td>{booking.location}</td>
-                  <td>{booking.phone}</td>
-                  <td>{booking.registrationDate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: '1vh 2.08vw' }}>
-            <Box sx={{ marginRight: '2vw' }}>
-              <IconButton
-                sx={{ backgroundColor: '#c00100', color: 'white', '&:hover': { backgroundColor: '#a30000' } }}
-                disabled={page === 1}
-                onClick={() => handleChangePage(page - 1)}
-              >
-                <ArrowBackIcon />
-              </IconButton>
-              <IconButton
-                sx={{ backgroundColor: '#c00100', color: 'white', '&:hover': { backgroundColor: '#a30000' } }}
-                disabled={page * rowsPerPage >= totalBookings}
-                onClick={() => handleChangePage(page + 1)}
-              >
-                <ArrowForwardIcon />
-              </IconButton>
-            </Box>
-            <Select
-              value={rowsPerPage}
-              onChange={handleChangeRowsPerPage}
-              variant="outlined"
-              sx={{ width: '8vw' }}
-            >
-              <MenuItem value={10}>10 per page</MenuItem>
-              <MenuItem value={15}>15 per page</MenuItem>
-            </Select>
-          </Box>
-        </body>
+    <div style={{ maxWidth: '100vw', overflowX: 'hidden', backgroundColor: '#fff' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2vh 2vw', backgroundColor: '#f1f1f1' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#f1f1f1' }}>
+          <h2 style={{ margin: 0, color: '#000' }}>Admin Latest Bookings</h2>
+          <TextField
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            style={{ flex: 1, marginLeft: '30vw', width: '32vw', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#fff'}}
+          />
+          <NotificationsIcon
+            onClick={handleNotifications}
+            style={{
+              fontSize: '3vh',
+              marginLeft: '2vw',
+              cursor: 'pointer',
+              color: '#c00100',
+            }}
+          />
+          <AccountCircleIcon
+            onClick={handleProfile}
+            style={{
+              fontSize: '3vh',
+              marginLeft: '2vw',
+              cursor: 'pointer',
+              color: '#c00100',
+            }}
+          />
+        </div>
+        <div>
+          <Select
+            value={statusFilter}
+            onChange={handleStatusChange}
+            style={{ marginLeft: '0vw', width: '20vw', backgroundColor: '#fff' }}
+          >
+            <MenuItem value="All Bookings">All Bookings</MenuItem>
+            <MenuItem value="Pending">Pending Appointments</MenuItem>
+            <MenuItem value="Approved">Approved Appointments</MenuItem>
+            <MenuItem value="Reviewed">Reviewed Appointments</MenuItem>
+          </Select>
+        </div>
       </div>
-    </ThemeProvider>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <h3 style={{ paddingLeft: '5vw', color: '#000' }}>{statusFilter}</h3>
+      </div>
+      {error ? (
+        <div style={{ textAlign: 'center', color: 'red' }}>{error}</div>
+      ) : (
+        <TableContainer component={Paper} style={{ margin: '1vh 0.5vw', maxWidth: '94vw' }}>
+          <Table>
+            <TableHead>
+              <TableRow style={{ backgroundColor: '#cff' }}>
+                <TableCell>Patient Details</TableCell>
+                <TableCell>Booking Type</TableCell>
+                <TableCell>Service</TableCell>
+                <TableCell>Appointment Status</TableCell>
+                <TableCell>Scheduled Date</TableCell>
+                <TableCell>Date Booked</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredRows.length > 0 ? (
+                filteredRows.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <div><strong>{row.fullName}</strong></div>
+                      <div>Age: {row.age}</div>
+                      <div>Gender: {row.gender}</div>
+                      <div>Residence: {row.residence}</div>
+                      <div>Phone: {row.phoneNumber}</div>
+                      <div>Email: {row.email}</div>
+                    </TableCell>
+                    <TableCell>{row.appointmentType}</TableCell>
+                    <TableCell>{row.service}</TableCell>
+                    <TableCell>{row.appointmentStatus}</TableCell>
+                    <TableCell>{row.scheduledDate || 'N/A'}</TableCell>
+                    <TableCell>{row.createdAt}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">No match found</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </div>
   );
 };
 
-export default AdminsLatestBookings;
+export default AdminLatestBookings;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import api from "../../services/api";
+import axios from 'axios';
+//import api from "../../services/api";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -19,7 +20,7 @@ import Select from "@mui/material/Select";
 const FormTitle = styled("div")({
   backgroundColor: "#c00100",
   color: "white",
-  width: 400,
+  width: 450,
   textAlign: "center",
   fontFamily: "Nunito, sans-serif",
   fontSize: 15,
@@ -44,15 +45,15 @@ function RegisterForm() {
   const [idNumber, setIdNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [gender, setGender] = useState(""); // New gender state
-  const [dateOfBirth, setDateOfBirth] = useState(""); // New date of birth state
+  const [gender, setGender] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [residence, setResidence] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [countryCode, setCountryCode] = useState("+254");
 
-  // Function to check if all fields are filled
   const areFieldsFilled = () => {
     return (
       name &&
@@ -62,7 +63,8 @@ function RegisterForm() {
       password &&
       confirmPassword &&
       gender &&
-      dateOfBirth
+      dateOfBirth &&
+      residence
     );
   };
 
@@ -95,6 +97,9 @@ function RegisterForm() {
       case "dateOfBirth":
         setDateOfBirth(value);
         break;
+      case "residence":
+        setResidence(value);
+        break;
       default:
         break;
     }
@@ -104,7 +109,6 @@ function RegisterForm() {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    // Custom password regex allowing user to choose special characters
     const regex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{5,15}$/;
     if (!regex.test(newPassword)) {
       setFormErrors({
@@ -120,30 +124,30 @@ function RegisterForm() {
     e.preventDefault();
     setLoading(true);
 
+    if (password !== confirmPassword) {
+      setFormErrors({
+        ...formErrors,
+        confirmPassword: "Passwords do not match",
+      });
+      setLoading(false);
+      return;
+    }
+
+    const userData = {
+      name,
+      email,
+      phoneNumber: countryCode + phoneNumber,
+      idNumber,
+      password,
+      gender,
+      dateOfBirth,
+      residence,
+    };
+
     try {
-      if (password !== confirmPassword) {
-        setFormErrors({
-          ...formErrors,
-          confirmPassword: "Passwords do not match",
-        });
-        return;
-      }
-
-      const userData = {
-        name,
-        email,
-        phoneNumber,
-        idNumber,
-        password,
-        gender,
-        dateOfBirth,
-      };
-
-      const response = await api.post("/register", userData);
+      const response = await axios.post("http://192.168.91.100:5500/api/auth/patient/register", userData);
 
       if (response.status === 200) {
-        console.log("Registration successful:", response.data);
-        // Show success message
         toast.success("Registration successful!", {
           position: "top-center",
           autoClose: 2000,
@@ -153,11 +157,10 @@ function RegisterForm() {
           draggable: true,
           progress: undefined,
         });
-        // Navigate to the OTP verification page
         setTimeout(() => {
           navigate("/verify-otp", { state: { email } });
-        }, 3000); // Delay navigation to verification
-        // Reset form data on successful registration
+        }, 3000);
+
         setName("");
         setEmail("");
         setPhoneNumber("");
@@ -166,6 +169,7 @@ function RegisterForm() {
         setConfirmPassword("");
         setGender("");
         setDateOfBirth("");
+        setResidence("");
         setFormErrors({});
       } else {
         console.error("Registration failed. Status:", response.status);
@@ -197,7 +201,7 @@ function RegisterForm() {
 
   const handleCountryCodeChange = (event) => {
     setCountryCode(event.target.value);
-    setPhoneNumber(""); // Clear phone number when country code changes
+    setPhoneNumber("");
   };
 
   const theme = createTheme({
@@ -218,13 +222,14 @@ function RegisterForm() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#fff",
           minHeight: "100vh",
-          padding: { xs: "10px", md: "20px" },
+          padding: { xs: "10px", md: "5px" },
         }}
       >
         <ToastContainer />
 
-        <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "400px" } }}>
+        <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "33vw" } }}>
           <FormTitle>
             <h1>TeleAfia</h1>
             <h3 style={{ textAlign: "center", position: "relative" }}>
@@ -236,73 +241,30 @@ function RegisterForm() {
                   padding: "0 10px",
                 }}
               >
-                Register
+                Signup
               </span>
             </h3>
           </FormTitle>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} style={{width: '450'}}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {[
                 { label: "Name", name: "name", value: name },
                 { label: "Email", name: "email", value: email },
                 { label: "ID Number", name: "idNumber", value: idNumber },
-                {
-                  label: "Password",
-                  name: "password",
-                  value: password,
-                  type: showPassword ? "text" : "password", // Toggle between text and password type
-                  InputProps: {
-                    // Show/Hide password visibility toggle
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          style={{ background: "grey" }}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                },
-                {
-                  label: "Confirm Password",
-                  name: "confirmPassword",
-                  value: confirmPassword,
-                  type: showPassword ? "text" : "password", // Toggle between text and password type
-                  InputProps: {
-                    // Show/Hide password visibility toggle
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          style={{ background: "grey" }}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                },
               ].map((field) => (
                 <TextField
                   key={field.name}
                   label={field.label}
                   variant="outlined"
-                  type={field.type || "text"}
+                  type="text"
                   name={field.name}
                   value={field.value}
-                  onChange={field.name === "password" ? handlePasswordChange : handleChange}
+                  onChange={handleChange}
                   error={Boolean(formErrors[field.name])}
                   helperText={formErrors[field.name]}
                   style={{ width: "100%" }}
-                  autoComplete="off" // Turn off autocomplete
-                  InputProps={field.InputProps}
+                  autoComplete="off"
                 />
               ))}
               <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 1 }}>
@@ -320,7 +282,6 @@ function RegisterForm() {
                   <MenuItem value="+255">+255 (Tanzania)</MenuItem>
                   <MenuItem value="+256">+256 (Uganda)</MenuItem>
                   <MenuItem value="+27">+27 (S. Sudan)</MenuItem>
-                  {/* Add more country codes as needed */}
                 </Select>
                 <TextField
                   label="Phone Number"
@@ -332,14 +293,15 @@ function RegisterForm() {
                   error={Boolean(formErrors.phoneNumber)}
                   helperText={formErrors.phoneNumber}
                   style={{ width: "100%" }}
-                  autoComplete="off" // Turn off autocomplete
+                  autoComplete="off"
                   inputProps={{
                     maxLength: 9,
                     pattern: "[7-9][0-9]{8}",
                   }}
                 />
               </Box>
-              <Select
+              <TextField
+                select
                 label="Gender"
                 variant="outlined"
                 name="gender"
@@ -355,7 +317,7 @@ function RegisterForm() {
                 <MenuItem value="Male">Male</MenuItem>
                 <MenuItem value="Female">Female</MenuItem>
                 <MenuItem value="Other">Other</MenuItem>
-              </Select>
+              </TextField>
               <TextField
                 label="Date of Birth"
                 variant="outlined"
@@ -369,14 +331,78 @@ function RegisterForm() {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                placeholder="YYYY-MM-DD" // Date format placeholder
+                placeholder="YYYY-MM-DD"
+              />
+              <TextField
+                label="Residence"
+                variant="outlined"
+                type="text"
+                name="residence"
+                value={residence}
+                onChange={handleChange}
+                error={Boolean(formErrors.residence)}
+                helperText={formErrors.residence}
+                style={{ width: "100%" }}
+                autoComplete="off"
+              />
+              <TextField
+                label="Password"
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+                error={Boolean(formErrors.password)}
+                helperText={formErrors.password}
+                style={{ width: "100%" }}
+                autoComplete="off"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        style={{ background: "grey" }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                label="Confirm Password"
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={handleChange}
+                error={Boolean(formErrors.confirmPassword)}
+                helperText={formErrors.confirmPassword}
+                style={{ width: "100%" }}
+                autoComplete="off"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        style={{ background: "grey" }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 sx={{ width: "100%" }}
-                disabled={loading || !areFieldsFilled()} // Disable button if fields are not filled
+                disabled={loading || !areFieldsFilled()}
               >
                 {loading ? "Loading..." : "Register"}
               </Button>

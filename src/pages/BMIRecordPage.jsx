@@ -5,7 +5,7 @@ import { Box } from '@mui/system';
 
 export default function BMIRecordPage() {
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
+    <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
       {/* Sidebar on the left with margin-right */}
       <Box sx={{ display: 'flex', flexDirection: 'column', flex: '0 0 auto', marginRight: '32px' }}>
         <Sidebar />

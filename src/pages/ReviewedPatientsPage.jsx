@@ -8,13 +8,13 @@ const ReviewedPatientsPage = () => {
       style={{
         display: "flex",
         flexDirection: "row",
-        height: "100vh",
+        backgroundColor: "#fff",
       }}
     >
       <div>
         <DoctorsSideBar />
       </div>
-      <div style={{ marginLeft: "20%", width: "80%" }}>
+      <div style={{ marginLeft: "18vw", width: "80vw" }}>
         <ReviewedPatients />
       </div>
     </div>

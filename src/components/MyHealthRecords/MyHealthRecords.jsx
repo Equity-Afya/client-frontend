@@ -19,22 +19,23 @@ const MyHealthRecords = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container>
+      <Container maxWidth={false} disableGutters={true} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', padding: 0, margin: 0 }}>
         <Box 
           sx={{ 
             display: 'flex', 
             flexDirection: 'column', 
             alignItems: 'center', 
             justifyContent: 'flex-start', 
-            height: '100vh', 
+            flexGrow: 1,
             textAlign: 'center',
-            paddingTop: '80px' // Adjust this value to move it up or down
+            paddingTop: '80px', // Adjust this value to move it up or down
+            paddingBottom: '20px' // Added padding bottom to ensure space for content
           }}
         >
           <Typography variant="h1" gutterBottom>
             My Health Records
           </Typography>
-          <Paper elevation={3} style={{ padding: '20px', marginTop: '20px', maxWidth: '600px', width: '100%' }}>
+          <Paper elevation={3} style={{ padding: '20px', marginTop: '20px', maxWidth: '100vh' }}>
             <Grid container spacing={2} justifyContent="center">
               <Grid item xs={12} sm={6}>
                 <Button 

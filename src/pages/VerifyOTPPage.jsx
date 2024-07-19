@@ -2,7 +2,7 @@ import OTPVerification from "../components/VerifyOTP/VerifyOTP"
 
 const VerifyOTPpage = () => {
   return (
-    <div>
+    <div style={{marginLeft: '35vw'}}>
       <OTPVerification />
     </div>
   )

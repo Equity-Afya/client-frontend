@@ -15,14 +15,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-
-const ManageChps = () => {
+const ManagePharmacists = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [editedData, setEditedData] = useState({});
+  const [tempData, setTempData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -31,13 +31,14 @@ const ManageChps = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/chp/viewallchps');
+      const response = await fetch('http://192.168.89.68:5500/api/pharmacists/getall');
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
       const data = await response.json();
       setRows(data);
       setFilteredRows(data);
+      setTempData(data);
       setError(null);
     } catch (error) {
       console.error('Error fetching data:', error.message);
@@ -51,7 +52,7 @@ const ManageChps = () => {
     const filteredData = rows.filter(row =>
       row.name.toLowerCase().includes(searchTerm) ||
       row.email.toLowerCase().includes(searchTerm) ||
-      row.location.toLowerCase().includes(searchTerm) ||
+      row.licenceNumber.toLowerCase().includes(searchTerm) ||
       row.phone.toLowerCase().includes(searchTerm) ||
       row.regDate.toLowerCase().includes(searchTerm)
     );
@@ -59,15 +60,15 @@ const ManageChps = () => {
   };
 
   const handleNotifications = () => {
-    navigate('/admin-profile');
+    console.log("Notifications clicked");
   };
 
   const handleProfile = () => {
-    navigate('/admin-profile');
+    console.log("Profile clicked");
   };
 
   const handleAddUser = () => {
-    navigate('/create-chp');
+    navigate('/create-pharmacist');
   };
 
   const handleEdit = (index) => {
@@ -78,7 +79,7 @@ const ManageChps = () => {
   const handleDelete = async (index) => {
     const rowToDelete = filteredRows[index];
     try {
-      const response = await fetch(`http://192.168.89.68:5500/api/chp/delete/${rowToDelete.id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.89.68:5500/api/pharmacist/delete/${rowToDelete.id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete data: ${response.status} ${response.statusText}`);
       }
@@ -96,34 +97,21 @@ const ManageChps = () => {
     });
   };
 
-  const handleSave = async () => {
-    try {
-      const response = await fetch(`http://192.168.89.68:5500/api/chp/update/${editedData.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editedData),
-      });
-      if (!response.ok) {
-        throw new Error(`Failed to update data: ${response.status} ${response.statusText}`);
-      }
-      setEditIndex(-1);
-      fetchData();
-    } catch (error) {
-      console.error('Error updating data:', error.message);
-      setError(error.message);
-    }
+  const handleSave = (index) => {
+    const updatedRows = [...tempData];
+    updatedRows[index] = editedData;
+    setTempData(updatedRows);
+    setEditIndex(-1);
   };
 
   const handleExport = async () => {
     try {
-      const response = await fetch('http://192.168.89.68:5500/api/chp/export', {
+      const response = await fetch('http://192.168.89.68:5500/api/pharmacist/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(rows),
+        body: JSON.stringify(tempData),
       });
       if (!response.ok) {
         throw new Error(`Failed to export data: ${response.status} ${response.statusText}`);
@@ -136,13 +124,12 @@ const ManageChps = () => {
   };
 
   return (
-    <div style={{ maxWidth: '80vw', overflowX: 'hidden' }}>
+    <div style={{ maxWidth: '100vw', overflowX: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2vh 2vw', backgroundColor: '#f1f1f1' }}>
-        <h2 style={{ margin: 0 }}>Manage CHPs</h2>
+        <h2 style={{ margin: 0 }}>Manage Pharmacists</h2>
         <TextField
           variant="outlined"
           placeholder="Search..."
-          value={searchTerm}
           onChange={handleSearch}
           style={{ flex: 1, marginLeft: '30vw', width: '32vw' }}
         />
@@ -166,7 +153,7 @@ const ManageChps = () => {
         />
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <h3 style={{ paddingLeft: '5vw' }}>Active CHPs</h3>
+        <h3 style={{ paddingLeft: '5vw' }}>Active Pharmacists</h3>
         <Button style={{ backgroundColor: '#c00100', color: '#fff', marginLeft: 'auto', height: '5vh' }} onClick={handleExport}>
           Export
         </Button>
@@ -186,7 +173,7 @@ const ManageChps = () => {
               <TableRow style={{backgroundColor: '#cff'}}>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Location</TableCell>
+                <TableCell>Licence Number</TableCell>
                 <TableCell>Phone Number</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
@@ -199,7 +186,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <TextField
                           id={`name-${index}`}
-                          value={editedData.name}
+                          defaultValue={row.name}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'name')}
                         />
@@ -211,7 +198,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <TextField
                           id={`email-${index}`}
-                          value={editedData.email}
+                          defaultValue={row.email}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'email')}
                         />
@@ -222,20 +209,20 @@ const ManageChps = () => {
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
-                          id={`location-${index}`}
-                          value={editedData.location}
+                          id={`licenceNumber-${index}`}
+                          defaultValue={row.licenceNumber}
                           variant="outlined"
-                          onChange={(e) => handleInputChange(e, 'location')}
+                          onChange={(e) => handleInputChange(e, 'licenceNumber')}
                         />
                       ) : (
-                        row.location
+                        row.licenceNumber
                       )}
                     </TableCell>
                     <TableCell>
                       {editIndex === index ? (
                         <TextField
                           id={`phone-${index}`}
-                          value={editedData.phone}
+                          defaultValue={row.phone}
                           variant="outlined"
                           onChange={(e) => handleInputChange(e, 'phone')}
                         />
@@ -247,7 +234,7 @@ const ManageChps = () => {
                       {editIndex === index ? (
                         <Button
                           color="primary"
-                          onClick={handleSave}
+                          onClick={() => handleSave(index)}
                           style={{ marginRight: '1vw' }}
                         >
                           Save
@@ -283,4 +270,4 @@ const ManageChps = () => {
   );
 };
 
-export default ManageChps;
+export default ManagePharmacists;

@@ -62,8 +62,8 @@ const ViewProfile = () => {
     };
 
     return (
-        <Container maxWidth='lg' sx={{ backgroundColor: '#d0d0d0', padding: '50px', borderRadius: '10px', marginTop: '-45px', display: "flex", justifyContent: "center", Maxwidth: "100px" }}>
-            <Box display="flex" flexDirection="column" height="100vh" width="50%">
+        <Container maxWidth='lg' sx={{ backgroundColor: '#d0d0d0', padding: '50px', borderRadius: '10px', marginTop: '-45px', display: "flex", alignItems: "center", Maxwidth: "100px" }}>
+            <Box display="flex" flexDirection="column" height="100vh" width="60vw">
                 <Box
                     flex="1"
                     bgcolor="#b0b0b0"

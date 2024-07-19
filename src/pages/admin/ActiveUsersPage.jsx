@@ -9,9 +9,9 @@ const ActiveUsersPage = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh', backgroundColor: "#D9D9D9"}}>
         <Box>
-        <AdminSidebar sx={{ flex: '0 0 auto', minWidth: '200px', overflowY: 'auto', height: '100vh' }}/>
+        <AdminSidebar sx={{ flex: '0 0 auto', width: '18vw', overflowY: 'auto', height: '100vh' }}/>
         </Box>
-        <Box>
+        <Box style={{paddingLeft: '0'}}>
         <ActiveUsers/>
         </Box>
     </Box>
