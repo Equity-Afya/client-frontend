@@ -23,7 +23,7 @@ const Clinics = () => {
 
   const fetchClinics = async () => {
     try {
-      const response = await fetch('http://192.168.88.244:5500/api/teleclinic/viewallteleclinics');
+      const response = await fetch('http://192.168.89.172:5500/api/teleclinic/viewallteleclinics');
       if (response.ok) {
         const data = await response.json();
         setClinics(data); // Ensure this matches the structure of your API response

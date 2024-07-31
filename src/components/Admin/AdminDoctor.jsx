@@ -25,7 +25,7 @@ const Doctors = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http://192.168.88.244:5500/api/doctor/viewalldoctors');
+      const response = await axios.get('http://192.168.89.172:5500/api/doctor/viewalldoctors');
       setDoctors(response.data || []);
       setLoading(false);
     } catch (error) {

@@ -26,9 +26,12 @@ const ProductInventory = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://192.168.88.28:5500/api/product/viewallproducts');
+            const response = await fetch('http://192.168.88.141:5500/api/product/viewallproducts');
             const data = await response.json();
-            setProducts(data);
+            setProducts(data.map(product => ({
+                ...product,
+                imageUrl: `http://192.168.88.141:5500/api/product/images/${product.image}` // Adjust path as necessary
+            })));
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -43,7 +46,7 @@ const ProductInventory = () => {
 
     const handleDeleteProduct = async (productId) => {
         try {
-            const response = await fetch(`http://192.168.88.28:5500/api/product/deleteproduct/${productId}`, {
+            const response = await fetch(`http://192.168.88.141:5500/api/product/deleteproduct/${productId}`, {
                 method: 'DELETE',
             });
 
@@ -73,14 +76,17 @@ const ProductInventory = () => {
         formData.append('quantity', newProductQuantity);
 
         try {
-            const response = await fetch('http://192.168.88.28:5500/api/product/createproduct', {
+            const response = await fetch('http://192.168.88.141:5500/api/product/createproduct', {
                 method: 'POST',
                 body: formData,
             });
 
             if (response.ok) {
                 const result = await response.json();
-                setProducts([...products, result]);
+                setProducts([...products, {
+                    ...result,
+                    imageUrl: `http://192.168.88.141:5500/api/product/images/${result.image}` // Adjust path as necessary
+                }]);
                 setNewProductName('');
                 setNewProductDescription('');
                 setNewProductImage(null);
@@ -106,7 +112,7 @@ const ProductInventory = () => {
         formData.append('quantity', selectedProduct.quantity);
 
         try {
-            const response = await fetch(`http://192.168.88.28:5500/api/product/updateproduct/${selectedProductId}`, {
+            const response = await fetch(`http://192.168.88.141:5500/api/product/updateproduct/${selectedProductId}`, {
                 method: 'PUT',
                 body: formData,
             });
@@ -114,7 +120,10 @@ const ProductInventory = () => {
             if (response.ok) {
                 const updatedProduct = await response.json();
                 const updatedProducts = products.map(product =>
-                    product.id === selectedProductId ? updatedProduct : product
+                    product.id === selectedProductId ? {
+                        ...updatedProduct,
+                        imageUrl: `http://192.168.88.141:5500/api/product/images/${updatedProduct.image}` // Adjust path as necessary
+                    } : product
                 );
                 setProducts(updatedProducts);
                 setEditDialogOpen(false);
@@ -128,7 +137,9 @@ const ProductInventory = () => {
     };
 
     const handleFileChange = (e) => {
-        setNewProductImage(e.target.files[0]);
+        if (e.target.files.length > 0) {
+            setNewProductImage(e.target.files[0]);
+        }
     };
 
     const handleClickOpen = () => {
@@ -156,7 +167,7 @@ const ProductInventory = () => {
     };
 
     return (
-        <Box sx={{ textAlign: 'center', mt: 2, height: '100vh', width: '100vw', padding:'0', marginTop:'20px' }}>
+        <Box sx={{ textAlign: 'center', mt: 2, height: '100vh', width: '100vw', padding: '0', marginTop: '20px' }}>
             <Typography variant="h5" gutterBottom>
                 Product Inventory
             </Typography>
@@ -172,15 +183,23 @@ const ProductInventory = () => {
                             <TableCell>Product ID</TableCell>
                             <TableCell>Product Name</TableCell>
                             <TableCell>Quantity</TableCell>
+                            <TableCell>Image</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {products.map((product) => (
-                            <TableRow key={product.id}> {/* Use a unique key here */}
+                            <TableRow key={product.id}>
                                 <TableCell>{product.id}</TableCell>
                                 <TableCell>{product.name}</TableCell>
                                 <TableCell>{product.quantity}</TableCell>
+                                <TableCell>
+                                    <img 
+                                        src={product.imageUrl} 
+                                        alt={product.name}
+                                        style={{ width: '100px', height: 'auto' }} 
+                                    />
+                                </TableCell>
                                 <TableCell>
                                     <Button onClick={() => handleEditProduct(product.id)}>Edit</Button>
                                     <Button onClick={() => handleDeleteDialogOpen(product.id)}>Delete</Button>
@@ -286,6 +305,13 @@ const ProductInventory = () => {
                                 onChange={(e) => setSelectedProduct({ ...selectedProduct, quantity: e.target.value })}
                             />
                             <input type="file" onChange={handleFileChange} />
+                            {selectedProduct.imageUrl && (
+                                <img 
+                                    src={newProductImage ? URL.createObjectURL(newProductImage) : selectedProduct.imageUrl} 
+                                    alt={selectedProduct.name} 
+                                    style={{ width: '100px', height: 'auto', marginTop: '10px' }} 
+                                />
+                            )}
                         </Box>
                     )}
                 </DialogContent>

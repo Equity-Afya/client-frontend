@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 
 function RolesPage() {
   return (
-      <Box sx={{ display: 'flex', height: '100vh' }}>
+      <Box sx={{ display: 'flex', height: '100vh', width: "100vw" }}>
         <Box sx={{ flex: '0 0 250px', overflowY: 'auto' }}>
           <AdminSidebar />
         </Box>

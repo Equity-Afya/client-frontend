@@ -145,7 +145,7 @@ function RegisterForm() {
     };
 
     try {
-      const response = await axios.post("http://192.168.91.100:5500/api/auth/patient/register", userData);
+      const response = await axios.post("http://192.168.88.141:5500/api/auth/patient/register", userData);
 
       if (response.status === 200) {
         toast.success("Registration successful!", {
