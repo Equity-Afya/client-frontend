@@ -64,6 +64,7 @@ const BookAppointment = () => {
     bookFor: "",
     residence: "",
   });
+  const [services, setServices] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -74,7 +75,7 @@ const BookAppointment = () => {
   const getUserData = async (idNumber) => {
     setIsFetchingUserData(true);
     try {
-      const response = await axios.get(`http://192.168.89.68:5500/api/patient/viewonepatient/${idNumber}`);
+      const response = await axios.get(`http://192.168.90.31:5500/api/patient/viewonepatient/${idNumber}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -121,6 +122,25 @@ const BookAppointment = () => {
     }
   }, [formData.bookFor]);
 
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get("http://192.168.90.31:5500/api/service/viewallservices");
+        if (response.status === 200) {
+          console.log('Fetched services:', response.data); // Debug log
+          setServices(response.data || []);
+        } else {
+          throw new Error("Failed to fetch services");
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+        setErrorMessage("Failed to fetch services. Please try again.");
+      }
+    };
+
+    fetchServices();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -144,7 +164,7 @@ const BookAppointment = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://192.168.89.68:5500/api/appointments/bookappointment",
+        "http://192.168.90.31:5500/api/appointments/bookappointment",
         formData
       );
       if (response.status === 201) {
@@ -171,7 +191,6 @@ const BookAppointment = () => {
         setSuccessMessage("");
         setErrorMessage("Error booking appointment");
       }
-      console.log(response);
     } catch (error) {
       console.error("Error booking appointment:", error);
       setSuccessMessage("");
@@ -258,11 +277,18 @@ const BookAppointment = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                select
                 name="service"
                 value={formData.service}
                 onChange={handleChange}
                 required
-              />
+              >
+                {services.map((service) => (
+                  <MenuItem key={service.id} value={service.name}>
+                    {service.name}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
                 label="Appointment Type"
                 variant="outlined"

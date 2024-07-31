@@ -7,7 +7,7 @@ import { Box } from '@mui/system'
 
 const ActiveUsersPage = () => {
   return (
-    <Box sx={{ display: 'flex', height: '100vh', backgroundColor: "#D9D9D9"}}>
+    <Box sx={{ display: 'flex', height: '100vh', backgroundColor: "#D9D9D9", width: '100vw'}}>
         <Box>
         <AdminSidebar sx={{ flex: '0 0 auto', width: '18vw', overflowY: 'auto', height: '100vh' }}/>
         </Box>

@@ -25,7 +25,7 @@ function Login() {
   const fetchAvatar = async (userToken) => {
     try {
       const response = await axios.get(
-        "http://192.168.89.43:5500/api/patient/getProfileImage/37449211",
+        "http://192.168.88.141:5500/api/patient/getProfileImage/37449211",
         {
           headers: {
             Authorization: 'Bearer ' + userToken,
@@ -58,7 +58,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://192.168.89.43:5500/api/login",
+        "http://192.168.88.141:5500/api/login",
         {
           email,
           password,
